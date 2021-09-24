@@ -20,6 +20,7 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->load->view('welcome_message');
+		$data['title']      = 'Nota Pembayaran | SYMA Decoration';
+		$this->template->mahasiswa('mhs/home', $data);
 	}
 }

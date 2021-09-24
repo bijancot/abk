@@ -52,3 +52,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+// ROUTE MAHASISWA
+$route['tes'] = 'mhs/AuthController';
+
+
+
+
+// ROUTE ADMIN
+$route['admin'] = 'adm/AuthController';
+$route['admin/dashboard'] = 'adm/DashboardController';
