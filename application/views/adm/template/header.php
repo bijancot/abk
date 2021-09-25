@@ -17,6 +17,7 @@
   <link href="<?= site_url()?>/assets/adm/css/icons.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+  <link href="<?= site_url()?>/assets/adm/plugins/datatable/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
 
   <!-- loader-->
 	<link href="<?= site_url()?>/assets/adm/css/pace.min.css" rel="stylesheet" />
@@ -27,8 +28,11 @@
   <link href="<?= site_url()?>/assets/adm/css/light-theme.css" rel="stylesheet" />
   <link href="<?= site_url()?>/assets/adm/css/semi-dark.css" rel="stylesheet" />
   <link href="<?= site_url()?>/assets/adm/css/header-colors.css" rel="stylesheet" />
+    <!-- Bootstrap bundle JS -->
+    <script src="<?= site_url()?>/assets/adm/js/bootstrap.bundle.min.js"></script>
+    <script src="<?= site_url()?>/assets/adm/js/jquery.min.js"></script>
 
-  <title>Onedash - Bootstrap 5 Admin Template</title>
+  <title><?= !empty($title) ? $title : 'Spageti'?></title>
 </head>
 
 <body>
@@ -42,11 +46,6 @@
         <div class="mobile-toggle-icon fs-3">
             <i class="bi bi-list"></i>
           </div>
-          <form class="searchbar">
-              <div class="position-absolute top-50 translate-middle-y search-icon ms-3"><i class="bi bi-search"></i></div>
-              <input class="form-control" type="text" placeholder="Type here to search">
-              <div class="position-absolute top-50 translate-middle-y search-close-icon"><i class="bi bi-x-lg"></i></div>
-          </form>
           <div class="top-navbar-right ms-auto">
             <ul class="navbar-nav align-items-center">
               <li class="nav-item dropdown dropdown-user-setting">

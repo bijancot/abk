@@ -62,3 +62,7 @@ $route['tes'] = 'mhs/AuthController';
 // ROUTE ADMIN
 $route['admin'] = 'adm/AuthController';
 $route['admin/dashboard'] = 'adm/DashboardController';
+
+// Worksheet
+$route['admin/worksheet']       = 'adm/WorksheetController';
+$route['admin/worksheet/store'] = 'adm/WorksheetController/store';
