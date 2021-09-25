@@ -510,3 +510,5 @@
   
             </main>
          <!--end page main-->
+         
+  <script src="<?= site_url()?>/assets/adm/js/index.js"></script>

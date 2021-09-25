@@ -9,10 +9,8 @@
   <!--end wrapper-->
 
 
-  <!-- Bootstrap bundle JS -->
-  <script src="<?= site_url()?>/assets/adm/js/bootstrap.bundle.min.js"></script>
+
   <!--plugins-->
-  <script src="<?= site_url()?>/assets/adm/js/jquery.min.js"></script>
   <script src="<?= site_url()?>/assets/adm/plugins/simplebar/js/simplebar.min.js"></script>
   <script src="<?= site_url()?>/assets/adm/plugins/metismenu/js/metisMenu.min.js"></script>
   <script src="<?= site_url()?>/assets/adm/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
@@ -22,9 +20,13 @@
   <script src="<?= site_url()?>/assets/adm/plugins/chartjs/js/Chart.min.js"></script>
   <script src="<?= site_url()?>/assets/adm/plugins/chartjs/js/Chart.extension.js"></script>
   <script src="<?= site_url()?>/assets/adm/plugins/apexcharts-bundle/js/apexcharts.min.js"></script>
+
+  <script src="<?= site_url()?>assets/adm/plugins/datatable/js/jquery.dataTables.min.js"></script>
+  <script src="<?= site_url()?>assets/adm/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
+  <script src="<?= site_url()?>assets/adm/js/table-datatable.js"></script>
+  <script src="<?= site_url()?>assets/adm/js/component-popovers-tooltips.js"></script>
   <!--app-->
   <script src="<?= site_url()?>/assets/adm/js/app.js"></script>
-  <script src="<?= site_url()?>/assets/adm/js/index.js"></script>
   <script>
     new PerfectScrollbar(".best-product")
  </script>
