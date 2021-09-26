@@ -55,6 +55,7 @@ $route['translate_uri_dashes'] = FALSE;
 
 // ROUTE MAHASISWA
 $route['tes'] = 'mhs/AuthController';
+$route['proses_register'] = 'mhs/AuthController/proses_register';
 
 
 

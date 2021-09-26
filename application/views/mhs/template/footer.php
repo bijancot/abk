@@ -179,16 +179,31 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="contact_mailer.php" class="contact-form">
-                        <input type="text" id="signupname" name="name" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" placeholder="Your Name">
-                        <input type="email" id="signupemail" name="email" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" placeholder="Your Email">
-                        <input type="password" id="password2" name="password" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" placeholder="Your Password">
-                        <input type="password" id="passwordrepeat" name="password" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" placeholder="Repeat Password">
-                        <div class="form-check verso-mb-3">
+                    <form action="<?= site_url('proses_register')?>" method="post" class="contact-form">
+                        <input type="text" id="signupname" name="name" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" placeholder="Your Name" required>
+                        <input type="text" id="signupnpm" name="npm" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" placeholder="Your NPM" required>
+                        <input type="email" id="signupemail" name="email" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" placeholder="Your Email" required>
+                        <input type="tel" id="signupphone" name="phone" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" placeholder="Your Phone Number" required>
+                        <div class="form-check form-check-inline verso-mb-2">
+                            <label class="form-check-label">
+                                <input class="form-check-input" id="signupgenderMale" name="gender" type="radio" value="1" checked>
+                                <label for="signupgenderMale">Male</label>
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline verso-mb-2">
+                            <label class="form-check-label">
+                                <input class="form-check-input" id="signupgenderFemale" name="gender" type="radio" value="2">
+                                <label for="signupgenderFemale">Female</label>
+                            </label>
+                        </div>
+                        <textarea rows="6" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" id="signupaddress" name="address" placeholder="Your Address" required></textarea>
+                        <input type="password" id="password" name="password" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" placeholder="Your Password" required>
+                        <input type="password" id="passwordrepeat" name="confirm_password" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" placeholder="Repeat Password" required>
+                        <!-- <div class="form-check verso-mb-3">
                             <label class="form-check-label">
                                 <input class="form-check-input" type="checkbox" value=""> Sign me up to the newsletter
                             </label>
-                        </div>
+                        </div> -->
                         <button type="submit" class="btn btn-primary verso-shadow-2">Create Account</button>
                         <div class="verso-messages verso-pt-2"></div>
                     </form>
