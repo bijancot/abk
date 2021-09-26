@@ -4,6 +4,9 @@ class WorksheetController extends CI_Controller {
     public function __construct(){
         parent::__construct();
         $this->load->model('Worksheet');
+        if (empty($this->session->userdata('user_logged')) || $this->session->userdata('user_logged') != 'admin') {
+			redirect('admin');
+		};
     }
     public function index(){
         $data['title']      = 'Spageti - Worksheet';
