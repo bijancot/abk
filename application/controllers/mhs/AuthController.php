@@ -33,14 +33,50 @@ class AuthController extends CI_Controller {
             $this->Mahasiswa->register($data);
 
             //Create Message
-            $this->session->set_tempdata('success_register', 'Pendaftaran berhasil', 10);
+            $this->session->set_flashdata('auth_msg', 'Register Successfully', 10);
 
             //Redirect to pages
             redirect();
         } else {
             //Create Message
-            $this->session->set_tempdata('failed_register', 'Pendaftaran gagal', 10);
+            $this->session->set_flashdata('failed_auth_msg', validation_errors(), 10);
             redirect();
         }
+    }
+    public function proses_login() {
+        $this->form_validation->set_rules('email','Email','required');
+        $this->form_validation->set_rules('password', 'Password', 'required');
+
+        if($this->form_validation->run() == TRUE) {
+            $email = $this->input->post('email');
+            $password = $this->input->post('password');
+            $user = $this->Mahasiswa->login($email, $password);
+            if($user != false ){
+                if($user->ISVERIF_MHS == 0) {
+                    $this->session->set_flashdata('failed_auth_msg', 'Account has not been verified!');
+                } else {
+                    $sessionData = array(
+                        'EMAIL_MHS'     => $user->EMAIL_MHS,
+                        'NPM_MHS'       => $user->NPM_MHS,
+                        'NAMA_MHS'      => $user->NAMA_MHS
+                    );
+                    $this->session->set_userdata($sessionData);
+                    $this->session->set_flashdata('auth_msg', 'Login Successfully', 10);
+                }
+            } else {
+                $this->session->set_flashdata('failed_auth_msg', 'Login Failed, Email or Password is incorrect!');
+            }
+
+            //Redirect to pages
+            redirect();
+        } else {
+            //Create Message
+            $this->session->set_flashdata('failed_auth_msg', validation_errors(), 10);
+            redirect();
+        }
+    }
+    public function proses_logout() {
+        $this->session->sess_destroy();
+        redirect();
     }
 }

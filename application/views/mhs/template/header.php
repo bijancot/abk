@@ -58,8 +58,13 @@
                                 </div>
                             </div>
                             <div class="verso-widget widget_text">
-                                <a class="verso-pr-2 verso-pl-4" href="#" data-toggle="modal" data-target="#login">Login</a>
-                                <a href="#" data-toggle="modal" data-target="#signup">Sign Up</a>
+                                <?php if($this->session->userdata('NAMA_MHS')) { ?>
+                                    <a class="verso-pr-2 verso-pl-4"><?= $this->session->userdata('NAMA_MHS') ?></a>
+                                    <a href="<?= site_url('proses_logout')?>" >Log out</a>
+                                <?php } else { ?>
+                                    <a class="verso-pr-2 verso-pl-4" href="#" data-toggle="modal" data-target="#login">Login</a>
+                                    <a href="#" data-toggle="modal" data-target="#signup">Sign Up</a>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>
@@ -183,16 +188,16 @@
                         </nav>
                     </div>
                 </div>
-                <?php if ($this->session->tempdata("success_register")) { ?>
+                <?php if ($this->session->flashdata("auth_msg")) { ?>
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong><?php echo $this->session->tempdata("success_register"); ?></strong>
+                        <strong><?php echo $this->session->flashdata("auth_msg"); ?></strong>
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                <?php  } else if ($this->session->tempdata("failed_register")) {?>
+                <?php  } else if ($this->session->flashdata("failed_auth_msg")) {?>
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        <strong><?php echo $this->session->tempdata("failed_register"); ?></strong>
+                        <strong><?php echo $this->session->flashdata("failed_auth_msg"); ?></strong>
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>

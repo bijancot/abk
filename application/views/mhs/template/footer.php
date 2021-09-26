@@ -152,7 +152,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="contact_mailer.php" class="contact-form">
+                    <form action="<?= site_url('proses_login')?>"method="post" class="contact-form">
                         <input type="email" id="loginemail" name="email" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" placeholder="Your Email">
                         <input type="password" id="password" name="password" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" placeholder="Your Password">
                         <div class="form-check verso-mb-3">
