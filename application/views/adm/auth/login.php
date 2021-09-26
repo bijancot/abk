@@ -38,16 +38,8 @@
                   <div class="card-body p-4 p-sm-5">                    
                     <?= $this->session->flashdata('message'); ?>
                     <h5 class="card-title">Sign In</h5>
-                    <p class="card-text mb-5">See your growth and get consulting support!</p>
-                    <form class="form-body" action="<?= site_url('admin/auth') ?>" method="POST">
-                      <div class="d-grid">
-                        <a class="btn btn-white radius-30" href="javascript:;"><span class="d-flex justify-content-center align-items-center">
-                            <img class="me-2" src="<?= site_url()?>/assets/adm/images/icons/search.svg" width="16" alt="">
-                            <span>Sign in with Google</span>
-                          </span>
-                        </a>
-                      </div>
-                      <div class="login-separater text-center mb-4"> <span>OR SIGN IN WITH USERNAME</span>
+                    <form class="form-body" action="<?= site_url('admin/auth') ?>" method="POST">                      
+                      <div class="login-separater text-center mb-4">
                         <hr>
                       </div>
                         <div class="row g-3">

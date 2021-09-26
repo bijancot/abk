@@ -66,6 +66,7 @@ $route['proses_logout'] = 'mhs/AuthController/proses_logout';
 $route['admin']             = 'adm/AuthController';
 $route['admin/auth']        = 'adm/AuthController/auth_login';
 $route['admin/dashboard']   = 'adm/DashboardController';
+$route['logout']            = 'adm/AuthController/logout';
 
 // Worksheet
 $route['admin/worksheet']                   = 'adm/WorksheetController';

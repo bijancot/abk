@@ -4,6 +4,9 @@ class StudentController extends CI_Controller {
     public function __construct(){
         parent::__construct();
         $this->load->model('Student');
+        if (empty($this->session->userdata('user_logged')) || $this->session->userdata('user_logged') != 'admin') {
+			redirect('admin');
+		};
     }
 
     public function verification(){

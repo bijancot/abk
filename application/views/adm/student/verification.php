@@ -6,9 +6,6 @@
                 Students List
             </h6>
         </div>
-        <div class="col-md-6 col-sm-12">
-            <button style="float: right;" data-bs-toggle="modal" data-bs-target="#mdlAdd"  class="btn btn-success"><i class="bi bi-plus-lg"></i> Create New</button>
-        </div>
     </div>
     
     <hr/>
@@ -87,31 +84,6 @@
     </div>
 </main>
 
-<!-- Modal Add -->
-<div class="modal fade" id="mdlAdd" tabindex="-1" aria-labelledby="mdlAdd" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="mdlAdd">Create Worksheet</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="<?= site_url('admin/worksheet/store')?>" method="post">
-                    <div class="modal-body">
-                        <div class="col">
-                            <input type="text" class="form-control" placeholder="New Worksheet" name="NAMA_WS" required>
-                        </div>
-                    </div>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-success">Save</button>
-            </div>
-            </form>
-        </div>
-    </div>
-</div>
 <!-- Modal Detail -->
 <div class="modal fade" id="mdlDetail" tabindex="-1" aria-labelledby="mdlDetail" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
