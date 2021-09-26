@@ -64,5 +64,8 @@ $route['admin'] = 'adm/AuthController';
 $route['admin/dashboard'] = 'adm/DashboardController';
 
 // Worksheet
-$route['admin/worksheet']       = 'adm/WorksheetController';
-$route['admin/worksheet/store'] = 'adm/WorksheetController/store';
+$route['admin/worksheet']                   = 'adm/WorksheetController';
+$route['admin/worksheet/store']             = 'adm/WorksheetController/store';
+$route['admin/worksheet/edit']              = 'adm/WorksheetController/edit';
+$route['admin/worksheet/changeStatus']      = 'adm/WorksheetController/changeStatus';
+$route['admin/worksheet/softDestroy']       = 'adm/WorksheetController/softDestroy';

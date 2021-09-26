@@ -14,8 +14,29 @@ class WorksheetController extends CI_Controller {
     }
     public function store(){
         $param = $_POST;
-        $param['ID_WS'] = 
         $this->Worksheet->insert($param);
+        $this->session->set_flashdata('succ', 'Successfully created a new worksheet');
+        redirect('admin/worksheet');
+    }
+    public function edit(){
+        $param                  = $_POST;
+        $param['updated_at']    = date('Y-m-d H:i:s');;
+        $this->Worksheet->update($param);
+        $this->session->set_flashdata('succ', 'Successfully changing a worksheet');
+        redirect('admin/worksheet');
+    }
+    public function changeStatus(){
+        $param = $_POST;
+        $param['updated_at']    = date('Y-m-d H:i:s');;
+        $this->Worksheet->update($param);
+        $this->session->set_flashdata('succ', 'Successfully changed the publish status on the worksheet ');
+        redirect('admin/worksheet');
+    }
+    public function softDestroy(){
+        $param                  = $_POST;
+        $param['deleted_at']    = date('Y-m-d H:i:s');
+        $this->Worksheet->update($param);
+        $this->session->set_flashdata('succ', 'Successfully delete a worksheet  ');
         redirect('admin/worksheet');
     }
 }
