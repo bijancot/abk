@@ -60,8 +60,9 @@ $route['tes'] = 'mhs/AuthController';
 
 
 // ROUTE ADMIN
-$route['admin'] = 'adm/AuthController';
-$route['admin/dashboard'] = 'adm/DashboardController';
+$route['admin']             = 'adm/AuthController';
+$route['admin/auth']        = 'adm/AuthController/auth_login';
+$route['admin/dashboard']   = 'adm/DashboardController';
 
 // Worksheet
 $route['admin/worksheet']                   = 'adm/WorksheetController';
@@ -69,3 +70,8 @@ $route['admin/worksheet/store']             = 'adm/WorksheetController/store';
 $route['admin/worksheet/edit']              = 'adm/WorksheetController/edit';
 $route['admin/worksheet/changeStatus']      = 'adm/WorksheetController/changeStatus';
 $route['admin/worksheet/softDestroy']       = 'adm/WorksheetController/softDestroy';
+
+// Student
+$route['admin/student/verification']        = 'adm/StudentController/verification';
+$route['admin/student/changeStatus']        = 'adm/StudentController/changeStatus';
+$route['admin/student/ajxGet']              = 'adm/StudentController/ajxGet';
