@@ -25,12 +25,26 @@
   <script src="<?= site_url()?>assets/adm/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
   <script src="<?= site_url()?>assets/adm/js/table-datatable.js"></script>
   <script src="<?= site_url()?>assets/adm/js/component-popovers-tooltips.js"></script>
+  
+  <!--notification js -->
+	<script src="<?= site_url()?>assets/adm/plugins/notifications/js/lobibox.min.js"></script>
+	<script src="<?= site_url()?>assets/adm/plugins/notifications/js/notifications.min.js"></script>
+	<script src="<?= site_url()?>assets/adm/plugins/notifications/js/notification-custom-script.js"></script>
+  <script src="<?= site_url()?>assets/adm/js/pace.min.js"></script>
   <!--app-->
   <script src="<?= site_url()?>/assets/adm/js/app.js"></script>
-  <script>
+  <!-- <script>
     new PerfectScrollbar(".best-product")
- </script>
-
+ </script> -->
+<script>
+    <?php
+      if($this->session->flashdata('succ')){
+        echo 'success_noti("'.$this->session->flashdata('succ').'")';
+      }else if($this->session->flashdata('err')){
+        echo 'error_noti("'.$this->session->flashdata('err').'")';
+      }
+    ?>
+</script>
 
 </body>
 

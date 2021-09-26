@@ -1533,27 +1533,27 @@ var Lobibox = Lobibox || {};
         default: {
             'class': 'lobibox-notify-default',
             'title': 'Default',
-            sound: false
+            // sound: false
         },
         success: {
             'class': 'lobibox-notify-success',
             'title': 'Success',
-            sound: 'sound2'
+            // sound: 'sound2'
         },
         error: {
             'class': 'lobibox-notify-error',
             'title': 'Error',
-            sound: 'sound4'
+            // sound: 'sound4'
         },
         warning: {
             'class': 'lobibox-notify-warning',
             'title': 'Warning',
-            sound: 'sound5'
+            // sound: 'sound5'
         },
         info: {
             'class': 'lobibox-notify-info',
             'title': 'Information',
-            sound: 'sound6'
+            // sound: 'sound6'
         },
         icons: {
             bootstrap: {

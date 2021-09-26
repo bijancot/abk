@@ -28,23 +28,23 @@ function warning_noti() {
 	});
 }
 
-function error_noti() {
+function error_noti(msg) {
 	Lobibox.notify('error', {
 		pauseDelayOnHover: true,
 		continueDelayOnInactiveTab: false,
 		position: 'top right',
 		icon: 'bx bx-x-circle',
-		msg: 'Lorem ipsum dolor sit amet hears farmer indemnity inherent.'
+		msg
 	});
 }
 
-function success_noti() {
+function success_noti(msg) {
 	Lobibox.notify('success', {
 		pauseDelayOnHover: true,
 		continueDelayOnInactiveTab: false,
 		position: 'top right',
 		icon: 'bx bx-check-circle',
-		msg: 'Lorem ipsum dolor sit amet hears farmer indemnity inherent.'
+		msg
 	});
 }
 /* Rounded corners Notifications */
