@@ -17,7 +17,7 @@
   <!-- loader-->
 	<link href="<?= site_url()?>/assets/adm/css/pace.min.css" rel="stylesheet" />
 
-  <title>Onedash - Bootstrap 5 Admin Template</title>
+  <title>Spageti - Sign In</title>
 </head>
 
 <body>
@@ -35,10 +35,11 @@
                   <img src="<?= site_url()?>/assets/adm/images/error/login-img.jpg" class="img-fluid" alt="">
                 </div>
                 <div class="col-lg-6">
-                  <div class="card-body p-4 p-sm-5">
+                  <div class="card-body p-4 p-sm-5">                    
+                    <?= $this->session->flashdata('message'); ?>
                     <h5 class="card-title">Sign In</h5>
                     <p class="card-text mb-5">See your growth and get consulting support!</p>
-                    <form class="form-body" action="<?= site_url('admin/dashboard')?>">
+                    <form class="form-body" action="<?= site_url('admin/auth') ?>" method="POST">
                       <div class="d-grid">
                         <a class="btn btn-white radius-30" href="javascript:;"><span class="d-flex justify-content-center align-items-center">
                             <img class="me-2" src="<?= site_url()?>/assets/adm/images/icons/search.svg" width="16" alt="">
@@ -46,22 +47,22 @@
                           </span>
                         </a>
                       </div>
-                      <div class="login-separater text-center mb-4"> <span>OR SIGN IN WITH EMAIL</span>
+                      <div class="login-separater text-center mb-4"> <span>OR SIGN IN WITH USERNAME</span>
                         <hr>
                       </div>
                         <div class="row g-3">
                           <div class="col-12">
-                            <label for="inputEmailAddress" class="form-label">Email Address</label>
+                            <label for="inputUsername" class="form-label">Username</label>
                             <div class="ms-auto position-relative">
-                              <div class="position-absolute top-50 translate-middle-y search-icon px-3"><i class="bi bi-envelope-fill"></i></div>
-                              <input type="email" class="form-control radius-30 ps-5" id="inputEmailAddress" placeholder="Email Address">
+                              <div class="position-absolute top-50 translate-middle-y search-icon px-3"><i class="bi bi-person-fill"></i></div>
+                              <input type="text" class="form-control radius-30 ps-5" name="USERNAME" placeholder="Username">
                             </div>
                           </div>
                           <div class="col-12">
-                            <label for="inputChoosePassword" class="form-label">Enter Password</label>
+                            <label for="inputChoosePassword" class="form-label">Password</label>
                             <div class="ms-auto position-relative">
                               <div class="position-absolute top-50 translate-middle-y search-icon px-3"><i class="bi bi-lock-fill"></i></div>
-                              <input type="password" class="form-control radius-30 ps-5" id="inputChoosePassword" placeholder="Enter Password">
+                              <input type="password" class="form-control radius-30 ps-5" name="PASSWORD" placeholder="Enter Password">
                             </div>
                           </div>
                           <div class="col-6">
