@@ -50,7 +50,7 @@
                                                     Published
                                                 </span>
                                             ';
-                                            $btnPublish = '<a href="#" data-id="'.$item->ID_WS.'" data-ispublish="0" class="text-dark mdlStatus" data-bs-toggle="tooltip" data-bs-placement="top" title="Unpublish"><i class="bi bi-cloud-slash-fill"></i></a>';
+                                            $btnPublish = '<a href="#" data-id="'.$item->ID_WS.'" data-ispublish="0" class="text-secondary mdlStatus" data-bs-toggle="tooltip" data-bs-placement="top" title="Unpublish"><i class="bi bi-cloud-slash-fill"></i></a>';
                                         }else{
                                             $status = '
                                             <span class="badge bg-light-danger text-danger w-100">
@@ -58,7 +58,7 @@
                                             Unpublished
                                             </span>
                                             ';
-                                            $btnPublish = '<a href="#" data-id="'.$item->ID_WS.'" data-ispublish="1" class="text-dark mdlStatus" data-bs-toggle="tooltip" data-bs-placement="top" title="Publish"><i class="bi bi-cloud-arrow-up-fill"></i></a>';
+                                            $btnPublish = '<a href="#" data-id="'.$item->ID_WS.'" data-ispublish="1" class="text-secondary mdlStatus" data-bs-toggle="tooltip" data-bs-placement="top" title="Publish"><i class="bi bi-cloud-arrow-up-fill"></i></a>';
                                         }
 
                                         echo '
