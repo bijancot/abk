@@ -58,8 +58,8 @@
                                 </div>
                             </div>
                             <div class="verso-widget widget_text">
-                                <?php if($this->session->userdata('NAMA_MHS')) { ?>
-                                    <a class="verso-pr-2 verso-pl-4"><?= $this->session->userdata('NAMA_MHS') ?></a>
+                                <?php if($this->session->userdata('USER_LOGGED')) { ?>
+                                    <a class="verso-pr-2 verso-pl-4"><?= strtok($this->session->userdata('NAMA_MHS'), " ") ?></a>
                                     <a href="<?= site_url('proses_logout')?>" >Log out</a>
                                 <?php } else { ?>
                                     <a class="verso-pr-2 verso-pl-4" href="#" data-toggle="modal" data-target="#login">Login</a>
@@ -78,7 +78,7 @@
 
                         <!-- Logo -->
                         <div class="verso-nav-brand">
-                            <a href="index.html">
+                            <a href="<?= site_url()?>">
                                 <img src="<?= site_url()?>/assets/mhs/images/education-modern-logo-130x100.png" alt="verso"> Education
                             </a>
                         </div>
@@ -94,7 +94,7 @@
                         <nav class="verso-nav-menu">
                             <ul class="verso-nav-list">
                                 <li>
-                                    <a href="index.html">Home</a>
+                                    <a href="<?= site_url()?>">Home</a>
                                 </li>
                                 <li>
                                     <a href="about.html">About</a>
@@ -126,7 +126,7 @@
                                             <a href="courses-grid.html">Courses Grid</a>
                                         </li>
                                         <li>
-                                            <a href="course.html">Single Course</a>
+                                            <a href="<?= site_url('course')?>">Single Course</a>
                                         </li>
                                     </ul>
                                 </li>

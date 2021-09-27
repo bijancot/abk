@@ -10,7 +10,7 @@ class Mahasiswa extends CI_Model{
     function login($email, $password) {		
 		$where = array(
             'EMAIL_MHS' => $email,
-            'PASSWORD_MHS' => md5($password)
+            'PASSWORD_MHS' => $password
             );
             $query = $this->db->get_where($this->_table, $where);
             if($query) {

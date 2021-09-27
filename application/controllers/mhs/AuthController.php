@@ -33,13 +33,13 @@ class AuthController extends CI_Controller {
             $this->Mahasiswa->register($data);
 
             //Create Message
-            $this->session->set_flashdata('auth_msg', 'Register Successfully', 10);
+            $this->session->set_flashdata('auth_msg', 'Register Successfully');
 
             //Redirect to pages
             redirect();
         } else {
             //Create Message
-            $this->session->set_flashdata('failed_auth_msg', validation_errors(), 10);
+            $this->session->set_flashdata('failed_auth_msg', validation_errors());
             redirect();
         }
     }
@@ -49,29 +49,31 @@ class AuthController extends CI_Controller {
 
         if($this->form_validation->run() == TRUE) {
             $email = $this->input->post('email');
-            $password = $this->input->post('password');
+            $password = md5($this->input->post('password'));
             $user = $this->Mahasiswa->login($email, $password);
             if($user != false ){
                 if($user->ISVERIF_MHS == 0) {
                     $this->session->set_flashdata('failed_auth_msg', 'Account has not been verified!');
+                    redirect();
                 } else {
                     $sessionData = array(
                         'EMAIL_MHS'     => $user->EMAIL_MHS,
                         'NPM_MHS'       => $user->NPM_MHS,
-                        'NAMA_MHS'      => $user->NAMA_MHS
+                        'NAMA_MHS'      => $user->NAMA_MHS,
+                        'USER_LOGGED'   => TRUE
                     );
                     $this->session->set_userdata($sessionData);
-                    $this->session->set_flashdata('auth_msg', 'Login Successfully', 10);
+                    $this->session->set_flashdata('auth_msg', 'Login Successfully');
+                    //Redirect to pages
+                    redirect('course');
                 }
             } else {
                 $this->session->set_flashdata('failed_auth_msg', 'Login Failed, Email or Password is incorrect!');
+                redirect();
             }
-
-            //Redirect to pages
-            redirect();
         } else {
             //Create Message
-            $this->session->set_flashdata('failed_auth_msg', validation_errors(), 10);
+            $this->session->set_flashdata('failed_auth_msg', validation_errors());
             redirect();
         }
     }
