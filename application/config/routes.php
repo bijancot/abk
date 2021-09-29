@@ -73,7 +73,8 @@ $route['admin/worksheet/store']             = 'adm/WorksheetController/store';
 $route['admin/worksheet/edit']              = 'adm/WorksheetController/edit';
 $route['admin/worksheet/changeStatus']      = 'adm/WorksheetController/changeStatus';
 $route['admin/worksheet/softDestroy']       = 'adm/WorksheetController/softDestroy';
-$route['admin/question/(:any)'] = 'adm/WorksheetController/question/$1';
+$route['admin/question/(:any)']             = 'adm/QuestionController/index/$1';
+$route['admin/question/store']              = 'adm/QuestionController/store';
 
 // Student
 $route['admin/student/verification']        = 'adm/StudentController/verification';
