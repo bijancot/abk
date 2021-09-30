@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="Unique Responsive Multipurpose Bootstrap 4 HTML Template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Verso - multipurpose HTML Template</title>
+    <title>Course</title>
 
     <!-- CSS files -->
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700%7CRoboto:300,300i,400,400i,700,700i" rel="stylesheet">
@@ -38,14 +38,14 @@
                 <div class="verso-topbar-inner">
                     <div class="verso-topbar-container">
                         <div class="verso-topbar-col">
-                            <div class="verso-widget widget_text">
+                            <!-- <div class="verso-widget widget_text">
                                 <a class="verso-pr-2" href="about.html">About</a>
                                 <a class="verso-pr-2" href="faq.html">FAQ</a>
                                 <a href="courses-list.html">Courses</a>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="verso-topbar-col">
-                            <div class="verso-widget widget_text">
+                            <!-- <div class="verso-widget widget_text">
                                 <div class="verso-icon-set">
                                     <a class="verso-icon-set-item verso-transition" href="#">
                                         <i class="fa fa-linkedin"></i>
@@ -57,7 +57,7 @@
                                         <i class="fa fa-twitter"></i>
                                     </a>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="verso-widget widget_text">
                                 <?php if($this->session->userdata('USER_LOGGED')) { ?>
                                     <a class="verso-pr-2 verso-pl-4"><?= strtok($this->session->userdata('NAMA_MHS'), " ") ?></a>
@@ -97,7 +97,7 @@
                                 <li>
                                     <a href="<?= site_url()?>">Home</a>
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <a href="about.html">About</a>
                                     <ul class="verso-nav-dropdown closed">
                                         <li>
@@ -116,10 +116,10 @@
                                             <a href="pricing.html">Pricing</a>
                                         </li>
                                     </ul>
-                                </li>
+                                </li> -->
                                 <li>
-                                    <a href="courses-list.html">Courses</a>
-                                    <ul class="verso-nav-dropdown closed">
+                                    <a href="<?= site_url('course')?>">Courses</a>
+                                    <!-- <ul class="verso-nav-dropdown closed">
                                         <li>
                                             <a href="courses-list.html">Courses List</a>
                                         </li>
@@ -127,11 +127,11 @@
                                             <a href="courses-grid.html">Courses Grid</a>
                                         </li>
                                         <li>
-                                            <a href="<?= site_url('course')?>">Single Course</a>
+                                            <a href="course.html">Single Course</a>
                                         </li>
-                                    </ul>
+                                    </ul> -->
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <a href="events.html">Events</a>
                                     <ul class="verso-nav-dropdown closed">
                                         <li>
@@ -174,12 +174,12 @@
                                     </ul>
 
 
-                                </li>
+                                </li> -->
                             </ul>
                             <div class="verso-nav-widget">
                                 <div class="verso-widget">
                                     <div class="verso-icon-set">
-                                        <a class="verso-icon-set-item verso-transition verso-search-widget-button-open" href="#">
+                                        <a class="verso-icon-set-item verso-transition verso-search-widget-button-open" href="">
                                             <i class="fa fa-search"></i>
                                         </a>
                                     </div>
