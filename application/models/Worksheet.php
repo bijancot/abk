@@ -17,4 +17,9 @@ class Worksheet extends CI_Model{
     public function update($param){
         $this->db->where('ID_WS', $param['ID_WS'])->update('worksheet', $param);
     }
+    public function checkPosition($param){
+        return $this->db->query("
+            SELECT * FROM worksheet WHERE POSITION_WS = '".$param['POSITION_WS']."' AND deleted_at IS NULL
+        ")->row();
+    }
 }
