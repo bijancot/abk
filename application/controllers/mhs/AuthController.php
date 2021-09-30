@@ -52,21 +52,20 @@ class AuthController extends CI_Controller {
             $password = md5($this->input->post('password'));
             $user = $this->Mahasiswa->login($email, $password);
             if($user != false ){
+                $sessionData = array(
+                    'EMAIL_MHS'     => $user->EMAIL_MHS,
+                    'NPM_MHS'       => $user->NPM_MHS,
+                    'NAMA_MHS'      => $user->NAMA_MHS,
+                    'USER_LOGGED'   => TRUE,
+                    'USER_ISVERIF'  => $user->ISVERIF_MHS
+                );
+                $this->session->set_userdata($sessionData);
                 if($user->ISVERIF_MHS == 0) {
                     $this->session->set_flashdata('failed_auth_msg', 'Account has not been verified!');
-                    redirect();
                 } else {
-                    $sessionData = array(
-                        'EMAIL_MHS'     => $user->EMAIL_MHS,
-                        'NPM_MHS'       => $user->NPM_MHS,
-                        'NAMA_MHS'      => $user->NAMA_MHS,
-                        'USER_LOGGED'   => TRUE
-                    );
-                    $this->session->set_userdata($sessionData);
                     $this->session->set_flashdata('auth_msg', 'Login Successfully');
-                    //Redirect to pages
-                    redirect('course');
                 }
+                redirect('course');
             } else {
                 $this->session->set_flashdata('failed_auth_msg', 'Login Failed, Email or Password is incorrect!');
                 redirect();
