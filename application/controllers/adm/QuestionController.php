@@ -10,10 +10,13 @@ class QuestionController extends CI_Controller {
 		};
     }
     public function index($idWS){
-        $data['title']      = 'Spageti - Manage Question';
-        $data['navActive']  = 'worksheet';
-        $data['idWS']       = $idWS;
+        $data['title']              = 'Spageti - Manage Question';
+        $data['navActive']          = 'worksheet';
+        $data['idWS']               = $idWS;
+        $data['worksheet']          = $this->Worksheet->get(['ID_WS' => $idWS]);
+        $data['worksheetDetail']    = $this->Worksheet->get_detail(['ID_WS' => $idWS]);
 
+        
         $this->template->admin('adm/worksheet/question', $data);
     }
     public function store(){
@@ -21,13 +24,13 @@ class QuestionController extends CI_Controller {
         print_r($param);
 
         // Insert WSD
-        $storeWSD['ID_WS']    = $param['ID_WS'];
-        $storeWSD['TIPE_WSD'] = $param['TIPE'];
+        $storeWSD['ID_WS'] = $param['ID_WS'];
         $idWSD = $this->Worksheet->insert_detail($storeWSD);
 
         if($param['TIPE'] == "1"){
             $storeQuest['ID_WSD']   = $idWSD;
             $storeQuest['SOAL_ES']  = $param['ESSAY_QUESTION'];
+            $storeQuest['GRADE_ES']  = $param['ESSAY_GRADE'];
             $this->Question->essay_insert($storeQuest);
         }else if($param['TIPE'] == "2"){
             $storeQuest['ID_WSD']            = $idWSD;
@@ -39,7 +42,7 @@ class QuestionController extends CI_Controller {
         }
         // $this->Worksheet->insert($param);
         // $this->session->set_flashdata('succ', 'Successfully created a new worksheet');
-        // redirect('admin/worksheet');
+        redirect('admin/question/manage/'.$param['ID_WS']);
     }
     public function edit(){
         $param                  = $_POST;
@@ -61,5 +64,11 @@ class QuestionController extends CI_Controller {
         $this->Worksheet->update($param);
         $this->session->set_flashdata('succ', 'Successfully delete a worksheet  ');
         redirect('admin/worksheet');
+    }
+    public function ajxGet(){
+        $param = $_POST;
+        if($param['TYPEQUESTION_WS'] == "1"){
+            echo json_encode($this->Question->essay_get($param));
+        }
     }
 }

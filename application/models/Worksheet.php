@@ -2,10 +2,13 @@
 
 class Worksheet extends CI_Model{
     public function getAll(){
-        return $this->db->get("v_worksheet")->result();
+        return $this->db->order_by('POSITION_WS', 'asc')->get("v_worksheet")->result();
     }
-    public function get(){
-
+    public function get($param){
+        return $this->db->where('ID_WS', $param['ID_WS'])->get("v_worksheet")->row();
+    }
+    public function get_detail($param){
+        return $this->db->where('ID_WS', $param['ID_WS'])->get("worksheet_detail")->result();
     }
     public function insert($param){
         $this->db->insert('worksheet', $param);
