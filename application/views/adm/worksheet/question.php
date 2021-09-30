@@ -92,74 +92,74 @@
                             <h5 class="card-title">Question 1</h5>
                         </div>
                         <div class="col-md-6 col-sm-12" style="text-align: right;">
-                            <a href="#" id="btn-save" class="btn btn-success btn-sm"><i class="bi bi-save"></i> Save</a>
+                            <button id="btn-save" class="btn btn-success btn-sm"><i class="bi bi-save"></i> Save</button>
                         </div>
                     </div>
-                    
                     <hr>
                     <form id="formSubmit" action="<?= site_url('admin/question/store')?>" method="post">
-                        <ul class="list-group" id="demo1" >
-                            <li class="list-group-item" >
+                        <div class="form-group mb-3">
+                            <label class="form-label" for="">Type</label>
+                            <select name="TIPE" id="select_type" class="form-select" style="width: 30%;">
+                                <option value="1">Essay</option>
+                                <option value="2">Multiple Choice</option>
+                                <option value="3">Missing Sentence</option>
+                            </select>
+                        </div>
+                        <div id="question_content">
+                            <div class="type_essay">
                                 <div class="form-group mb-3">
-                                    <label class="form-label" for="">Type</label>
-                                    <select name="TIPE" id="select_type" class="form-select" style="width: 30%;">
-                                        <option value="1">Essay</option>
-                                        <option value="2">Multiple Choice</option>
-                                        <option value="3">Missing Sentence</option>
-                                    </select>
+                                    <label class="form-label" for="">Question <span class="text-danger">*</span></label>
+                                    <textarea id="ckEssay" name="ESSAY_QUESTION"></textarea>
                                 </div>
-                                <div id="question_content">
-                                    <div class="type_essay">
-                                        <div class="form-group mb-3">
-                                            <label class="form-label" for="">Question <span class="text-danger">*</span></label>
-                                            <textarea id="ckEssay"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="type_multiple" hidden>
-                                        <div class="form-group mb-3">
-                                            <div class="form-group mb-3">
-                                                <label class="form-label" for="">Question <span class="text-danger">*</span></label>
-                                                <textarea id="ckMulti">
-                                                </textarea>
-                                            </div>
-                                            <label class="form-label" for="">Response <span class="text-danger">*</span></label>
-                                            <div class="type_multiple_content" style="margin-bottom: -10px;">
-                                                <div class="input-group mb-3 type_multiple_input" id="type_multiple_content_1">
-                                                    <input class="form-control" type="text">
-                                                    <div class="input-group-text">
-                                                        <input class="form-check-input" type="radio" value="" name="formMulti[]" required><a onclick="deleteResponse(1)" style="margin-left: 5px;margin-top: 2px;font-size: 13px;cursor: pointer;" class="text-danger type_multiple_delete"><i class="bi bi-x-lg"></i></a>
-                                                    </div>
-                                                </div>
-                                                <div class="input-group mb-3 type_multiple_input" id="type_multiple_content_2">
-                                                    <input class="form-control" type="text">
-                                                    <div class="input-group-text">
-                                                        <input class="form-check-input" type="radio" value="" name="formMulti[]" required><a onclick="deleteResponse(2)" style="margin-left: 5px;margin-top: 2px;font-size: 13px;cursor: pointer;" class="text-danger type_multiple_delete"><i class="bi bi-x-lg"></i></a>
-                                                    </div>
-                                                </div>
-                                                <div class="input-group mb-3 type_multiple_input" id="type_multiple_content_3">
-                                                    <input class="form-control" type="text">
-                                                    <div class="input-group-text">
-                                                        <input class="form-check-input" type="radio" value="" name="formMulti[]" required><a onclick="deleteResponse(3)" style="margin-left: 5px;margin-top: 2px;font-size: 13px;cursor: pointer;" class="text-danger type_multiple_delete"><i class="bi bi-x-lg"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <span id="type_multiple_add" class="text-primary" style="font-size: 10px;margin-top: -20px;cursor: pointer;">+ Add new response</span>
-                                        </div>
-                                    </div>
-                                    <div class="type_missing" hidden>
-                                        <div class="form-group mb-3">
-                                            <label class="form-label" for="">Question <span class="text-danger">*</span></label>
-                                            <textarea id="ckMissing"></textarea>
-                                            <span class="text-secondary" style="font-size: 10px;">Use '_' underscores to specify where you would like a blank to appear in the text below</span>
-                                        </div>
-                                    </div>
+                            </div>
+                            <div class="type_multiple" hidden>
+                                <div class="form-group mb-3">
                                     <div class="form-group mb-3">
-                                        <label class="form-label" for="">Grading (points) <span class="text-danger">*</span></label>
-                                        <input class="form-control" style="width: 30%;" type="number"> 
+                                        <label class="form-label" for="">Question <span class="text-danger">*</span></label>
+                                        <textarea id="ckMulti" name="MULTI_QUESTION" required></textarea>
+                                    </div>
+                                    
+                                    <label class="form-label" for="">Response <span class="text-danger">*</span></label>
+                                    <div class="type_multiple_content" style="margin-bottom: -10px;">
+                                        <div class="input-group mb-3 type_multiple_input" id="type_multiple_content_1">
+                                            <input class="form-control" name="MULTI_RESPONSE[]" type="text">
+                                            <div class="input-group-text">
+                                                <input class="form-check-input" type="radio" value="tes" name="MULTI_RIGHTANS" required><a onclick="deleteResponse(1)" style="margin-left: 5px;margin-top: 2px;font-size: 13px;cursor: pointer;" class="text-danger type_multiple_delete"><i class="bi bi-x-lg"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="input-group mb-3 type_multiple_input" id="type_multiple_content_2">
+                                            <input class="form-control" name="MULTI_RESPONSE[] type="text">
+                                            <div class="input-group-text">
+                                                <input class="form-check-input" type="radio" value="" name="MULTI_RIGHTANS" required><a onclick="deleteResponse(2)" style="margin-left: 5px;margin-top: 2px;font-size: 13px;cursor: pointer;" class="text-danger type_multiple_delete"><i class="bi bi-x-lg"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="input-group mb-3 type_multiple_input" id="type_multiple_content_3">
+                                            <input class="form-control" name="MULTI_RESPONSE[] type="text">
+                                            <div class="input-group-text">
+                                                <input class="form-check-input" type="radio" value="" name="MULTI_RIGHTANS" required><a onclick="deleteResponse(3)" style="margin-left: 5px;margin-top: 2px;font-size: 13px;cursor: pointer;" class="text-danger type_multiple_delete"><i class="bi bi-x-lg"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span id="type_multiple_add" class="text-primary mb-3" style="font-size: 10px;margin-top: -20px;cursor: pointer;">+ Add new response</span>
+                                    <div class="form-check form-switch" style="margin-top: 20px;">
+                                        <input class="form-check-input" name="MULTI_ISRANDOM" type="checkbox" id="flexSwitchCheckChecked">
+                                        <label class="form-check-label" for="flexSwitchCheckChecked">Random Response</label>
                                     </div>
                                 </div>
-                            </li>
-                        </ul>
+                            </div>
+                            <div class="type_missing" hidden>
+                                <div class="form-group mb-3">
+                                    <label class="form-label" for="">Question <span class="text-danger">*</span></label>
+                                    <textarea id="ckMissing"></textarea>
+                                    <span class="text-secondary" style="font-size: 10px;">Use '_' underscores to specify where you would like a blank to appear in the text below</span>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="form-label" for="">Grading (points) <span class="text-danger">*</span></label>
+                                <input class="form-control" name="GRADE" style="width: 30%;" type="number" required> 
+                                <input type="hidden" name="ID_WS" value="<?= $idWS?>">
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -170,15 +170,6 @@
 <script>
     let typeMulti = 4
     $(document).ready(function(){
-        Sortable.create(demo1, {
-            animation: 100,
-            group: 'list-1',
-            // draggable: '.list-group-item',
-            handle: '.handle',
-            sort: true,
-            filter: '.sortable-disabled',
-            chosenClass: 'active'
-        });
         ClassicEditor
             .create( document.querySelector( '#ckEssay' ) )
             .catch( error => {
@@ -215,9 +206,9 @@
     $('#type_multiple_add').click(function(){
         const html = `
             <div class="input-group mb-3 type_multiple_input" id="type_multiple_content_${typeMulti}">
-                <input class="form-control" type="text">
+                <input class="form-control" name="MULTI_RESPONSE[] type="text">
                 <div class="input-group-text">
-                    <input class="form-check-input" type="radio" value="" name="formMulti[]" required><a style="margin-left: 5px;margin-top: 2px;font-size: 13px;cursor: pointer;" onclick="deleteResponse(${typeMulti})" class="text-danger type_multiple_delete"><i class="bi bi-x-lg"></i></a>
+                    <input class="form-check-input" type="radio" value="" name="MULTI_RIGHTANS" required><a style="margin-left: 5px;margin-top: 2px;font-size: 13px;cursor: pointer;" onclick="deleteResponse(${typeMulti})" class="text-danger type_multiple_delete"><i class="bi bi-x-lg"></i></a>
                 </div>
             </div>
         `
@@ -226,6 +217,8 @@
         $('.type_multiple_content').append(html)
     })
     $('#btn-save').click(function(){
+        const valRightAns = $('input[name=MULTI_RIGHTANS]:checked', '#formSubmit').parent().siblings().val()
+        $('input[name=MULTI_RIGHTANS]:checked', '#formSubmit').val(valRightAns)
         $('#formSubmit').submit()
     })
     const deleteResponse = (id) => {
@@ -234,4 +227,11 @@
         const length = $('.type_multiple_input').length
         length == 2 && $('.type_multiple_delete').attr('hidden', true)
     }
+    $("#formSubmit").validate({
+        submitHandler: function(form) {
+            // do other things for a valid form
+            form.submit();
+        }
+    });
+
 </script>

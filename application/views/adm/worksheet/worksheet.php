@@ -72,7 +72,7 @@
                                                 <td>
                                                     <div class="table-actions d-flex align-items-center gap-3 fs-6">
                                                         <a href="#" class="text-primary mdlEdit" data-id="'.$item->ID_WS.'" data-name="'.$item->NAMA_WS.'" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Worksheet"><i class="bi bi-pen-fill"></i></a>
-                                                        <a href="'.site_url('admin/question/'.$item->ID_WS).'" class="text-warning" data-bs-toggle="tooltip" data-bs-placement="top" title="Manage Question"><i class="bi bi-kanban-fill"></i></a>
+                                                        <a href="'.site_url('admin/question/manage/'.$item->ID_WS).'" class="text-warning" data-bs-toggle="tooltip" data-bs-placement="top" title="Manage Question"><i class="bi bi-kanban-fill"></i></a>
                                                         '.$btnPublish.'
                                                         <a href="#" class="text-danger mdlDelete" data-id="'.$item->ID_WS.'" data-name="'.$item->NAMA_WS.'" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Worksheet"><i class="bi bi-trash-fill"></i></a>
                                                     </div>
