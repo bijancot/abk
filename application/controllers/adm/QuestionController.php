@@ -21,7 +21,6 @@ class QuestionController extends CI_Controller {
     }
     public function store(){
         $param = $_POST;
-        print_r($param);
 
         // Insert WSD
         $storeWSD['ID_WS'] = $param['ID_WS'];
@@ -40,16 +39,32 @@ class QuestionController extends CI_Controller {
             $storeQuest['ISRAND_MC']         = !empty($param['MULTI_ISRANDOM']) && $param['MULTI_ISRANDOM'] == 'on';
             $this->Question->multiple_insert($storeQuest);
         }
-        // $this->Worksheet->insert($param);
-        // $this->session->set_flashdata('succ', 'Successfully created a new worksheet');
+
+        $this->session->set_flashdata('succ', 'Successfully created a new question');
+        $this->session->set_flashdata('statStore', '');
         redirect('admin/question/manage/'.$param['ID_WS']);
     }
     public function edit(){
         $param                  = $_POST;
-        $param['updated_at']    = date('Y-m-d H:i:s');;
-        $this->Worksheet->update($param);
-        $this->session->set_flashdata('succ', 'Successfully changing a worksheet');
-        redirect('admin/worksheet');
+        
+        if($param['TIPE'] == "1"){
+            $editQuest['ID_ES']     = $param['ID_QUEST'];
+            $editQuest['SOAL_ES']   = $param['ESSAY_QUESTION'];
+            $editQuest['GRADE_ES']  = $param['ESSAY_GRADE'];
+            $this->Question->essay_update($editQuest);
+        }else if($param['TIPE'] == "2"){
+            $editQuest['ID_MC']             = $param['ID_QUEST'];
+            $editQuest['SOAL_MC']           = $param['MULTI_QUESTION'];
+            $editQuest['PILIHAN_MC']        = implode(';', $param['MULTI_RESPONSE']);
+            $editQuest['KUNCIJAWABAN_MC']   = $param['MULTI_RIGHTANS'];
+            $editQuest['ISRAND_MC']         = !empty($param['MULTI_ISRANDOM']) && $param['MULTI_ISRANDOM'] == 'on';
+            $this->Question->multiple_update($editQuest);
+        }
+        
+        $this->session->set_flashdata('succ', 'Successfuly change question');
+        $this->session->set_flashdata('statEdit', $param['idWSD']);
+        
+        redirect('admin/question/manage/'.$param['ID_WS']);
     }
     public function changeStatus(){
         $param = $_POST;
@@ -69,6 +84,8 @@ class QuestionController extends CI_Controller {
         $param = $_POST;
         if($param['TYPEQUESTION_WS'] == "1"){
             echo json_encode($this->Question->essay_get($param));
+        }else if($param['TYPEQUESTION_WS'] == "2"){
+            echo json_encode($this->Question->multiple_get($param));
         }
     }
 }
