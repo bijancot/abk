@@ -38,6 +38,11 @@ class QuestionController extends CI_Controller {
             $storeQuest['KUNCIJAWABAN_MC']   = $param['MULTI_RIGHTANS'];
             $storeQuest['ISRAND_MC']         = !empty($param['MULTI_ISRANDOM']) && $param['MULTI_ISRANDOM'] == 'on';
             $this->Question->multiple_insert($storeQuest);
+        }else if($param['TIPE'] == "3"){
+            $storeQuest['ID_WSD']            = $idWSD;
+            $storeQuest['SOAL_MS']           = $param['MISSING_QUESTION'];
+            $storeQuest['KUNCIJAWABAN_MS']   = implode(';', $param['MISSING_RESPONSE']);
+            $this->Question->missing_insert($storeQuest);
         }
 
         $this->session->set_flashdata('succ', 'Successfully created a new question');
@@ -86,6 +91,8 @@ class QuestionController extends CI_Controller {
             echo json_encode($this->Question->essay_get($param));
         }else if($param['TYPEQUESTION_WS'] == "2"){
             echo json_encode($this->Question->multiple_get($param));
+        }else if($param['TYPEQUESTION_WS'] == "3"){
+            echo json_encode($this->Question->missing_get($param));
         }
     }
 }

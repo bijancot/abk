@@ -25,6 +25,12 @@ class Question extends CI_Model{
     public function multiple_update($param){
         $this->db->where('ID_MC', $param['ID_MC'])->update('multiple_choice', $param);
     }
+    public function missing_get($param){
+        return $this->db->get_where('missing_sentence', ['ID_WSD' => $param['ID_WSD']])->row();
+    }
+    public function missing_insert($param){
+        $this->db->insert('missing_sentence', $param);
+    }
     public function update($param){
         $this->db->where('ID_WS', $param['ID_WS'])->update('worksheet', $param);
     }
