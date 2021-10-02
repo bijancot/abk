@@ -148,8 +148,14 @@
                                     echo '
                                         <div class="form-group mb-3">
                                             <label class="form-label" for="">Question <span class="text-danger">*</span></label>
-                                            <textarea id="ckEditor"></textarea>
+                                            <textarea name="MISSING_QUESTION" id="ckEditor"></textarea>
                                             <span class="text-secondary" style="font-size: 10px;">Use "_" underscores to specify where you would like a blank to appear in the text below</span>
+                                        </div>
+                                        <input type="hidden" id="typeMissResp" />
+                                        <div class="form-group mb-3">
+                                            <label class="form-label" for="">Responses <span class="text-danger">*</span></label>
+                                            <div class="type_missing_content"></div>
+                                            <span class="text-secondary" style="font-size: 10px;">Students will have to answer in the exact order for the question to be marked as correct</span>
                                         </div>
                                     ';
                                 }
@@ -171,8 +177,17 @@
             .create( document.querySelector( '#ckEditor' ) )
             .then(editor => {
                 ckEditor = editor;
+                editor.editing.view.document.on( 'keyup', ( evt, data ) => {
+                    const type = "<?= $worksheet->TYPEQUESTION_WS?>"
+                    if(type == "3"){
+                        let text = editor.getData()
+                        $('.type_missing_content').html(text.split("_").join(" <input style='border: 1px solid #ced4da;border-radius: .25rem;padding: 5px;' placeholder='Enter Answer' type='text' name='MISSING_RESPONSE[]' /> "))
+                    }
+                });
             })
         getData()
+
+        
     })
     let dataItem = 2;
     $('#type_multiple_add').click(function(){
@@ -227,7 +242,7 @@
             getData(type, idWSD, no)
         }
     }
-    const getData = (type, idWSD, no) => {
+    function getData(type, idWSD, no){
         $.ajax({
             url: "<?= site_url('admin/question/ajxGet')?>",
             method: 'post',
@@ -264,6 +279,9 @@
                     }else{
                         $('#randomResponse').attr('checked', false)
                     }
+                }else if(type == "3"){
+                    $('#idQuest').val(res.ID_MS)
+                    ckEditor.setData(res.SOAL_MS);
                 }
             }
         })
@@ -272,11 +290,10 @@
         $('#idQuest').val('')
         $('#idWSD').val('')
         $('#question_title').html('New Question')
+        ckEditor.setData("");
         if(type == "1"){
-            ckEditor.setData("");
             $('#essay_grade').val("");
         }else if(type = "2"){
-            ckEditor.setData("");
             let html = ""
             for (let x = 1; x <= 4; x++) {
                 html += `
