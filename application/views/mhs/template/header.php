@@ -97,84 +97,26 @@
                                 <li>
                                     <a href="<?= site_url()?>">Home</a>
                                 </li>
-                                <!-- <li>
-                                    <a href="about.html">About</a>
-                                    <ul class="verso-nav-dropdown closed">
-                                        <li>
-                                            <a href="about.html">About us</a>
-                                        </li>
-                                        <li>
-                                            <a href="team.html">Our team</a>
-                                        </li>
-                                        <li>
-                                            <a href="tutor.html">Tutor Page</a>
-                                        </li>
-                                        <li>
-                                            <a href="faq.html">FAQ</a>
-                                        </li>
-                                        <li>
-                                            <a href="pricing.html">Pricing</a>
-                                        </li>
-                                    </ul>
-                                </li> -->
-                                <li>
-                                    <a href="<?= site_url('course')?>">Courses</a>
-                                    <!-- <ul class="verso-nav-dropdown closed">
-                                        <li>
-                                            <a href="courses-list.html">Courses List</a>
-                                        </li>
-                                        <li>
-                                            <a href="courses-grid.html">Courses Grid</a>
-                                        </li>
-                                        <li>
-                                            <a href="course.html">Single Course</a>
-                                        </li>
-                                    </ul> -->
-                                </li>
-                                <!-- <li>
-                                    <a href="events.html">Events</a>
-                                    <ul class="verso-nav-dropdown closed">
-                                        <li>
-                                            <a href="events.html">Events</a>
-                                        </li>
-                                        <li>
-                                            <a href="events-list.html">Event List</a>
-                                        </li>
-                                        <li>
-                                            <a href="event.html">Single Event</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="blog.html">Blog</a>
-                                    <ul class="verso-nav-dropdown closed">
-                                        <li>
-                                            <a href="blog.html">Blog</a>
-                                        </li>
-                                        <li>
-                                            <a href="post.html">Single Post</a>
-                                        </li>
-                                        <li>
-                                            <a href="author.html">Author Page</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="contact.html">Contact</a>
-                                    <ul class="verso-nav-dropdown closed">
-                                        <li>
-                                            <a href="contact.html">Contact Us</a>
-                                        </li>
-                                        <li>
-                                            <a href="#" data-toggle="modal" data-target="#login">Login</a>
-                                        </li>
-                                        <li>
-                                            <a href="#" data-toggle="modal" data-target="#signup">Sign Up</a>
-                                        </li>
-                                    </ul>
-
-
-                                </li> -->
+                                <?php 
+                                    if($this->session->userdata('USER_LOGGED')) {
+                                        echo '
+                                            <li>
+                                                <a href="'.site_url('course').'">Courses</a>
+                                                <ul class="verso-nav-dropdown closed">';
+                                            foreach ($course as $item) {
+                                                if($item->ID_WS == null){
+                                                    break;
+                                                }
+                                                echo '
+                                                    <li>
+                                                        <a href="'.site_url('course/'.$item->ID_WS).'">'.$item->NAMA_WS.'</a>
+                                                    </li>
+                                                ';
+                                            }
+                                            echo '</ul>';
+                                            echo '</li>';
+                                    }
+                                ?>
                             </ul>
                             <div class="verso-nav-widget">
                                 <div class="verso-widget">
@@ -189,16 +131,16 @@
                         </nav>
                     </div>
                 </div>
-                <?php if ($this->session->flashdata("auth_msg")) { ?>
+                <?php if ($this->session->tempdata("auth_msg")) { ?>
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong><?php echo $this->session->flashdata("auth_msg"); ?></strong>
+                        <strong><?php echo $this->session->tempdata("auth_msg"); ?></strong>
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                <?php  } else if ($this->session->flashdata("failed_auth_msg")) {?>
+                <?php  } else if ($this->session->tempdata("failed_auth_msg")) {?>
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        <strong><?php echo $this->session->flashdata("failed_auth_msg"); ?></strong>
+                        <strong><?php echo $this->session->tempdata("failed_auth_msg"); ?></strong>
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>

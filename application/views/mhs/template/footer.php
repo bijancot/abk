@@ -155,11 +155,11 @@
                     <form action="<?= site_url('proses_login')?>"method="post" class="contact-form">
                         <input type="email" id="loginemail" name="email" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" placeholder="Your Email">
                         <input type="password" id="password" name="password" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" placeholder="Your Password">
-                        <div class="form-check verso-mb-3">
+                        <!-- <div class="form-check verso-mb-3">
                             <label class="form-check-label">
                                 <input class="form-check-input" type="checkbox" value=""> Remember me
                             </label>
-                        </div>
+                        </div> -->
                         <button type="submit" class="btn btn-primary verso-shadow-2">Log in </button>
                         <!-- <a href="#" class="d-block verso-pt-3">Forgotten your password?</a> -->
                         <div class="verso-messages verso-pt-2"></div>
