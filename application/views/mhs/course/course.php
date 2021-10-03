@@ -9,7 +9,7 @@
             <div class="container">
 
                 <div class="row verso-pb-18 verso-pt-25">
-                    <div class="col-lg-9">
+                    <div class="col-lg-12">
 
                         <div class="card verso-shadow-10 verso-shadow-hover-15 verso-transition verso-mb-3 verso-os-animation verso-os-animation" data-os-animation="fadeIn" data-os-animation-delay=".3s">
                             <div class="embed-responsive embed-responsive-16by9">
@@ -17,19 +17,45 @@
                             </div>
                             <div class="card-body">
                                 <h1 class="h2 card-title text-uppercase verso-mb-1">
-                                    Web Design in 60 seconds
+                                    Argument
                                 </h1>
-                                <h4 class="verso-mb-2 text-muted">
+                                <!-- <h4 class="verso-mb-2 text-muted">
                                     by
                                     <a href="tutor.html" class="text-muted">John Langan</a>
-                                </h4>
+                                </h4> -->
                                 <p class="card-text verso-mb-0">The most critical first step to becoming a web designer is learning how to code HTML. By the end of this short course you’ll know what HTML is, how it works, and how to use its most common elements. You’ll go from a blank slate to having your first fully functioning, basic hand-coded page. This will give you the fundamental foundation on which all your future designs can be built. So let’s jump into “Start Here: Learn Basic HTML”.</p>
+                                <h1 class="h2 text-uppercase verso-mb-1 verso-mt-2">Worksheets</h2>
                             </div>
                             <div id="accordion">
-                                <div class="card">
+                                <?php 
+                                    if($this->session->userdata('USER_LOGGED')) {
+                                        foreach ($course as $item) {
+                                            if($item->ID_WS == null){
+                                                break;
+                                            }
+                                            echo '
+                                                <div class="card">
+                                                    <div class="card-header list-group-item list-group-item-action verso-demo-bg-color-quicksand" id="headingTwo">
+                                                        <div class="list-group-item-content">
+                                                            <button id="dropdown" class="btn btn-link collapsed verso-text-light" data-toggle="collapse" data-target="#'.$item->ID_WS.'" aria-expanded="false" aria-controls="'.$item->ID_WS.'">
+                                                                '.$item->NAMA_WS.'
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div id="'.$item->ID_WS.'" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                                                        <div class="card-body">
+                                                            This is a body
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ';
+                                        }
+                                    }
+                                ?>
+                                <!-- <div class="card">
                                     <div class="card-header list-group-item list-group-item-action verso-demo-bg-color-quicksand" id="headingOne">
                                         <div class="list-group-item-content">
-                                            <button id="dropdown" <?php if(!$this->session->userdata('USER_ISVERIF')) echo 'style="pointer-events: none"' ?> class="btn btn-link collapsed verso-text-light" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            <button id="dropdown" class="btn btn-link collapsed verso-text-light" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                                 Collapsible Group Item #1
                                             </button>
                                         </div>
@@ -45,7 +71,7 @@
                                 <div class="card">
                                     <div class="card-header list-group-item list-group-item-action verso-demo-bg-color-quicksand" id="headingTwo">
                                         <div class="list-group-item-content">
-                                            <button id="dropdown" <?php if(!$this->session->userdata('USER_ISVERIF')) echo 'style="pointer-events: none"' ?> class="btn btn-link collapsed verso-text-light" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                            <button id="dropdown" class="btn btn-link collapsed verso-text-light" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                                 Collapsible Group Item #2
                                             </button>
                                         </div>
@@ -60,7 +86,7 @@
                                 <div class="card">
                                     <div class="card-header list-group-item list-group-item-action verso-demo-bg-color-quicksand" id="headingThree">
                                         <div class="list-group-item-content">
-                                            <button id="dropdown" <?php if(!$this->session->userdata('USER_ISVERIF')) echo 'style="pointer-events: none"' ?> class="btn btn-link collapsed verso-text-light" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                            <button id="dropdown"  class="btn btn-link collapsed verso-text-light" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                                 Collapsible Group Item #3
                                             </button>
                                         </div>
@@ -70,7 +96,7 @@
                                             Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                             <!-- <ul class="list-group list-group-flush">
                                 <li class="list-group-item list-group-item-action verso-demo-bg-color-quicksand verso-text-light">
@@ -193,7 +219,7 @@
                                 </div>
                             </div> -->
                         </div>
-                        <h3 class="verso-mt-5 verso-mb-3 h4 verso-os-animation" data-os-animation="fadeIn" data-os-animation-delay=".3s">Related Courses</h3>
+                        <!-- <h3 class="verso-mt-5 verso-mb-3 h4 verso-os-animation" data-os-animation="fadeIn" data-os-animation-delay=".3s">Related Courses</h3>
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="card verso-shadow-10 verso-shadow-hover-15 verso-transition verso-mb-3 verso-os-animation text-center verso-os-animation" data-os-animation="fadeIn" data-os-animation-delay=".3s">
@@ -297,9 +323,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
-                    <div class="col-lg-3">
+                    <!-- <div class="col-lg-3">
                         <div class="card verso-shadow-15 verso-shadow-hover-20 verso-transition verso-os-animation card-inverse verso-demo-bg-color-yellow verso-mb-3" data-os-animation="fadeIn" data-os-animation-delay=".3s">
                             <div class="card-header  verso-text-light text-center">
                                 <h2 class="verso-mb-0 verso-font-weight-300">
@@ -350,7 +376,7 @@
                                 Hi there. I'm a designer and coder who specializes in web design and development and also works in the areas of game development and digital art.
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
