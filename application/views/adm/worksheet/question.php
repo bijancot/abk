@@ -79,15 +79,17 @@
                             <h5 id="question_title" class="card-title">Question 1</h5>
                         </div>
                         <div class="col-md-6 col-sm-12" style="text-align: right;">
+                            <button id="btn-delete" style="display: none;" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash"></i> Delete</button>
                             <button id="btn-save" class="btn btn-success btn-sm"><i class="bi bi-save"></i> Save</button>
                         </div>
                     </div>
                     <hr>
                     <form id="formSubmit" action="<?= site_url('admin/question/store')?>" method="post">
                         <input type="hidden" name="TIPE" value="<?= $worksheet->TYPEQUESTION_WS?>">
-                        <input type="hidden" name="ID_WS" value="<?= $idWS?>">
+                        <input type="hidden" id="idWS" name="ID_WS" value="<?= $idWS?>">
                         <input type="hidden" id="idWSD" name="idWSD">
                         <input type="hidden" id="idQuest" name="ID_QUEST">
+                        <input type="hidden" id="no" name="no">
                         <div id="question_content">
                             
                             <?php
@@ -166,12 +168,38 @@
             </div>
         </div>
     </div>
+    <!-- Modal Delete -->
+    <div class="modal fade" id="mdlDelete" tabindex="-1" aria-labelledby="mdlDelete" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="mdlDelete">Delete Question</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="<?= site_url('admin/question/softDestroy')?>" method="post">
+                        <div class="modal-body">
+                            <p>Are you sure to delete this question ? </p>
+                        </div>
+                    </div>
+                    
+                <div class="modal-footer">
+                    <input type="hidden" id="mdlDelete_idWS" class="form-control"  name="ID_WS">
+                    <input type="hidden" id="mdlDelete_idWSD" class="form-control"  name="ID_WSD">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success">Delete</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </main>
 <script src="<?= site_url()?>/assets/adm/js/sortable.min.js"></script>
 <script>
     let typeMulti = 4
     let no = "<?= $no?>"
     let ckEditor
+    let typeMiss_resp = []
     $(document).ready(function(){
         ClassicEditor
             .create( document.querySelector( '#ckEditor' ) )
@@ -181,13 +209,10 @@
                     const type = "<?= $worksheet->TYPEQUESTION_WS?>"
                     if(type == "3"){
                         let text = editor.getData()
-                        $('.type_missing_content').html(text.split("_").join(" <input style='border: 1px solid #ced4da;border-radius: .25rem;padding: 5px;' placeholder='Enter Answer' type='text' name='MISSING_RESPONSE[]' /> "))
+                        setMissingResp(text)
                     }
                 });
             })
-        getData()
-
-        
     })
     let dataItem = 2;
     $('#type_multiple_add').click(function(){
@@ -216,11 +241,33 @@
 
         $('#formSubmit').submit()
     })
+    $('#btn-delete').click(function(){
+        const idWS = $('#idWS').val()
+        const idWSD = $('#idWSD').val()
+
+        $('#mdlDelete_idWS').val(idWS)
+        $('#mdlDelete_idWSD').val(idWSD)
+        $('#mdlDelete').modal('show')
+    })
     const deleteResponse = (id) => {
         $('#type_multiple_content_'+id).remove()
         
         const length = $('.type_multiple_input').length
         length == 2 && $('.type_multiple_delete').attr('hidden', true)
+    }
+    const missingRespKeyUp = () => {
+        let inputs = $('.typeMiss_resp')
+        typeMiss_resp = []
+        for(var i = 0; i < inputs.length; i++){
+            typeMiss_resp[i] = $(inputs[i]).val()
+        }
+    }
+    const setMissingResp = text => {
+        $('.type_missing_content').html(text.split("_").join(` <input class="typeMiss_resp" onkeyup="missingRespKeyUp()" style='border: 1px solid #ced4da;border-radius: .25rem;padding: 5px;' placeholder='Enter Answer' type='text' name='MISSING_RESPONSE[]' /> `))
+        let inputResps = $('.typeMiss_resp')
+        for(let i = 0; i < inputResps.length; i++){
+            $(inputResps[i]).val(typeMiss_resp[i])
+        }
     }
     const cardNoClick = (idWSD, no) => {
         const type = "<?= $worksheet->TYPEQUESTION_WS?>"
@@ -237,8 +284,11 @@
 
         if(idWSD == null){
             resetForm(type)
+            $('#btn-delete').css('display', 'none')
         }else{
             $('#idWSD').val(idWSD)
+            $('#no').val(no)
+            $('#btn-delete').css('display', 'initial')
             getData(type, idWSD, no)
         }
     }
@@ -282,6 +332,8 @@
                 }else if(type == "3"){
                     $('#idQuest').val(res.ID_MS)
                     ckEditor.setData(res.SOAL_MS);
+                    typeMiss_resp = res.KUNCIJAWABAN_MS.split(';')
+                    setMissingResp(res.SOAL_MS)
                 }
             }
         })
@@ -293,7 +345,7 @@
         ckEditor.setData("");
         if(type == "1"){
             $('#essay_grade').val("");
-        }else if(type = "2"){
+        }else if(type == "2"){
             let html = ""
             for (let x = 1; x <= 4; x++) {
                 html += `
@@ -308,8 +360,9 @@
             }
             $('.type_multiple_content').html(html)
             $('#randomResponse').attr('checked', false)
-        }else if(type = "3"){
-
+        }else if(type == "3"){
+            typeMiss_resp = []
+            $('.type_missing_content').html("")
         }
     }
 
