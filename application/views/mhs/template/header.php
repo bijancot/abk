@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="Unique Responsive Multipurpose Bootstrap 4 HTML Template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Course</title>
+    <title><?= !empty($title) ? $title : 'Course'?></title>
 
     <!-- CSS files -->
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700%7CRoboto:300,300i,400,400i,700,700i" rel="stylesheet">

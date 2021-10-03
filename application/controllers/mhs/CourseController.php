@@ -9,7 +9,7 @@ class CourseController extends CI_Controller {
     }
 
     public function index(){
-        $data['title']      = 'Nota Pembayaran | SYMA Decoration';
+        $data['title']      = 'Course';
         $this->template->mahasiswa('mhs/course/course', $data);
     }
 }
