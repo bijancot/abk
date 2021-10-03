@@ -97,28 +97,11 @@
                                 <li>
                                     <a href="<?= site_url()?>">Home</a>
                                 </li>
-                                <?php 
-                                    if($this->session->userdata('USER_LOGGED')) {
-                                        echo '
-                                            <li>
-                                                <a href="'.site_url('course').'">Courses</a>
-                                                <ul class="verso-nav-dropdown closed">';
-                                            foreach ($course as $item) {
-                                                if($item->ID_WS == null){
-                                                    break;
-                                                }
-                                                echo '
-                                                    <li>
-                                                        <a href="'.site_url('course/'.$item->ID_WS).'">'.$item->NAMA_WS.'</a>
-                                                    </li>
-                                                ';
-                                            }
-                                            echo '</ul>';
-                                            echo '</li>';
-                                    }
-                                ?>
+                                <li>
+                                    <a href="<?= site_url('course')?>">Course</a>
+                                </li>
                             </ul>
-                            <div class="verso-nav-widget">
+                            <!-- <div class="verso-nav-widget">
                                 <div class="verso-widget">
                                     <div class="verso-icon-set">
                                         <a class="verso-icon-set-item verso-transition verso-search-widget-button-open" href="">
@@ -126,7 +109,7 @@
                                         </a>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
 
                         </nav>
                     </div>
