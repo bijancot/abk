@@ -10,8 +10,8 @@ class AuthController extends CI_Controller {
     // }
     public function proses_register() {
         $this->form_validation->set_rules('name','Name','trim|required');
-        $this->form_validation->set_rules('npm','NPM','trim|required');
-        $this->form_validation->set_rules('email','Email','trim|required|valid_email');
+        $this->form_validation->set_rules('npm','NPM','trim|required|is_unique[mahasiswa.NPM_MHS]');
+        $this->form_validation->set_rules('email','Email','trim|required|valid_email|is_unique[mahasiswa.EMAIL_MHS]');
         $this->form_validation->set_rules('phone','Phone','trim|required');
         $this->form_validation->set_rules('gender','Gender','required');
         $this->form_validation->set_rules('address','Address','required');
