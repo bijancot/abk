@@ -29,7 +29,7 @@
                                 <div class="card">
                                     <div class="card-header list-group-item list-group-item-action verso-demo-bg-color-quicksand" id="headingOne">
                                         <div class="list-group-item-content">
-                                            <button id="dropdown" class="btn btn-link collapsed verso-text-light" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            <button id="dropdown" <?php if(!$this->session->userdata('USER_ISVERIF')) echo 'style="pointer-events: none"' ?> class="btn btn-link collapsed verso-text-light" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                                 Collapsible Group Item #1
                                             </button>
                                         </div>
@@ -45,7 +45,7 @@
                                 <div class="card">
                                     <div class="card-header list-group-item list-group-item-action verso-demo-bg-color-quicksand" id="headingTwo">
                                         <div class="list-group-item-content">
-                                            <button id="dropdown" class="btn btn-link collapsed verso-text-light" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                            <button id="dropdown" <?php if(!$this->session->userdata('USER_ISVERIF')) echo 'style="pointer-events: none"' ?> class="btn btn-link collapsed verso-text-light" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                                 Collapsible Group Item #2
                                             </button>
                                         </div>
@@ -60,7 +60,7 @@
                                 <div class="card">
                                     <div class="card-header list-group-item list-group-item-action verso-demo-bg-color-quicksand" id="headingThree">
                                         <div class="list-group-item-content">
-                                            <button id="dropdown" class="btn btn-link collapsed verso-text-light" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                            <button id="dropdown" <?php if(!$this->session->userdata('USER_ISVERIF')) echo 'style="pointer-events: none"' ?> class="btn btn-link collapsed verso-text-light" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                                 Collapsible Group Item #3
                                             </button>
                                         </div>
