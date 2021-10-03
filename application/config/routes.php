@@ -86,3 +86,7 @@ $route['admin/student/verification']        = 'adm/StudentController/verificatio
 $route['admin/student/changeStatus']        = 'adm/StudentController/changeStatus';
 $route['admin/student/ajxGet']              = 'adm/StudentController/ajxGet';
 
+// Assignment
+$route['admin/assignment']                  	= 'adm/AssignmentController';
+$route['admin/assignment/(:any)']           	= 'adm/AssignmentController/worksheet/$1';
+$route['admin/wsdetail/(:any)/(:any)/(:any)']   = 'adm/AssignmentController/wsdetail/$1/$2/$3';

@@ -28,7 +28,7 @@
               <ul>
                 <li> <a href="<?= site_url('admin/student/verification')?>"><i class="bi bi-circle"></i>Verification</a>
                 </li>
-                <li> <a href="app-emailbox.html"><i class="bi bi-circle"></i>Assignment</a>
+                <li> <a href="<?= site_url('admin/assignment')?>"><i class="bi bi-circle"></i>Assignment</a>
                 </li>
               </ul>
             </li>
