@@ -33,13 +33,13 @@ class AuthController extends CI_Controller {
             $this->Mahasiswa->register($data);
 
             //Create Message
-            $this->session->set_flashdata('auth_msg', 'Register Successfully');
+            $this->session->set_tempdata('auth_msg', 'Register Successfully', 5);
 
             //Redirect to pages
             redirect();
         } else {
             //Create Message
-            $this->session->set_flashdata('failed_auth_msg', validation_errors());
+            $this->session->set_tempdata('failed_auth_msg', validation_errors(), 5);
             redirect();
         }
     }
@@ -61,18 +61,18 @@ class AuthController extends CI_Controller {
                 );
                 $this->session->set_userdata($sessionData);
                 if($user->ISVERIF_MHS == 0) {
-                    $this->session->set_flashdata('failed_auth_msg', 'Account has not been verified!');
+                    $this->session->set_tempdata('failed_auth_msg', 'Account has not been verified!', 5);
                 } else {
-                    $this->session->set_flashdata('auth_msg', 'Login Successfully');
+                    $this->session->set_tempdata('auth_msg', 'Login Successfully', 5);
                 }
                 redirect('course');
             } else {
-                $this->session->set_flashdata('failed_auth_msg', 'Login Failed, Email or Password is incorrect!');
+                $this->session->set_tempdata('failed_auth_msg', 'Login Failed, Email or Password is incorrect!', 5);
                 redirect();
             }
         } else {
             //Create Message
-            $this->session->set_flashdata('failed_auth_msg', validation_errors());
+            $this->session->set_tempdata('failed_auth_msg', validation_errors(), 5);
             redirect();
         }
     }
