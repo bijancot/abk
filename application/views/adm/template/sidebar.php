@@ -39,13 +39,13 @@
                 <div class="menu-title">Worksheet</div>
               </a>
             </li>
-            <li <?= $navActive == 'video' ? 'class="mm-active"' : ''?>>
+            <!-- <li <?= $navActive == 'video' ? 'class="mm-active"' : ''?>>
               <a href="javascript:;">
                 <div class="parent-icon"><i class="bi bi-camera-video-fill"></i>
                 </div>
                 <div class="menu-title">Video</div>
               </a>
-            </li>
+            </li> -->
           </ul>
           <!--end navigation-->
        </aside>

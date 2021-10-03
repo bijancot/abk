@@ -60,14 +60,6 @@
                             ';
                         ?>
                     </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
-                                <label class="form-check-label" for="flexSwitchCheckChecked">Random Question</label>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
