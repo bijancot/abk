@@ -17,16 +17,39 @@ class WorksheetController extends CI_Controller {
     }
     public function store(){
         $param = $_POST;
-        $this->Worksheet->insert($param);
-        $this->session->set_flashdata('succ', 'Successfully created a new worksheet');
-        redirect('admin/worksheet');
+
+        $position = $this->Worksheet->checkPosition($param);
+        
+        if(!empty($position->POSITION_WS) && $position->POSITION_WS != null){
+            $this->session->set_flashdata('err', 'The order of positions has been registered !');
+            redirect('admin/worksheet');
+        }else{
+            $this->Worksheet->insert($param);
+            $this->session->set_flashdata('succ', 'Successfully created a new worksheet');
+            redirect('admin/worksheet');
+        }
     }
     public function edit(){
         $param                  = $_POST;
-        $param['updated_at']    = date('Y-m-d H:i:s');;
-        $this->Worksheet->update($param);
-        $this->session->set_flashdata('succ', 'Successfully changing a worksheet');
-        redirect('admin/worksheet');
+        $param['updated_at']    = date('Y-m-d H:i:s');
+
+        $position = $this->Worksheet->checkPosition($param);
+        if($param['POSITIONHIDE'] == $param['POSITION_WS']){
+            unset($param['POSITIONHIDE']);
+            $this->Worksheet->update($param);
+            $this->session->set_flashdata('succ', 'Successfully changing a worksheet');
+            redirect('admin/worksheet');
+        }else{
+            if(!empty($position->POSITION_WS) && $position->POSITION_WS != null){
+                $this->session->set_flashdata('err', 'The order of positions has been registered !');
+                redirect('admin/worksheet');
+            }else{
+                unset($param['POSITIONHIDE']);
+                $this->Worksheet->update($param);
+                $this->session->set_flashdata('succ', 'Successfully changing a worksheet');
+                redirect('admin/worksheet');
+            }
+        }
     }
     public function changeStatus(){
         $param = $_POST;
@@ -47,5 +70,16 @@ class WorksheetController extends CI_Controller {
         $data['navActive']  = 'worksheet';
 
         $this->template->admin('adm/worksheet/question', $data);
+    }
+    public function ajxCheckPosition(){
+        $param = $_POST;
+        $position = $this->Worksheet->checkPosition($param);
+        
+        if(!empty($position->POSITION_WS) && $position->POSITION_WS != null){
+            $status = 0;
+        }else{
+            $status = 1;
+        }
+        echo json_encode($status);
     }
 }
