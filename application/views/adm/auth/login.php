@@ -57,21 +57,10 @@
                               <input type="password" class="form-control radius-30 ps-5" name="PASSWORD" placeholder="Enter Password">
                             </div>
                           </div>
-                          <div class="col-6">
-                            <div class="form-check form-switch">
-                              <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked="">
-                              <label class="form-check-label" for="flexSwitchCheckChecked">Remember Me</label>
-                            </div>
-                          </div>
-                          <div class="col-6 text-end">	<a href="authentication-forgot-password.html">Forgot Password ?</a>
-                          </div>
                           <div class="col-12">
                             <div class="d-grid">
                               <button type="submit" class="btn btn-primary radius-30">Sign In</button>
                             </div>
-                          </div>
-                          <div class="col-12">
-                            <p class="mb-0">Don't have an account yet? <a href="authentication-signup.html">Sign up here</a></p>
                           </div>
                         </div>
                     </form>

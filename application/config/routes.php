@@ -77,6 +77,7 @@ $route['admin/worksheet/ajxCheckPosition']  = 'adm/WorksheetController/ajxCheckP
 $route['admin/question/manage/(:any)']      = 'adm/QuestionController/index/$1';
 $route['admin/question/store']              = 'adm/QuestionController/store';
 $route['admin/question/edit']               = 'adm/QuestionController/edit';
+$route['admin/question/softDestroy']        = 'adm/QuestionController/softDestroy';
 $route['admin/question/ajxGet']             = 'adm/QuestionController/ajxGet';
 
 // Student
