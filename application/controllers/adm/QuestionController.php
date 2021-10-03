@@ -64,10 +64,16 @@ class QuestionController extends CI_Controller {
             $editQuest['KUNCIJAWABAN_MC']   = $param['MULTI_RIGHTANS'];
             $editQuest['ISRAND_MC']         = !empty($param['MULTI_ISRANDOM']) && $param['MULTI_ISRANDOM'] == 'on';
             $this->Question->multiple_update($editQuest);
+        }else if($param['TIPE'] == "3"){
+            $editQuest['ID_MS']             = $param['ID_QUEST'];
+            $editQuest['SOAL_MS']           = $param['MISSING_QUESTION'];
+            $editQuest['KUNCIJAWABAN_MS']   = implode(';', $param['MISSING_RESPONSE']);
+            $this->Question->missing_update($editQuest);
         }
         
         $this->session->set_flashdata('succ', 'Successfuly change question');
-        $this->session->set_flashdata('statEdit', $param['idWSD']);
+        $this->session->set_flashdata('statChange', $param['idWSD']);
+        $this->session->set_flashdata('statNo', $param['no']);
         
         redirect('admin/question/manage/'.$param['ID_WS']);
     }
@@ -79,11 +85,14 @@ class QuestionController extends CI_Controller {
         redirect('admin/worksheet');
     }
     public function softDestroy(){
-        $param                  = $_POST;
+        $param  = $_POST;
+        $idWS   = $param['ID_WS'];
         $param['deleted_at']    = date('Y-m-d H:i:s');
-        $this->Worksheet->update($param);
-        $this->session->set_flashdata('succ', 'Successfully delete a worksheet  ');
-        redirect('admin/worksheet');
+        unset($param['ID_WS']);
+
+        $this->Worksheet->update_detail($param);
+        $this->session->set_flashdata('succ', 'Successfully delete a question  ');
+        redirect('admin/question/manage/'.$idWS);
     }
     public function ajxGet(){
         $param = $_POST;

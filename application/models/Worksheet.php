@@ -8,7 +8,9 @@ class Worksheet extends CI_Model{
         return $this->db->where('ID_WS', $param['ID_WS'])->get("v_worksheet")->row();
     }
     public function get_detail($param){
-        return $this->db->where('ID_WS', $param['ID_WS'])->get("worksheet_detail")->result();
+        return $this->db->query("
+            SELECT * FROM worksheet_detail WHERE ID_WS = '".$param['ID_WS']."' AND deleted_at IS NULL
+        ")->result();
     }
     public function insert($param){
         $this->db->insert('worksheet', $param);
@@ -19,6 +21,9 @@ class Worksheet extends CI_Model{
     }
     public function update($param){
         $this->db->where('ID_WS', $param['ID_WS'])->update('worksheet', $param);
+    }
+    public function update_Detail($param){
+        $this->db->where('ID_WSD', $param['ID_WSD'])->update('worksheet_detail', $param);
     }
     public function checkPosition($param){
         return $this->db->query("
