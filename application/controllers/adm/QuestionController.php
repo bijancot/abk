@@ -46,7 +46,8 @@ class QuestionController extends CI_Controller {
         }
 
         $this->session->set_flashdata('succ', 'Successfully created a new question');
-        $this->session->set_flashdata('statStore', '');
+        $this->session->set_flashdata('statChange', $idWSD);
+        $this->session->set_flashdata('statNo', $param['no']);
         redirect('admin/question/manage/'.$param['ID_WS']);
     }
     public function edit(){
@@ -71,7 +72,7 @@ class QuestionController extends CI_Controller {
             $this->Question->missing_update($editQuest);
         }
         
-        $this->session->set_flashdata('succ', 'Successfuly change question');
+        $this->session->set_flashdata('succ', 'Successfuly change a question');
         $this->session->set_flashdata('statChange', $param['idWSD']);
         $this->session->set_flashdata('statNo', $param['no']);
         

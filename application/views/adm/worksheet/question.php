@@ -28,20 +28,22 @@
                             if($worksheetDetail != null){
 
                                 foreach ($worksheetDetail as $item) {
-                                    $statusActive = $no == 1 ? 'btn btn-primary' : 'btn btn-success';
-                                    if($this->session->flashdata('statEdit') == $item->ID_WSD){
-                                        $statusActive = 'btn btn-primary';
-                                    }
-
                                     echo '
                                     <div class="mx-1 mb-2">
-                                        <a id="cardNo_'.$no.'" data-idWSD="'.$item->ID_WSD.'" onclick="cardNoClick('.$item->ID_WSD.', '.$no.')" class="btn '.$statusActive.' cardFilled cardNo">
+                                        <a id="cardNo_'.$no.'" data-idWSD="'.$item->ID_WSD.'" onclick="cardNoClick('.$item->ID_WSD.', '.$no.')" class="btn btn-success cardFilled cardNo">
                                             <span>'.$no.'</span>
                                         </a>
                                     </div>
                                     ';
                                     $no++;
                                 }
+                                echo '
+                                    <div class="mx-1 mb-2">
+                                        <a id="cardNo_'.$no.'" onclick="cardNoClick(null, '.$no.')" class="btn btn-outline-primary cardNoFilled cardNo">
+                                            <span>'.$no.'</span>
+                                        </a>
+                                    </div>
+                                ';
                             }else{
                                 echo '
                                     <div class="mx-1 mb-2">
@@ -51,13 +53,6 @@
                                     </div>
                                 ';
                             }
-                            echo '
-                                <div class="mx-1 mb-2">
-                                    <a id="cardNo_'.$no.'" onclick="cardNoClick(null, '.$no.')" class="btn btn-outline-primary cardNoFilled cardNo">
-                                        <span>'.$no.'</span>
-                                    </a>
-                                </div>
-                            ';
                         ?>
                     </div>
                 </div>
@@ -190,6 +185,7 @@
 <script>
     let typeMulti = 4
     let no = "<?= $no?>"
+    
     let ckEditor
     let typeMiss_resp = []
     $(document).ready(function(){
@@ -204,7 +200,22 @@
                         setMissingResp(text)
                     }
                 });
+
+                let wsd = "<?= $worksheetDetail == null ? 'kosong' : $worksheetDetail[0]->ID_WSD?>"
+                console.log(wsd)
+                if(wsd == 'kosong'){
+                    cardNoClick(null, 1)
+                }else{
+                    <?php
+                        if($this->session->flashdata('statChange')){
+                            echo 'cardNoClick("'.$this->session->flashdata('statChange').'", '.$this->session->flashdata('statNo').')';
+                        }else{
+                            echo 'cardNoClick(wsd, 1)';
+                        }
+                    ?>
+                }
             })
+        
     })
     let dataItem = 2;
     $('#type_multiple_add').click(function(){
@@ -276,6 +287,7 @@
 
         if(idWSD == null){
             resetForm(type)
+            $('#no').val(no)
             $('#btn-delete').css('display', 'none')
         }else{
             $('#idWSD').val(idWSD)
