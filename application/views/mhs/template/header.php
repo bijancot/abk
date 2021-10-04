@@ -19,6 +19,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="<?= site_url()?>/assets/mhs/favicon/favicon-32x32.png">
 
     <link rel="shortcut icon" href="<?= site_url()?>/assets/mhs/favicon/favicon.ico">
+    <script src="<?= site_url()?>/assets/mhs/js/jquery.min.js"></script>
 </head>
 
 <body class="pace-on pace-squares">
