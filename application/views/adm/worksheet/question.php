@@ -40,44 +40,47 @@
                     <input class="form-control"  value="'.$idQuest.'" name="ID_QUEST[]" style="width: 30%;" type="hidden" required>
                 ';
             }else if($worksheet->TYPEQUESTION_WS == "2"){
+                $idQuest = !empty($worksheetDetail[$no-1]) ? $worksheetDetail[$no-1]->ID_MC : "kosong";
+                $tempResp = $no-1;
+
                 $typeContent = '
                     <div class="form-group mb-3">
                         <div class="form-group mb-3">
                             <label class="form-label" for="">Question <span class="text-danger">*</span></label>
-                            <textarea id="ckEditor'.$no.'" class="editor" name="MULTI_QUESTION" required></textarea>
+                            <textarea id="ckEditor'.$no.'" class="editor" name="MULTI_QUESTION[]" required></textarea>
                         </div>
                         
                         <label class="form-label" for="">Response <span class="text-danger">*</span></label>
                         <div class="type_multiple_content" style="margin-bottom: -10px;">
                             <div class="input-group mb-3 type_multiple_input" id="type_multiple_content_1">
-                                <input class="form-control" name="MULTI_RESPONSE[]" type="text">
+                                <input class="form-control" data-item="'.$tempResp.'" onkeypress="" name="MULTI_RESPONSE_'.$tempResp.'[]" type="text" required>
                                 <div class="input-group-text">
-                                    <input class="form-check-input" type="radio" value="tes" name="MULTI_RIGHTANS" required><a onclick="deleteResponse(1)" style="margin-left: 5px;margin-top: 2px;font-size: 13px;cursor: pointer;" class="text-danger type_multiple_delete"><i class="bi bi-x-lg"></i></a>
+                                    <input class="form-check-input" type="radio" value="tes" name="MULTI_RIGHTANS_'.$tempResp.'[]" required>
                                 </div>
                             </div>
                             <div class="input-group mb-3 type_multiple_input" id="type_multiple_content_2">
-                                <input class="form-control" name="MULTI_RESPONSE[] type="text">
+                                <input class="form-control" name="MULTI_RESPONSE_'.$tempResp.'[] type="text" required>
                                 <div class="input-group-text">
-                                    <input class="form-check-input" type="radio" value="" name="MULTI_RIGHTANS" required><a onclick="deleteResponse(2)" style="margin-left: 5px;margin-top: 2px;font-size: 13px;cursor: pointer;" class="text-danger type_multiple_delete"><i class="bi bi-x-lg"></i></a>
+                                    <input class="form-check-input" type="radio" value="" name="MULTI_RIGHTANS_'.$tempResp.'[]" required>
                                 </div>
                             </div>
                             <div class="input-group mb-3 type_multiple_input" id="type_multiple_content_3">
-                                <input class="form-control" name="MULTI_RESPONSE[] type="text">
+                                <input class="form-control" name="MULTI_RESPONSE_'.$tempResp.'[] type="text" required>
                                 <div class="input-group-text">
-                                    <input class="form-check-input" type="radio" value="" name="MULTI_RIGHTANS" required><a onclick="deleteResponse(3)" style="margin-left: 5px;margin-top: 2px;font-size: 13px;cursor: pointer;" class="text-danger type_multiple_delete"><i class="bi bi-x-lg"></i></a>
+                                    <input class="form-check-input" type="radio" value="" name="MULTI_RIGHTANS_'.$tempResp.'[]" required>
                                 </div>
                             </div>
                             <div class="input-group mb-3 type_multiple_input" id="type_multiple_content_3">
-                                <input class="form-control" name="MULTI_RESPONSE[] type="text">
+                                <input class="form-control" name="MULTI_RESPONSE_'.$tempResp.'[] type="text" required>
                                 <div class="input-group-text">
-                                    <input class="form-check-input" type="radio" value="" name="MULTI_RIGHTANS" required><a onclick="deleteResponse(4)" style="margin-left: 5px;margin-top: 2px;font-size: 13px;cursor: pointer;" class="text-danger type_multiple_delete"><i class="bi bi-x-lg"></i></a>
+                                    <input class="form-check-input" type="radio" value="" name="MULTI_RIGHTANS_'.$tempResp.'[]" required>
                                 </div>
                             </div>
                         </div>
-                        <span id="type_multiple_add" class="text-primary mb-3" style="font-size: 10px;margin-top: -20px;cursor: pointer;">+ Add new response</span>
                         <div class="form-check form-switch" style="margin-top: 20px;">
-                            <input class="form-check-input" name="MULTI_ISRANDOM" type="checkbox" id="randomResponse">
+                            <input class="form-check-input" name="MULTI_ISRANDOM[]" type="checkbox" id="randomResponse">
                             <label class="form-check-label" for="flexSwitchCheckChecked">Random Response</label>
+                            <input class="form-control"  value="'.$idQuest.'" name="ID_QUEST[]" style="width: 30%;" type="hidden" required>
                         </div>
                     </div>
                 ';
@@ -333,16 +336,38 @@
 </script> -->
 <script>
     let quest = []
+    let questFilled = []
+    <?php
+        if($worksheetDetail != null){
+            for ($i=0; $i < count($worksheetDetail); $i++) { 
+                if($worksheetDetail[$i]->TYPEQUESTION_WS == '1'){
+                    echo 'questFilled['.$i.'] = "'.$worksheetDetail[$i]->SOAL_ES.'";';
+                }
+            }
+        }
+    ?>
+
     $(document).ready(function(){
         const totalQuest = '<?= $worksheet->TOTALQUESTION_WS;?>'
         var allEditors = document.querySelectorAll('.editor');
         for (var i = 0; i < allEditors.length; ++i) {
+            let x = 0;
             ClassicEditor
                 .create(allEditors[i])
                 .then(editor => {
                     quest.push(editor)
                 })
+                .finally(() => {
+                    let x = 0
+                    for(const item of quest){
+                        if(questFilled[x] != null || questFilled[x] != undefined){
+                            item.setData(questFilled[x])
+                        }
+                        x++
+                    }
+                })
         }
+        
     })
     $('#btn-save').click(function(){
         // $('#form-submit').submit()
