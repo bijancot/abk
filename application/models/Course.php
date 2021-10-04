@@ -7,4 +7,7 @@ class Course extends CI_Model {
     public function getQuestionbyID($param) {
         return $this->db->get_where("v_worksheet_detail", array("ID_WS" => $param))->result();
     }
+    public function insertBatch($param) {
+        $this->db->insert_batch('essay_result', $param);
+    }
 }
