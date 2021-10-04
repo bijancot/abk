@@ -25,7 +25,7 @@
   <script src="<?= site_url()?>assets/adm/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
   <script src="<?= site_url()?>assets/adm/js/table-datatable.js"></script>
   <script src="<?= site_url()?>assets/adm/js/component-popovers-tooltips.js"></script>
-  
+  <script src="<?= site_url()?>/assets/adm/js/jquery-validate.min.js"></script>
   <!--notification js -->
 	<script src="<?= site_url()?>assets/adm/plugins/notifications/js/lobibox.min.js"></script>
 	<script src="<?= site_url()?>assets/adm/plugins/notifications/js/notifications.min.js"></script>
@@ -43,6 +43,8 @@
         echo 'success_noti("'.$this->session->flashdata('succ').'")';
       }else if($this->session->flashdata('err')){
         echo 'error_noti("'.$this->session->flashdata('err').'")';
+      }else if($this->session->flashdata('warn')){
+        echo 'warning_noti("'.$this->session->flashdata('warn').'")';
       }
     ?>
 </script>

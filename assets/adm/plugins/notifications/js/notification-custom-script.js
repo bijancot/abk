@@ -18,13 +18,13 @@ function info_noti() {
 	});
 }
 
-function warning_noti() {
+function warning_noti(msg) {
 	Lobibox.notify('warning', {
 		pauseDelayOnHover: true,
 		continueDelayOnInactiveTab: false,
 		position: 'top right',
 		icon: 'bx bx-error',
-		msg: 'Lorem ipsum dolor sit amet hears farmer indemnity inherent.'
+		msg
 	});
 }
 

@@ -21,16 +21,20 @@ class QuestionController extends CI_Controller {
     }
     public function store(){
         $param = $_POST;
-
-        // Insert WSD
-        $storeWSD['ID_WS'] = $param['ID_WS'];
-        $idWSD = $this->Worksheet->insert_detail($storeWSD);
-
+        
         if($param['TIPE'] == "1"){
-            $storeQuest['ID_WSD']   = $idWSD;
-            $storeQuest['SOAL_ES']  = $param['ESSAY_QUESTION'];
-            $storeQuest['GRADE_ES']  = $param['ESSAY_GRADE'];
-            $this->Question->essay_insert($storeQuest);
+            $storeQuest = array();
+            for($i = 0; $i < count($param['ESSAY_QUESTION']); $i++){
+                // Insert WSD
+                $storeWSD['ID_WS'] = $param['ID_WS'];
+                $idWSD = $this->Worksheet->insert_detail($storeWSD);
+
+                $temp['ID_WSD']     = $idWSD;
+                $temp['SOAL_ES']    = $param['ESSAY_QUESTION'][$i];
+                $temp['GRADE_ES']   = $param['ESSAY_GRADE'][$i];
+                array_push($storeQuest, $temp);
+            }
+            $this->Question->essay_insertBatch($storeQuest);
         }else if($param['TIPE'] == "2"){
             $storeQuest['ID_WSD']            = $idWSD;
             $storeQuest['SOAL_MC']           = $param['MULTI_QUESTION'];
@@ -44,10 +48,10 @@ class QuestionController extends CI_Controller {
             $storeQuest['KUNCIJAWABAN_MS']   = implode(';', $param['MISSING_RESPONSE']);
             $this->Question->missing_insert($storeQuest);
         }
-
-        $this->session->set_flashdata('succ', 'Successfully created a new question');
+        $this->Worksheet->update(['ID_WS' => $param['ID_WS'], 'ISREADY_WS' => '1']);
+        
+        $this->session->set_flashdata('succ', 'Successfully inserted questions!');
         $this->session->set_flashdata('statChange', $idWSD);
-        $this->session->set_flashdata('statNo', $param['no']);
         redirect('admin/question/manage/'.$param['ID_WS']);
     }
     public function edit(){

@@ -33,22 +33,28 @@ class WorksheetController extends CI_Controller {
         $param                  = $_POST;
         $param['updated_at']    = date('Y-m-d H:i:s');
 
-        $position = $this->Worksheet->checkPosition($param);
-        if($param['POSITIONHIDE'] == $param['POSITION_WS']){
-            unset($param['POSITIONHIDE']);
-            $this->Worksheet->update($param);
-            $this->session->set_flashdata('succ', 'Successfully changing a worksheet');
-            redirect('admin/worksheet');
-        }else{
-            if(!empty($position->POSITION_WS) && $position->POSITION_WS != null){
-                $this->session->set_flashdata('err', 'The order of positions has been registered !');
-                redirect('admin/worksheet');
-            }else{
+        $worksheetMhs = $this->Worksheet->get_mahasiswa($param);
+        if($worksheetMhs == null){
+            $position = $this->Worksheet->checkPosition($param);
+            if($param['POSITIONHIDE'] == $param['POSITION_WS']){
                 unset($param['POSITIONHIDE']);
                 $this->Worksheet->update($param);
                 $this->session->set_flashdata('succ', 'Successfully changing a worksheet');
                 redirect('admin/worksheet');
+            }else{
+                if(!empty($position->POSITION_WS) && $position->POSITION_WS != null){
+                    $this->session->set_flashdata('err', 'The order of positions has been registered !');
+                    redirect('admin/worksheet');
+                }else{
+                    unset($param['POSITIONHIDE']);
+                    $this->Worksheet->update($param);
+                    $this->session->set_flashdata('succ', 'Successfully changing a worksheet');
+                    redirect('admin/worksheet');
+                }
             }
+        }else{
+            $this->session->set_flashdata('err', "Can't change the worksheet because there is a transaction from the student !");
+            redirect('admin/worksheet');
         }
     }
     public function changeStatus(){
