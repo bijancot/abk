@@ -10,4 +10,7 @@ class Course extends CI_Model {
     public function insertBatch($param) {
         $this->db->insert_batch('essay_result', $param);
     }
+    public function insertWM($param) {
+        $this->db->insert('worksheet_mahasiswa', $param);
+    }
 }

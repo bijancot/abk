@@ -24,6 +24,7 @@ class CourseController extends CI_Controller {
             if ($item->TYPEQUESTION_WS == 1) {
                 echo $item->SOAL_ES;
                 echo '<input type="hidden" name="ID_ES" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->ID_ES.'">';
+                echo '<input type="hidden" name="TYPEQUESTION_WS" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->TYPEQUESTION_WS.'">';
                 echo '<textarea type="text" name="answer[]" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" placeholder="Your Answer" required></textarea>';
             } elseif ($item->TYPEQUESTION_WS == 2) {
                 echo $item->SOAL_MC;
@@ -36,21 +37,35 @@ class CourseController extends CI_Controller {
             }
             $no++;
         }
+        echo '<input type="hidden" name="ID_WS" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->ID_WS.'">';
         echo '
                 <button type="submit" class="btn btn-primary verso-shadow-2">Submit</button>
             </form>
         ';
     }
     public function submitCourse() {
-        $param = $_POST;
-        print_r($_POST['answer']);        
+        $param = $_POST;     
         $store = array();
         foreach ($param['answer'] as $item) {
-            $temp['ID_ES'] = $param['ID_ES'];
-            $temp['EMAIL_MHS'] = $this->session->userdata('EMAIL_MHS');
-            $temp['JAWABAN_ESR'] = $item;
-            array_push($store, $temp);
+            if($param['TYPEQUESTION_WS'] == 1) {
+                $temp['ID_ES'] = $param['ID_ES'];
+                $temp['EMAIL_MHS'] = $this->session->userdata('EMAIL_MHS');
+                $temp['JAWABAN_ESR'] = $item;
+                array_push($store, $temp);
+            } else if($param['TYPEQUESTION_WS'] == 2) {
+
+            } else if($param['TYPEQUESTION_WS'] == 3) {
+
+            }
         }
+        $data = array(
+            'ID_WS' => $param['ID_WS'],
+            'EMAIL_MHS' => $this->session->userdata('EMAIL_MHS'),
+            'STATUS_WSM' => 1,
+            'NPM_MHS' => $this->session->userdata('NPM_MHS')
+        );
+        $this->Course->insertWM($data);
         $this->Course->insertBatch($store);
+        redirect('course');
     }
 }
