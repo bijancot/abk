@@ -28,7 +28,18 @@
               <ul>
                 <li> <a href="<?= site_url('admin/student/verification')?>"><i class="bi bi-circle"></i>Verification</a>
                 </li>
-                <li> <a href="<?= site_url('admin/assignment')?>"><i class="bi bi-circle"></i>Assignment</a>
+              </ul>
+            </li>
+            <li <?= $navActive == 'assignment' ? 'class="mm-active"' : ''?>>
+              <a  class="has-arrow">
+                <div class="parent-icon"><i class="bi bi-book"></i>
+                </div>
+                <div class="menu-title">Assignment</div>
+              </a>
+              <ul>
+                <li> <a href="<?= site_url('admin/assignment/student')?>"><i class="bi bi-circle"></i>Student</a>
+                </li>
+                <li> <a href="<?= site_url('admin/assignment/worksheet')?>"><i class="bi bi-circle"></i>Worksheet</a>
                 </li>
               </ul>
             </li>

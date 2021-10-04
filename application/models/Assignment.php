@@ -2,6 +2,7 @@
 
 class Assignment extends CI_Model{
     public function getAll(){
+        $this->db->order_by('NPM_MHS');
         return $this->db->get("mahasiswa")->result();
     }
     public function get($param){
@@ -23,6 +24,17 @@ class Assignment extends CI_Model{
         $sql = "SELECT COUNT(ID_WS) as C_WS FROM worksheet WHERE ISPUBLISHED_WS = 1";
         $result = $this->db->query($sql);
         return $result->row()->C_WS;
+    }
+    public function getScore($param){
+        $sql = "SELECT wm.NILAI_WSM, wm.CATATAN_WSM, wm.STATUS_WSM,wm.NPM_MHS FROM worksheet_mahasiswa wm , mahasiswa m 
+        WHERE wm.NPM_MHS = m.NPM_MHS AND wm.ID_WS = $param";
+        return $this->db->query($sql)->result();
+    }
+    public function getStudentScore($param){
+        $sql = "SELECT wm.ID_WS, wm.NILAI_WSM, wm.CATATAN_WSM, wm.STATUS_WSM,wm.NPM_MHS FROM worksheet_mahasiswa wm , mahasiswa m 
+        WHERE wm.NPM_MHS = m.NPM_MHS 
+        AND wm.NPM_MHS = $param";
+        return $this->db->query($sql)->result();
     }
     public function getQuestionES($param){
         $sql = "SELECT e2.SOAL_ES as SOAL, w.NAMA_WS, w.TYPEQUESTION_WS,e2.GRADE_ES FROM worksheet w , worksheet_detail wd, essay e2 
