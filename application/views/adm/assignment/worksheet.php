@@ -12,8 +12,7 @@
     
     <div class="row">
         <div class="col-md-12 col-sm-12">
-            <div class="card">
-                
+            <div class="card">                
                 <div class="card-body">
                     <div class="table-responsive">
                         <table id="tblUser" class="table table-striped table-bordered" style="width:100%">
@@ -21,6 +20,7 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Worksheet</th>
+                                    <th>Type</th>
                                     <th>Score</th>
                                     <th>Note</th>
                                     <th>Status</th>
@@ -30,42 +30,51 @@
                             <tbody>
                                 <?php
                                     $no = 1;
-                                    $temp = '';
                                     foreach ($worksheet as $item) {
-                                        $nilai = 'Not Yet';
+                                        $nilai = '-';
                                         $catatan = '-';
                                         $status = '-';
-                                        if($item->ID_WS == null){
-                                            break;
-                                        }                                                                              
 
+                                        $type = '';                                                         
+                                        if($item->TYPEQUESTION_WS == 1){
+                                            $type = 'Essay';
+                                        }else if($item->TYPEQUESTION_WS == 2){
+                                            $type = 'Multiple Choice';
+                                        }else{
+                                            $type = 'Missing Sentence';
+                                        }
+
+                                        foreach ($ws_mhs as $items){
+                                            if($item->ID_WS == $items->ID_WS){
+                                                $nilai = $items->NILAI_WSM;
+                                                $catatan = $items->CATATAN_WSM;
+                                                $status = $items->STATUS_WSM;
+
+                                                                                           
+                                                if($status == 0){
+                                                    $status = 'Waiting for grading';
+                                                }else if($status == 1){
+                                                    $status = 'Pass';
+                                                }else{
+                                                    $status = 'Failed';
+                                                }
+                                            } 
+                                        }
                                         echo '
                                             <tr>
                                                 <td>'.$no.'</td>
                                                 <td>'.$item->NAMA_WS.'</td>
-                                                
-                                        ';
-                                        foreach ($ws_mhs as $items){
-                                            if($items->ID_WSM == null){
-                                                break;
-                                            }else if($item->ID_WS == $items->ID_WS && $items->NILAI_WSM > $nilai){
-                                                $nilai = $items->NILAI_WSM;
-                                                $catatan = $items->CATATAN_WSM;
-                                                $status = $items->STATUS_WSM;
-                                            }
-                                        }
-                                        $temp = '
+                                                <td>'.$type.'</td>
                                                 <td>'.$nilai.'</td>
                                                 <td>'.$catatan.'</td>
                                                 <td>'.$status.'</td>
                                                 <td>
                                                     <div class="table-actions d-flex align-items-center gap-3 fs-6">
-                                                        <a href="'. site_url("admin/wsdetail/".$student[0]->NPM_MHS."/".$item->ID_WS."/".$item->TYPEQUESTION_WS) .'" class="text-warning" data-bs-toggle="tooltip" data-bs-placement="top" title="Worksheet"><i class="bi bi-archive-fill"></i></a>
+                                                        <a href="'. site_url("admin/wsdetail/".$student[0]->NPM_MHS."/".$item->ID_WS."/".$item->TYPEQUESTION_WS) .'" class="text-info" data-bs-toggle="tooltip" data-bs-placement="top" title="Answer"><i class="bi bi-archive-fill"></i></a>
                                                     </div>
                                                 </td>
                                             </tr>
-                                        ';  
-                                        echo $temp;
+                                        ';
                                         $no++;
                                     }
                                 ?>

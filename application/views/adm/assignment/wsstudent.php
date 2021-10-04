@@ -3,7 +3,7 @@
         <div class="col-md-6 col-sm-12">
             <h6 class="mb-0 text-uppercase">
                 <i class="bi bi-book"></i>
-                Assignment - Student
+                <?= $worksheet[0]->NAMA_WS ?> - Student Score
             </h6>
         </div>
     </div>
@@ -19,11 +19,12 @@
                         <table id="tblUser" class="table table-striped table-bordered" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>No</th>
-                                    <th>Name</th>
+                                    <th>No</th>                                    
                                     <th>NPM</th>
-                                    <th>Email</th>
-                                    <th>Task</th>
+                                    <th>Name</th>
+                                    <th>Score</th>
+                                    <th>Note</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -31,20 +32,35 @@
                                 <?php
                                     $no = 1;
                                     foreach ($students as $item) {
-                                        if($item->EMAIL_MHS == null){
-                                            break;
+                                        $nilai = '-';
+                                        $catatan = '-';
+                                        $status = '-';
+                                        foreach ($score as $items){
+                                            if($item->NPM_MHS == $items->NPM_MHS){
+                                                $nilai = $items->NILAI_WSM;
+                                                $catatan = $items->CATATAN_WSM;
+                                                $status = $items->STATUS_WSM;
+                                                
+                                                if($status == 0){
+                                                    $status = 'Waiting for grading';
+                                                }else if($status == 1){
+                                                    $status = 'Pass';
+                                                }else{
+                                                    $status = 'Failed';
+                                                }
+                                            }
                                         }
-
                                         echo '
                                             <tr>
                                                 <td>'.$no.'</td>
-                                                <td>'.$item->NAMA_MHS.'</td>
                                                 <td>'.$item->NPM_MHS.'</td>
-                                                <td>'.$item->EMAIL_MHS.'</td>
-                                                <td>0/'.$c_ws.'</td>
+                                                <td>'.$item->NAMA_MHS.'</td>
+                                                <td>'.$nilai.'</td>
+                                                <td>'.$catatan.'</td>
+                                                <td>'.$status.'</td>
                                                 <td>
                                                     <div class="table-actions d-flex align-items-center gap-3 fs-6">
-                                                        <a href="'. site_url("admin/assignment/student/" . $item->NPM_MHS) .'" class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Worksheet"><i class="bi bi-file-earmark-text-fill"></i></a>
+                                                        <a href="'. site_url("admin/wsdetail/".$item->NPM_MHS."/".$worksheet[0]->ID_WS."/".$worksheet[0]->TYPEQUESTION_WS) .'" class="text-info" data-bs-toggle="tooltip" data-bs-placement="top" title="Answer"><i class="bi bi-archive-fill"></i></a>
                                                     </div>
                                                 </td>
                                             </tr>
