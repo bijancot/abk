@@ -3,7 +3,7 @@
         <div class="col-md-6 col-sm-12">
             <h6 class="mb-0 text-uppercase">
                 <i class="bi bi-book"></i>
-                Assignment - Student
+                Assignment - Worksheet
             </h6>
         </div>
     </div>
@@ -20,35 +20,46 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Name</th>
-                                    <th>NPM</th>
-                                    <th>Email</th>
-                                    <th>Task</th>
+                                    <th>Worksheet</th>
+                                    <th>Type</th>
+                                    <th>Passgrade</th>
+                                    <th>Total Questions</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
                                     $no = 1;
-                                    foreach ($students as $item) {
-                                        if($item->EMAIL_MHS == null){
+                                    foreach ($worksheet as $item) {                                        
+                                        if($item->ID_WS == null){
                                             break;
+                                        }                     
+                                        
+                                        $type = '';                                                         
+                                        if($item->TYPEQUESTION_WS == 1){
+                                            $type = 'Essay';
+                                        }else if($item->TYPEQUESTION_WS == 2){
+                                            $type = 'Multiple Choice';
+                                        }else{
+                                            $type = 'Missing Sentence';
                                         }
+
 
                                         echo '
                                             <tr>
                                                 <td>'.$no.'</td>
-                                                <td>'.$item->NAMA_MHS.'</td>
-                                                <td>'.$item->NPM_MHS.'</td>
-                                                <td>'.$item->EMAIL_MHS.'</td>
-                                                <td>0/'.$c_ws.'</td>
+                                                <td>'.$item->NAMA_WS.'</td>
+                                                <td>'.$type.'</td>
+                                                <td>'.$item->PASSGRADE_WS.'</td>
+                                                <td>'.$item->TOTALQUESTION_WS.'</td>
                                                 <td>
                                                     <div class="table-actions d-flex align-items-center gap-3 fs-6">
-                                                        <a href="'. site_url("admin/assignment/student/" . $item->NPM_MHS) .'" class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Worksheet"><i class="bi bi-file-earmark-text-fill"></i></a>
+                                                        <a href="'. site_url("admin/assignment/worksheetstudent/" . $item->ID_WS) .'" class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Student Score"><i class="bi bi-person-lines-fill"></i></a>
                                                     </div>
                                                 </td>
                                             </tr>
-                                        ';
+                                                
+                                        ';                                        
                                         $no++;
                                     }
                                 ?>
