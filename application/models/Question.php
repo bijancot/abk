@@ -13,8 +13,8 @@ class Question extends CI_Model{
     public function essay_insertBatch($param){
         $this->db->insert_batch('essay', $param);
     }
-    public function essay_update($param){
-        $this->db->where('ID_ES', $param['ID_ES'])->update('essay', $param);
+    public function essay_updateBatch($param){
+        $this->db->update_batch('essay', $param, 'ID_ES');
     }
     public function multiple_get($param){
         return $this->db->get_where('multiple_choice', ['ID_WSD' => $param['ID_WSD']])->row();

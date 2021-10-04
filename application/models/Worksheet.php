@@ -12,6 +12,9 @@ class Worksheet extends CI_Model{
             SELECT * FROM worksheet_detail WHERE ID_WS = '".$param['ID_WS']."' AND deleted_at IS NULL
         ")->result();
     }
+    public function get_detailQuestion($param){
+        return $this->db->where('ID_WS', $param['ID_WS'])->get('v_worksheet_question')->result();
+    }
     public function get_mahasiswa($param){
         return $this->db->query("
             SELECT * FROM worksheet_mahasiswa WHERE ID_WS = '".$param['ID_WS']."'

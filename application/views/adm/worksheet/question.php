@@ -19,12 +19,15 @@
     <input type="hidden" name="TIPE" value="<?= $worksheet->TYPEQUESTION_WS?>" />
     <div class="row" style="margin-bottom: 10px;margin-top: 10px;">
         <div class="col-md-12 col-sm-12">
-            <a id="btn-save" style="float: right;" class="btn btn-sm btn-success"><i class="bi bi-save"></i> Simpan</a>
+            <a id="btn-save" style="float: right;" class="btn btn-sm btn-success"><i class="bi bi-save"></i> Save</a>
         </div>
     </div>
     <?php
         for($no = 1; $no <= $worksheet->TOTALQUESTION_WS; $no++) {
             if($worksheet->TYPEQUESTION_WS == "1"){
+                $grade = !empty($worksheetDetail[$no-1]) ? $worksheetDetail[$no-1]->GRADE_ES : "";
+                $idQuest = !empty($worksheetDetail[$no-1]) ? $worksheetDetail[$no-1]->ID_ES : "kosong";
+
                 $typeContent =  '
                     <div class="form-group mb-3">
                         <label class="form-label" for="">Question <span class="text-danger">*</span></label>
@@ -32,8 +35,9 @@
                     </div>
                     <div class="form-group mb-3">
                         <label class="form-label" for="">Grading (points) <span class="text-danger">*</span></label>
-                        <input class="form-control" onkeypress="return isNumberKey(event)" id="essay_grade" name="ESSAY_GRADE[]" style="width: 30%;" type="number" required> 
+                        <input class="form-control" onkeypress="return isNumberKey(event)" value="'.$grade.'" name="ESSAY_GRADE[]" style="width: 30%;" type="number" required>
                     </div>
+                    <input class="form-control"  value="'.$idQuest.'" name="ID_QUEST[]" style="width: 30%;" type="hidden" required>
                 ';
             }else if($worksheet->TYPEQUESTION_WS == "2"){
                 $typeContent = '
@@ -328,21 +332,33 @@
 
 </script> -->
 <script>
+    let quest = []
     $(document).ready(function(){
         const totalQuest = '<?= $worksheet->TOTALQUESTION_WS;?>'
         var allEditors = document.querySelectorAll('.editor');
         for (var i = 0; i < allEditors.length; ++i) {
-            ClassicEditor.create(allEditors[i]);
+            ClassicEditor
+                .create(allEditors[i])
+                .then(editor => {
+                    quest.push(editor)
+                })
         }
     })
     $('#btn-save').click(function(){
         // $('#form-submit').submit()
         const status = $('#form-submit').valid()
-        // if(status ==){
-        if(!status){
-            warning_noti("Some forms are not filled yet!")
-        }else{
+        let statusQuest = true
+        for(const item of quest){
+            if(item.getData() == ""){
+                statusQuest = false
+                break;
+            }
+        }
+
+        if(status && statusQuest){
             $('#form-submit').submit()
+        }else{
+            warning_noti("Some forms are not filled yet!")
         }
         // }
     })
