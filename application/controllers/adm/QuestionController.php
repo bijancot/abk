@@ -14,23 +14,41 @@ class QuestionController extends CI_Controller {
         $data['navActive']          = 'worksheet';
         $data['idWS']               = $idWS;
         $data['worksheet']          = $this->Worksheet->get(['ID_WS' => $idWS]);
-        $data['worksheetDetail']    = $this->Worksheet->get_detail(['ID_WS' => $idWS]);
+        $data['worksheetDetail']    = $this->Worksheet->get_detailQuestion(['ID_WS' => $idWS]);
 
         
         $this->template->admin('adm/worksheet/question', $data);
     }
     public function store(){
         $param = $_POST;
-
-        // Insert WSD
-        $storeWSD['ID_WS'] = $param['ID_WS'];
-        $idWSD = $this->Worksheet->insert_detail($storeWSD);
-
         if($param['TIPE'] == "1"){
-            $storeQuest['ID_WSD']   = $idWSD;
-            $storeQuest['SOAL_ES']  = $param['ESSAY_QUESTION'];
-            $storeQuest['GRADE_ES']  = $param['ESSAY_GRADE'];
-            $this->Question->essay_insert($storeQuest);
+            $storeQuest = array();
+            for($i = 0; $i < count($param['ESSAY_QUESTION']); $i++){
+                if($param['ID_QUEST'][$i] == "kosong"){
+                    $status = "insert";
+                    // Insert WSD
+                    $storeWSD['ID_WS'] = $param['ID_WS'];
+                    $idWSD = $this->Worksheet->insert_detail($storeWSD);
+    
+                    $temp['ID_WSD']     = $idWSD;
+                    $temp['SOAL_ES']    = $param['ESSAY_QUESTION'][$i];
+                    $temp['GRADE_ES']   = $param['ESSAY_GRADE'][$i];
+                    array_push($storeQuest, $temp);
+                }else{
+                    $status = "update";
+                    $temp['ID_ES']      = $param['ID_QUEST'][$i];
+                    $temp['SOAL_ES']    = $param['ESSAY_QUESTION'][$i];
+                    $temp['GRADE_ES']   = $param['ESSAY_GRADE'][$i];
+                    array_push($storeQuest, $temp);
+                }
+            }
+            if($status == 'insert'){
+                $this->Question->essay_insertBatch($storeQuest);
+                $this->session->set_flashdata('succ', 'Successfully inserted questions!');
+            }else if($status == 'update'){
+                $this->Question->essay_updateBatch($storeQuest);
+                $this->session->set_flashdata('succ', 'Successfully updated questions!');
+            }
         }else if($param['TIPE'] == "2"){
             $storeQuest['ID_WSD']            = $idWSD;
             $storeQuest['SOAL_MC']           = $param['MULTI_QUESTION'];
@@ -44,9 +62,9 @@ class QuestionController extends CI_Controller {
             $storeQuest['KUNCIJAWABAN_MS']   = implode(';', $param['MISSING_RESPONSE']);
             $this->Question->missing_insert($storeQuest);
         }
+        $this->Worksheet->update(['ID_WS' => $param['ID_WS'], 'ISREADY_WS' => '1']);
+        
 
-        $this->session->set_flashdata('succ', 'Successfully created a new question');
-        $this->session->set_flashdata('statStore', '');
         redirect('admin/question/manage/'.$param['ID_WS']);
     }
     public function edit(){
@@ -71,7 +89,7 @@ class QuestionController extends CI_Controller {
             $this->Question->missing_update($editQuest);
         }
         
-        $this->session->set_flashdata('succ', 'Successfuly change question');
+        $this->session->set_flashdata('succ', 'Successfuly change a question');
         $this->session->set_flashdata('statChange', $param['idWSD']);
         $this->session->set_flashdata('statNo', $param['no']);
         

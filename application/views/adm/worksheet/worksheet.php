@@ -26,6 +26,7 @@
                                     <th>Worksheet</th>
                                     <th>Type Question</th>
                                     <th>Total Question</th>
+                                    <th>Question</th>
                                     <th>Pass Grade (%)</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -67,13 +68,32 @@
                                             ';
                                             $btnPublish = '<a href="#" data-id="'.$item->ID_WS.'" data-ispublish="1" class="text-secondary mdlStatus" data-bs-toggle="tooltip" data-bs-placement="top" title="Publish"><i class="bi bi-cloud-arrow-up-fill"></i></a>';
                                         }
+                                        
+                                        $statusQuest = "";
+                                        if($item->ISREADY_WS == '1'){
+                                            $statusQuest = '
+                                                <span class="badge bg-light-success text-success w-100">
+                                                    <i class="bi bi-check-circle-fill"></i>
+                                                    Ready
+                                                </span>
+                                            ';
+                                        }else{
+                                            $btnPublish = "";
+                                            $statusQuest = '
+                                            <span class="badge bg-light-danger text-danger w-100">
+                                            <i class="bi bi-x-circle-fill"></i>
+                                                Not Ready
+                                            </span>
+                                            ';
+                                        }
 
                                         echo '
                                             <tr>
                                                 <td>'.$item->POSITION_WS.'</td>
                                                 <td>'.$item->NAMA_WS.'</td>
                                                 <td>'.$typeLabel.'</td>
-                                                <td>'.$item->TOTAL_QUESTION.'</td>
+                                                <td>'.$item->TOTALQUESTION_WS.'</td>
+                                                <td>'.$statusQuest.'</td>
                                                 <td>'.$item->PASSGRADE_WS.'</td>
                                                 <td>'.$status.'</td>
                                                 <td>
@@ -116,7 +136,7 @@
                     <div class="modal-body">
                         <div class="col">
                             <label for="">Position</label>
-                            <input type="text" id="positionCreate" class="form-control" placeholder="Position" name="POSITION_WS" required>
+                            <input type="text" onkeypress="return isNumberKey(event)" id="positionCreate" class="form-control" placeholder="Position" name="POSITION_WS" required>
                             <label for="" id="alertCreate_position" class="text-danger" style="display: none;font-size: 11px;">The order of positions has been registered !</label>
                         </div>
                     </div>
@@ -132,9 +152,15 @@
                     </div>
                     <div class="modal-body">
                         <div class="col">
+                            <label for="">Total Questions</label>
+                            <input type="number" onkeypress="return isNumberKey(event)" class="form-control" style="width: 50%;" placeholder="Total Questions" name="TOTALQUESTION_WS" required>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col">
                             <label for="">Pass Grade</label>
                             <div class="input-group mb-3 type_multiple_input" style="width: 50%;" id="type_multiple_content_1">
-                                <input class="form-control" type="number" value="80" placeholder="Pass Grade" name="PASSGRADE_WS">
+                                <input class="form-control" onkeypress="return isNumberKey(event)" type="number" value="80" placeholder="Pass Grade" name="PASSGRADE_WS">
                                 <div class="input-group-text">
                                     %
                                 </div>
@@ -338,4 +364,12 @@
         $('#alertEdit_position').css('display', 'none')
         $('#mdlEdit_position').removeClass('is-invalid')
     })
+    // Number only input
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
 </script>

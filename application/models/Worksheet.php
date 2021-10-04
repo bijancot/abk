@@ -2,14 +2,22 @@
 
 class Worksheet extends CI_Model{
     public function getAll(){
-        return $this->db->order_by('POSITION_WS', 'asc')->get("v_worksheet")->result();
+        return $this->db->order_by('POSITION_WS', 'asc')->get("worksheet")->result();
     }
     public function get($param){
-        return $this->db->where('ID_WS', $param['ID_WS'])->get("v_worksheet")->row();
+        return $this->db->where('ID_WS', $param['ID_WS'])->get("worksheet")->row();
     }
     public function get_detail($param){
         return $this->db->query("
             SELECT * FROM worksheet_detail WHERE ID_WS = '".$param['ID_WS']."' AND deleted_at IS NULL
+        ")->result();
+    }
+    public function get_detailQuestion($param){
+        return $this->db->where('ID_WS', $param['ID_WS'])->get('v_worksheet_question')->result();
+    }
+    public function get_mahasiswa($param){
+        return $this->db->query("
+            SELECT * FROM worksheet_mahasiswa WHERE ID_WS = '".$param['ID_WS']."'
         ")->result();
     }
     public function insert($param){

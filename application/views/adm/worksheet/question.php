@@ -14,152 +14,106 @@
         </div>
     </div>
     <!--end breadcrumb-->
-    <div class="row">
-        <div class="col-md-3 col-sm-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <h5 class="card-title">List Question</h5>
-                    </div>
-                    <hr>
-                    <div id="list-question" class="d-flex flex-wrap justify-content-start">
-                        <?php
-                            $no = 1;
-                            if($worksheetDetail != null){
-
-                                foreach ($worksheetDetail as $item) {
-                                    $statusActive = $no == 1 ? 'btn btn-primary' : 'btn btn-success';
-                                    if($this->session->flashdata('statEdit') == $item->ID_WSD){
-                                        $statusActive = 'btn btn-primary';
-                                    }
-
-                                    echo '
-                                    <div class="mx-1 mb-2">
-                                        <a id="cardNo_'.$no.'" data-idWSD="'.$item->ID_WSD.'" onclick="cardNoClick('.$item->ID_WSD.', '.$no.')" class="btn '.$statusActive.' cardFilled cardNo">
-                                            <span>'.$no.'</span>
-                                        </a>
-                                    </div>
-                                    ';
-                                    $no++;
-                                }
-                            }else{
-                                echo '
-                                    <div class="mx-1 mb-2">
-                                        <a id="cardNo_1" class="btn btn-primary cardNoFilled cardNo">
-                                            <span>'.$no.'</span>
-                                        </a>
-                                    </div>
-                                ';
-                            }
-                            echo '
-                                <div class="mx-1 mb-2">
-                                    <a id="cardNo_'.$no.'" onclick="cardNoClick(null, '.$no.')" class="btn btn-outline-primary cardNoFilled cardNo">
-                                        <span>'.$no.'</span>
-                                    </a>
-                                </div>
-                            ';
-                        ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-9 col-sm-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6 col-sm-12">
-                            <h5 id="question_title" class="card-title">Question 1</h5>
-                        </div>
-                        <div class="col-md-6 col-sm-12" style="text-align: right;">
-                            <button id="btn-delete" style="display: none;" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash"></i> Delete</button>
-                            <button id="btn-save" class="btn btn-success btn-sm"><i class="bi bi-save"></i> Save</button>
-                        </div>
-                    </div>
-                    <hr>
-                    <form id="formSubmit" action="<?= site_url('admin/question/store')?>" method="post">
-                        <input type="hidden" name="TIPE" value="<?= $worksheet->TYPEQUESTION_WS?>">
-                        <input type="hidden" id="idWS" name="ID_WS" value="<?= $idWS?>">
-                        <input type="hidden" id="idWSD" name="idWSD">
-                        <input type="hidden" id="idQuest" name="ID_QUEST">
-                        <input type="hidden" id="no" name="no">
-                        <div id="question_content">
-                            
-                            <?php
-                                if($worksheet->TYPEQUESTION_WS == "1"){
-                                    echo '
-                                        <div class="form-group mb-3">
-                                            <label class="form-label" for="">Question <span class="text-danger">*</span></label>
-                                            <textarea id="ckEditor" name="ESSAY_QUESTION"></textarea>
-                                        </div>
-                                        <div class="form-group mb-3">
-                                            <label class="form-label" for="">Grading (points) <span class="text-danger">*</span></label>
-                                            <input class="form-control" id="essay_grade" name="ESSAY_GRADE" style="width: 30%;" type="number" required> 
-                                        </div>
-                                    ';
-                                }else if($worksheet->TYPEQUESTION_WS == "2"){
-                                    echo '
-                                        <div class="form-group mb-3">
-                                            <div class="form-group mb-3">
-                                                <label class="form-label" for="">Question <span class="text-danger">*</span></label>
-                                                <textarea id="ckEditor" name="MULTI_QUESTION" required></textarea>
-                                            </div>
-                                            
-                                            <label class="form-label" for="">Response <span class="text-danger">*</span></label>
-                                            <div class="type_multiple_content" style="margin-bottom: -10px;">
-                                                <div class="input-group mb-3 type_multiple_input" id="type_multiple_content_1">
-                                                    <input class="form-control" name="MULTI_RESPONSE[]" type="text">
-                                                    <div class="input-group-text">
-                                                        <input class="form-check-input" type="radio" value="tes" name="MULTI_RIGHTANS" required><a onclick="deleteResponse(1)" style="margin-left: 5px;margin-top: 2px;font-size: 13px;cursor: pointer;" class="text-danger type_multiple_delete"><i class="bi bi-x-lg"></i></a>
-                                                    </div>
-                                                </div>
-                                                <div class="input-group mb-3 type_multiple_input" id="type_multiple_content_2">
-                                                    <input class="form-control" name="MULTI_RESPONSE[] type="text">
-                                                    <div class="input-group-text">
-                                                        <input class="form-check-input" type="radio" value="" name="MULTI_RIGHTANS" required><a onclick="deleteResponse(2)" style="margin-left: 5px;margin-top: 2px;font-size: 13px;cursor: pointer;" class="text-danger type_multiple_delete"><i class="bi bi-x-lg"></i></a>
-                                                    </div>
-                                                </div>
-                                                <div class="input-group mb-3 type_multiple_input" id="type_multiple_content_3">
-                                                    <input class="form-control" name="MULTI_RESPONSE[] type="text">
-                                                    <div class="input-group-text">
-                                                        <input class="form-check-input" type="radio" value="" name="MULTI_RIGHTANS" required><a onclick="deleteResponse(3)" style="margin-left: 5px;margin-top: 2px;font-size: 13px;cursor: pointer;" class="text-danger type_multiple_delete"><i class="bi bi-x-lg"></i></a>
-                                                    </div>
-                                                </div>
-                                                <div class="input-group mb-3 type_multiple_input" id="type_multiple_content_3">
-                                                    <input class="form-control" name="MULTI_RESPONSE[] type="text">
-                                                    <div class="input-group-text">
-                                                        <input class="form-check-input" type="radio" value="" name="MULTI_RIGHTANS" required><a onclick="deleteResponse(4)" style="margin-left: 5px;margin-top: 2px;font-size: 13px;cursor: pointer;" class="text-danger type_multiple_delete"><i class="bi bi-x-lg"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <span id="type_multiple_add" class="text-primary mb-3" style="font-size: 10px;margin-top: -20px;cursor: pointer;">+ Add new response</span>
-                                            <div class="form-check form-switch" style="margin-top: 20px;">
-                                                <input class="form-check-input" name="MULTI_ISRANDOM" type="checkbox" id="randomResponse">
-                                                <label class="form-check-label" for="flexSwitchCheckChecked">Random Response</label>
-                                            </div>
-                                        </div>
-                                    ';
-                                }else if($worksheet->TYPEQUESTION_WS == "3"){
-                                    echo '
-                                        <div class="form-group mb-3">
-                                            <label class="form-label" for="">Question <span class="text-danger">*</span></label>
-                                            <textarea name="MISSING_QUESTION" id="ckEditor"></textarea>
-                                            <span class="text-secondary" style="font-size: 10px;">Use "_" underscores to specify where you would like a blank to appear in the text below</span>
-                                        </div>
-                                        <input type="hidden" id="typeMissResp" />
-                                        <div class="form-group mb-3">
-                                            <label class="form-label" for="">Responses <span class="text-danger">*</span></label>
-                                            <div class="type_missing_content"></div>
-                                            <span class="text-secondary" style="font-size: 10px;">Students will have to answer in the exact order for the question to be marked as correct</span>
-                                        </div>
-                                    ';
-                                }
-                            ?>
-                        </div>
-                    </form>
-                </div>
-            </div>
+    <form id="form-submit" action="<?= site_url('admin/question/store')?>" method="post">
+    <input type="hidden" name="ID_WS" value="<?= $idWS?>" />
+    <input type="hidden" name="TIPE" value="<?= $worksheet->TYPEQUESTION_WS?>" />
+    <div class="row" style="margin-bottom: 10px;margin-top: 10px;">
+        <div class="col-md-12 col-sm-12">
+            <a id="btn-save" style="float: right;" class="btn btn-sm btn-success"><i class="bi bi-save"></i> Save</a>
         </div>
     </div>
+    <?php
+        for($no = 1; $no <= $worksheet->TOTALQUESTION_WS; $no++) {
+            if($worksheet->TYPEQUESTION_WS == "1"){
+                $grade = !empty($worksheetDetail[$no-1]) ? $worksheetDetail[$no-1]->GRADE_ES : "";
+                $idQuest = !empty($worksheetDetail[$no-1]) ? $worksheetDetail[$no-1]->ID_ES : "kosong";
+
+                $typeContent =  '
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="">Question <span class="text-danger">*</span></label>
+                        <textarea id="ckEditor'.$no.'" class="editor" name="ESSAY_QUESTION[]" required></textarea>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="">Grading (points) <span class="text-danger">*</span></label>
+                        <input class="form-control" onkeypress="return isNumberKey(event)" value="'.$grade.'" name="ESSAY_GRADE[]" style="width: 30%;" type="number" required>
+                    </div>
+                    <input class="form-control"  value="'.$idQuest.'" name="ID_QUEST[]" style="width: 30%;" type="hidden" required>
+                ';
+            }else if($worksheet->TYPEQUESTION_WS == "2"){
+                $typeContent = '
+                    <div class="form-group mb-3">
+                        <div class="form-group mb-3">
+                            <label class="form-label" for="">Question <span class="text-danger">*</span></label>
+                            <textarea id="ckEditor'.$no.'" class="editor" name="MULTI_QUESTION" required></textarea>
+                        </div>
+                        
+                        <label class="form-label" for="">Response <span class="text-danger">*</span></label>
+                        <div class="type_multiple_content" style="margin-bottom: -10px;">
+                            <div class="input-group mb-3 type_multiple_input" id="type_multiple_content_1">
+                                <input class="form-control" name="MULTI_RESPONSE[]" type="text">
+                                <div class="input-group-text">
+                                    <input class="form-check-input" type="radio" value="tes" name="MULTI_RIGHTANS" required><a onclick="deleteResponse(1)" style="margin-left: 5px;margin-top: 2px;font-size: 13px;cursor: pointer;" class="text-danger type_multiple_delete"><i class="bi bi-x-lg"></i></a>
+                                </div>
+                            </div>
+                            <div class="input-group mb-3 type_multiple_input" id="type_multiple_content_2">
+                                <input class="form-control" name="MULTI_RESPONSE[] type="text">
+                                <div class="input-group-text">
+                                    <input class="form-check-input" type="radio" value="" name="MULTI_RIGHTANS" required><a onclick="deleteResponse(2)" style="margin-left: 5px;margin-top: 2px;font-size: 13px;cursor: pointer;" class="text-danger type_multiple_delete"><i class="bi bi-x-lg"></i></a>
+                                </div>
+                            </div>
+                            <div class="input-group mb-3 type_multiple_input" id="type_multiple_content_3">
+                                <input class="form-control" name="MULTI_RESPONSE[] type="text">
+                                <div class="input-group-text">
+                                    <input class="form-check-input" type="radio" value="" name="MULTI_RIGHTANS" required><a onclick="deleteResponse(3)" style="margin-left: 5px;margin-top: 2px;font-size: 13px;cursor: pointer;" class="text-danger type_multiple_delete"><i class="bi bi-x-lg"></i></a>
+                                </div>
+                            </div>
+                            <div class="input-group mb-3 type_multiple_input" id="type_multiple_content_3">
+                                <input class="form-control" name="MULTI_RESPONSE[] type="text">
+                                <div class="input-group-text">
+                                    <input class="form-check-input" type="radio" value="" name="MULTI_RIGHTANS" required><a onclick="deleteResponse(4)" style="margin-left: 5px;margin-top: 2px;font-size: 13px;cursor: pointer;" class="text-danger type_multiple_delete"><i class="bi bi-x-lg"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <span id="type_multiple_add" class="text-primary mb-3" style="font-size: 10px;margin-top: -20px;cursor: pointer;">+ Add new response</span>
+                        <div class="form-check form-switch" style="margin-top: 20px;">
+                            <input class="form-check-input" name="MULTI_ISRANDOM" type="checkbox" id="randomResponse">
+                            <label class="form-check-label" for="flexSwitchCheckChecked">Random Response</label>
+                        </div>
+                    </div>
+                ';
+            }else if($worksheet->TYPEQUESTION_WS == "3"){
+                $typeContent = '
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="">Question <span class="text-danger">*</span></label>
+                        <textarea name="MISSING_QUESTION" id="ckEditor'.$no.'" class="editor"></textarea>
+                        <span class="text-secondary" style="font-size: 10px;">Use "_" underscores to specify where you would like a blank to appear in the text below</span>
+                    </div>
+                    <input type="hidden" id="typeMissResp" />
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="">Responses <span class="text-danger">*</span></label>
+                        <div class="type_missing_content"></div>
+                        <span class="text-secondary" style="font-size: 10px;">Students will have to answer in the exact order for the question to be marked as correct</span>
+                    </div>
+                ';
+            }
+
+            echo '
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-header-title mb-0">Question '.$no.'</h5>
+                        </div>
+                        <div class="card-body">
+                            '.$typeContent.'
+                        </div>
+                    </div>
+                </div>
+            </div>
+            ';
+        }
+    ?>
+    </form>
     <!-- Modal Delete -->
     <div class="modal fade" id="mdlDelete" tabindex="-1" aria-labelledby="mdlDelete" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -187,9 +141,10 @@
     </div>
 </main>
 <script src="<?= site_url()?>/assets/adm/js/sortable.min.js"></script>
-<script>
+<!-- <script>
     let typeMulti = 4
     let no = "<?= $no?>"
+    
     let ckEditor
     let typeMiss_resp = []
     $(document).ready(function(){
@@ -204,7 +159,22 @@
                         setMissingResp(text)
                     }
                 });
+
+                let wsd = "<?= $worksheetDetail == null ? 'kosong' : $worksheetDetail[0]->ID_WSD?>"
+                console.log(wsd)
+                if(wsd == 'kosong'){
+                    cardNoClick(null, 1)
+                }else{
+                    <?php
+                        if($this->session->flashdata('statChange')){
+                            echo 'cardNoClick("'.$this->session->flashdata('statChange').'", '.$this->session->flashdata('statNo').')';
+                        }else{
+                            echo 'cardNoClick(wsd, 1)';
+                        }
+                    ?>
+                }
             })
+        
     })
     let dataItem = 2;
     $('#type_multiple_add').click(function(){
@@ -232,6 +202,7 @@
         }
 
         $('#formSubmit').submit()
+        // console.log($('#formSubmit').valid())
     })
     $('#btn-delete').click(function(){
         const idWS = $('#idWS').val()
@@ -276,6 +247,7 @@
 
         if(idWSD == null){
             resetForm(type)
+            $('#no').val(no)
             $('#btn-delete').css('display', 'none')
         }else{
             $('#idWSD').val(idWSD)
@@ -358,4 +330,44 @@
         }
     }
 
+</script> -->
+<script>
+    let quest = []
+    $(document).ready(function(){
+        const totalQuest = '<?= $worksheet->TOTALQUESTION_WS;?>'
+        var allEditors = document.querySelectorAll('.editor');
+        for (var i = 0; i < allEditors.length; ++i) {
+            ClassicEditor
+                .create(allEditors[i])
+                .then(editor => {
+                    quest.push(editor)
+                })
+        }
+    })
+    $('#btn-save').click(function(){
+        // $('#form-submit').submit()
+        const status = $('#form-submit').valid()
+        let statusQuest = true
+        for(const item of quest){
+            if(item.getData() == ""){
+                statusQuest = false
+                break;
+            }
+        }
+
+        if(status && statusQuest){
+            $('#form-submit').submit()
+        }else{
+            warning_noti("Some forms are not filled yet!")
+        }
+        // }
+    })
+    // Number only input
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
 </script>
