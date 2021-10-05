@@ -19,6 +19,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="<?= site_url()?>/assets/mhs/favicon/favicon-32x32.png">
 
     <link rel="shortcut icon" href="<?= site_url()?>/assets/mhs/favicon/favicon.ico">
+    <script src="<?= site_url()?>/assets/mhs/js/jquery.min.js"></script>
 </head>
 
 <body class="pace-on pace-squares">
@@ -45,19 +46,6 @@
                             </div> -->
                         </div>
                         <div class="verso-topbar-col">
-                            <!-- <div class="verso-widget widget_text">
-                                <div class="verso-icon-set">
-                                    <a class="verso-icon-set-item verso-transition" href="#">
-                                        <i class="fa fa-linkedin"></i>
-                                    </a>
-                                    <a class="verso-icon-set-item verso-transition" href="#">
-                                        <i class="fa fa-facebook"></i>
-                                    </a>
-                                    <a class="verso-icon-set-item verso-transition" href="#">
-                                        <i class="fa fa-twitter"></i>
-                                    </a>
-                                </div>
-                            </div> -->
                             <div class="verso-widget widget_text">
                                 <?php if($this->session->userdata('USER_LOGGED')) { ?>
                                     <a class="verso-pr-2 verso-pl-4"><?= strtok($this->session->userdata('NAMA_MHS'), " ") ?></a>
@@ -94,23 +82,13 @@
                         <!-- Menu One -->
                         <nav class="verso-nav-menu">
                             <ul class="verso-nav-list">
-                                <li>
+                                <!-- <li>
                                     <a href="<?= site_url()?>">Home</a>
-                                </li>
+                                </li> -->
                                 <li>
                                     <a href="<?= site_url('course')?>">Course</a>
                                 </li>
                             </ul>
-                            <!-- <div class="verso-nav-widget">
-                                <div class="verso-widget">
-                                    <div class="verso-icon-set">
-                                        <a class="verso-icon-set-item verso-transition verso-search-widget-button-open" href="">
-                                            <i class="fa fa-search"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div> -->
-
                         </nav>
                     </div>
                 </div>

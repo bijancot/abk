@@ -213,7 +213,7 @@
     </div>
 
 
-    <script src="<?= site_url()?>/assets/mhs/js/jquery.min.js"></script>
+    
     <script src="<?= site_url()?>/assets/mhs/js/bootstrap.min.js"></script>
     <script src="<?= site_url()?>/assets/mhs/js/magnific.min.js"></script>
     <script src="<?= site_url()?>/assets/mhs/js/pace.min.js"></script>

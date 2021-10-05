@@ -19,15 +19,11 @@ class Welcome extends CI_Controller {
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
 
-	public function __construct() {
-        parent::__construct();
-        $this->load->model('Course');
-    }
-
 	public function index()
 	{
-		$data['title']      = 'Home';
-		$data['course'] = $this->Course->getAll();
-		$this->template->mahasiswa('mhs/home', $data);
+		// $data['title']      = 'Home';
+		// $data['course'] = $this->Course->getAll();
+		// $this->template->mahasiswa('mhs/home', $data);
+		redirect('login');
 	}
 }
