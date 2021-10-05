@@ -4,3 +4,6 @@ button#dropdown {
 div.alert {
     margin-bottom: 0;
 }
+input#signin, input#signup {
+    background: #0D3B66;
+}

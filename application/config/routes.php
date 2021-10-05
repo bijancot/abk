@@ -54,6 +54,8 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 // ROUTE MAHASISWA
+$route['login']                 = 'mhs/AuthController';
+$route['register']              = 'mhs/AuthController/register';
 $route['proses_register']       = 'mhs/AuthController/proses_register';
 $route['proses_login']          = 'mhs/AuthController/proses_login';
 $route['proses_logout']         = 'mhs/AuthController/proses_logout';
