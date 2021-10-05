@@ -19,20 +19,20 @@ class Question extends CI_Model{
     public function multiple_get($param){
         return $this->db->get_where('multiple_choice', ['ID_WSD' => $param['ID_WSD']])->row();
     }
-    public function multiple_insert($param){
-        $this->db->insert('multiple_choice', $param);
+    public function multiple_insertBatch($param){
+        $this->db->insert_batch('multiple_choice', $param);
     }
-    public function multiple_update($param){
-        $this->db->where('ID_MC', $param['ID_MC'])->update('multiple_choice', $param);
+    public function multiple_updateBatch($param){
+        $this->db->update_batch('multiple_choice', $param, 'ID_MC');
     }
     public function missing_get($param){
         return $this->db->get_where('missing_sentence', ['ID_WSD' => $param['ID_WSD']])->row();
     }
-    public function missing_insert($param){
-        $this->db->insert('missing_sentence', $param);
+    public function missing_insertBatch($param){
+        $this->db->insert_batch('missing_sentence', $param);
     }
-    public function missing_update($param){
-        $this->db->where('ID_MS', $param['ID_MS'])->update('missing_sentence', $param);
+    public function missing_updateBatch($param){
+        $this->db->update_batch('missing_sentence', $param, 'ID_MS');
     }
     public function update($param){
         $this->db->where('ID_WS', $param['ID_WS'])->update('worksheet', $param);

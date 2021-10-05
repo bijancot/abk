@@ -21,6 +21,13 @@ class QuestionController extends CI_Controller {
     }
     public function store(){
         $param = $_POST;
+        $worksheetMhs = $this->Worksheet->get_mahasiswa($param);
+
+        if($worksheetMhs != null){
+            $this->session->set_flashdata('err', "Can't change the question because there is a transaction from the student!");
+            redirect('admin/question/manage/'.$param['ID_WS']);
+        }
+
         if($param['TIPE'] == "1"){
             $storeQuest = array();
             for($i = 0; $i < count($param['ESSAY_QUESTION']); $i++){
@@ -44,26 +51,73 @@ class QuestionController extends CI_Controller {
             }
             if($status == 'insert'){
                 $this->Question->essay_insertBatch($storeQuest);
+                $this->Worksheet->update(['ID_WS' => $param['ID_WS'], 'ISREADY_WS' => '1']);
                 $this->session->set_flashdata('succ', 'Successfully inserted questions!');
             }else if($status == 'update'){
                 $this->Question->essay_updateBatch($storeQuest);
                 $this->session->set_flashdata('succ', 'Successfully updated questions!');
             }
         }else if($param['TIPE'] == "2"){
-            $storeQuest['ID_WSD']            = $idWSD;
-            $storeQuest['SOAL_MC']           = $param['MULTI_QUESTION'];
-            $storeQuest['PILIHAN_MC']        = implode(';', $param['MULTI_RESPONSE']);
-            $storeQuest['KUNCIJAWABAN_MC']   = $param['MULTI_RIGHTANS'];
-            $storeQuest['ISRAND_MC']         = !empty($param['MULTI_ISRANDOM']) && $param['MULTI_ISRANDOM'] == 'on';
-            $this->Question->multiple_insert($storeQuest);
+            $storeQuest = array();
+            for($i = 0; $i < count($param['MULTI_QUESTION']); $i++){
+                if($param['ID_QUEST'][$i] == "kosong"){
+                    $status = "insert";
+                    // Insert WSD
+                    $storeWSD['ID_WS'] = $param['ID_WS'];
+                    $idWSD = $this->Worksheet->insert_detail($storeWSD);
+    
+                    $temp['ID_WSD']          = $idWSD;
+                    $temp['SOAL_MC']         = $param['MULTI_QUESTION'][$i];
+                    $temp['PILIHAN_MC']      = implode(';', $param['MULTI_RESPONSE_'.$i]);
+                    $temp['KUNCIJAWABAN_MC'] = $param['MULTI_RIGHTANS_'.$i];
+                    array_push($storeQuest, $temp);
+                }else{
+                    $status = "update";
+                    $temp['ID_MC']           = $param['ID_QUEST'][$i];
+                    $temp['SOAL_MC']         = $param['MULTI_QUESTION'][$i];
+                    $temp['PILIHAN_MC']      = implode(';', $param['MULTI_RESPONSE_'.$i]);
+                    $temp['KUNCIJAWABAN_MC'] = $param['MULTI_RIGHTANS_'.$i];
+                    array_push($storeQuest, $temp);
+                }
+            }
+            if($status == 'insert'){
+                $this->Question->multiple_insertBatch($storeQuest);
+                $this->Worksheet->update(['ID_WS' => $param['ID_WS'], 'ISREADY_WS' => '1']);
+                $this->session->set_flashdata('succ', 'Successfully inserted questions!');
+            }else if($status == 'update'){
+                $this->Question->multiple_updateBatch($storeQuest);
+                $this->session->set_flashdata('succ', 'Successfully updated questions!');
+            }
         }else if($param['TIPE'] == "3"){
-            $storeQuest['ID_WSD']            = $idWSD;
-            $storeQuest['SOAL_MS']           = $param['MISSING_QUESTION'];
-            $storeQuest['KUNCIJAWABAN_MS']   = implode(';', $param['MISSING_RESPONSE']);
-            $this->Question->missing_insert($storeQuest);
+            $storeQuest = array();
+            for($i = 0; $i < count($param['MISSING_QUESTION']); $i++){
+                if($param['ID_QUEST'][$i] == "kosong"){
+                    $status = "insert";
+                    // Insert WSD
+                    $storeWSD['ID_WS'] = $param['ID_WS'];
+                    $idWSD = $this->Worksheet->insert_detail($storeWSD);
+    
+                    $temp['ID_WSD']             = $idWSD;
+                    $temp['SOAL_MS']            = $param['MISSING_QUESTION'][$i];
+                    $temp['KUNCIJAWABAN_MS']    = implode(';', $param['MISSING_RESPONSE_'.$i]);
+                    array_push($storeQuest, $temp);
+                }else{
+                    $status = "update";
+                    $temp['ID_MS']           = $param['ID_QUEST'][$i];
+                    $temp['SOAL_MS']         = $param['MISSING_QUESTION'][$i];
+                    $temp['KUNCIJAWABAN_MS'] = implode(';', $param['MISSING_RESPONSE_'.$i]);
+                    array_push($storeQuest, $temp);
+                }
+            }
+            if($status == 'insert'){
+                $this->Question->missing_insertBatch($storeQuest);
+                $this->Worksheet->update(['ID_WS' => $param['ID_WS'], 'ISREADY_WS' => '1']);
+                $this->session->set_flashdata('succ', 'Successfully inserted questions!');
+            }else if($status == 'update'){
+                $this->Question->missing_updateBatch($storeQuest);
+                $this->session->set_flashdata('succ', 'Successfully updated questions!');
+            }
         }
-        $this->Worksheet->update(['ID_WS' => $param['ID_WS'], 'ISREADY_WS' => '1']);
-        
 
         redirect('admin/question/manage/'.$param['ID_WS']);
     }
