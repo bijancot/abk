@@ -28,12 +28,23 @@ class CourseController extends CI_Controller {
                 echo '<textarea type="text" name="answer[]" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" placeholder="Your Answer" required></textarea>';
             } elseif ($item->TYPEQUESTION_WS == 2) {
                 echo $item->SOAL_MC;
+
+                $resp = explode(';', $item->PILIHAN_MC);
+                echo '<div style="margin-top: -10px;margin-bottom: 25px;">';
+                $i = 0;
+                foreach ($resp as $item2) {
+                    echo '
+                        <div><input type="radio" name="answer_'.$no.'" value="'.$item2.'" required /> '.$this->utils->getChar($i).'. '.$item2.'</div>
+                    ';
+                    $i++;
+                }
+                echo '</div>';
+
                 echo '<input type="hidden" name="id" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->ID_MC.'">';
-                echo '<textarea type="text" name="answer[]" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" placeholder="Your Answer" required></textarea>';
             } elseif ($item->TYPEQUESTION_WS == 3) {
-                echo $item->SOAL_MS;
+                echo str_replace("_", ' <input type="text" style="font-size: 14px;color: #A79086;background-color: #EFE9E8;font-family: Roboto;border-left: 3px solid #A79086;" placeholder="Enter answer" name="answer_'.$no.'[]" /> ', $item->SOAL_MS);
+                
                 echo '<input type="hidden" name="id" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->ID_MS.'">';
-                echo '<textarea type="text" name="answer[]" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" placeholder="Your Answer" required></textarea>';
             }
             $no++;
         }
@@ -46,26 +57,27 @@ class CourseController extends CI_Controller {
     public function submitCourse() {
         $param = $_POST;     
         $store = array();
-        foreach ($param['answer'] as $item) {
-            if($param['TYPEQUESTION_WS'] == 1) {
-                $temp['ID_ES'] = $param['ID_ES'];
-                $temp['EMAIL_MHS'] = $this->session->userdata('EMAIL_MHS');
-                $temp['JAWABAN_ESR'] = $item;
-                array_push($store, $temp);
-            } else if($param['TYPEQUESTION_WS'] == 2) {
+        print_r($param);
+        // foreach ($param['answer'] as $item) {
+        //     if($param['TYPEQUESTION_WS'] == 1) {
+        //         $temp['ID_ES'] = $param['ID_ES'];
+        //         $temp['EMAIL_MHS'] = $this->session->userdata('EMAIL_MHS');
+        //         $temp['JAWABAN_ESR'] = $item;
+        //         array_push($store, $temp);
+        //     } else if($param['TYPEQUESTION_WS'] == 2) {
+        //         print_r($param);
+        //     } else if($param['TYPEQUESTION_WS'] == 3) {
 
-            } else if($param['TYPEQUESTION_WS'] == 3) {
-
-            }
-        }
-        $data = array(
-            'ID_WS' => $param['ID_WS'],
-            'EMAIL_MHS' => $this->session->userdata('EMAIL_MHS'),
-            'STATUS_WSM' => 1,
-            'NPM_MHS' => $this->session->userdata('NPM_MHS')
-        );
-        $this->Course->insertWM($data);
-        $this->Course->insertBatch($store);
-        redirect('course');
+        //     }
+        // }
+        // $data = array(
+        //     'ID_WS' => $param['ID_WS'],
+        //     'EMAIL_MHS' => $this->session->userdata('EMAIL_MHS'),
+        //     'STATUS_WSM' => 1,
+        //     'NPM_MHS' => $this->session->userdata('NPM_MHS')
+        // );
+        // $this->Course->insertWM($data);
+        // $this->Course->insertBatch($store);
+        // redirect('course');
     }
 }
