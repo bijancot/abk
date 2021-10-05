@@ -16729,7 +16729,7 @@ body.verso-agent-touch .verso-os-animation.animated {
 
 .verso-nav-inner {
     position: relative;
-    background-color: rgba(239, 233, 232, 0.9);
+    background-color: "#56cbf9";
 }
 
 .verso-nav-shadow-style-1 .verso-nav-inner:before, .verso-nav-shadow-style-1 .verso-nav-inner:after {
