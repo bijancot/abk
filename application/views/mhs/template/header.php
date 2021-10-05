@@ -11,7 +11,7 @@
     <!-- CSS files -->
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700%7CRoboto:300,300i,400,400i,700,700i" rel="stylesheet">
     <link rel="stylesheet" href="<?= site_url()?>/assets/mhs/css/animate.min.css">
-    <link rel="stylesheet" href="<?= site_url()?>/assets/mhs/css/education-modern.min.css">
+    <link rel="stylesheet" href="<?= site_url()?>/assets/mhs/css/education-modern.css">
     <link rel="stylesheet" href="<?= site_url()?>/assets/mhs/css/custom.css">
 
     <!-- Fav Icons -->
@@ -35,16 +35,9 @@
         <div class="verso-header verso-header-transparent">
 
             <!-- Top Bar -->
-            <div class="verso-topbar verso-topbar-leftright">
+            <div class="verso-topbar verso-topbar-right">
                 <div class="verso-topbar-inner">
                     <div class="verso-topbar-container">
-                        <div class="verso-topbar-col">
-                            <!-- <div class="verso-widget widget_text">
-                                <a class="verso-pr-2" href="about.html">About</a>
-                                <a class="verso-pr-2" href="faq.html">FAQ</a>
-                                <a href="courses-list.html">Courses</a>
-                            </div> -->
-                        </div>
                         <div class="verso-topbar-col">
                             <div class="verso-widget widget_text">
                                 <?php if($this->session->userdata('USER_LOGGED')) { ?>
@@ -61,35 +54,35 @@
             </div>
 
             <!-- Navigation -->
-            <div class="verso-nav verso-nav-sticky verso-nav-layout-logo-l-menu-r">
+            <div class="verso-nav verso-nav-sticky verso-nav-layout-logo-c-menu-lr">
                 <div class="verso-nav-inner">
                     <div class="verso-nav-container">
 
                         <!-- Logo -->
                         <div class="verso-nav-brand">
                             <a href="<?= site_url()?>">
-                                <img src="<?= site_url()?>/assets/mhs/images/education-modern-logo-130x100.png" alt="verso"> Education
+                                <img src="<?= site_url()?>/assets/mhs/images/education-modern-logo-130x100.png" alt="verso"> Spageti
                             </a>
                         </div>
 
                         <!-- Mobile menu toggle button -->
-                        <div class="verso-nav-mobile">
+                        <!-- <div class="verso-nav-mobile">
                             <a id="nav-toggle" href="#">
                                 <span></span>
                             </a>
-                        </div>
+                        </div> -->
 
                         <!-- Menu One -->
-                        <nav class="verso-nav-menu">
+                        <!-- <nav class="verso-nav-menu">
                             <ul class="verso-nav-list">
-                                <!-- <li>
+                                <li>
                                     <a href="<?= site_url()?>">Home</a>
-                                </li> -->
+                                </li>
                                 <li>
                                     <a href="<?= site_url('course')?>">Course</a>
                                 </li>
                             </ul>
-                        </nav>
+                        </nav> -->
                     </div>
                 </div>
                 <?php if ($this->session->tempdata("auth_msg")) { ?>
