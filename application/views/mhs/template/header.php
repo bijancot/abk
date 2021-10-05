@@ -11,7 +11,7 @@
     <!-- CSS files -->
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700%7CRoboto:300,300i,400,400i,700,700i" rel="stylesheet">
     <link rel="stylesheet" href="<?= site_url()?>/assets/mhs/css/animate.min.css">
-    <link rel="stylesheet" href="<?= site_url()?>/assets/mhs/css/education-modern.min.css">
+    <link rel="stylesheet" href="<?= site_url()?>/assets/mhs/css/education-modern.css">
     <link rel="stylesheet" href="<?= site_url()?>/assets/mhs/css/custom.css">
 
     <!-- Fav Icons -->
@@ -19,6 +19,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="<?= site_url()?>/assets/mhs/favicon/favicon-32x32.png">
 
     <link rel="shortcut icon" href="<?= site_url()?>/assets/mhs/favicon/favicon.ico">
+    <script src="<?= site_url()?>/assets/mhs/js/jquery.min.js"></script>
 </head>
 
 <body class="pace-on pace-squares">
@@ -34,30 +35,10 @@
         <div class="verso-header verso-header-transparent">
 
             <!-- Top Bar -->
-            <div class="verso-topbar verso-topbar-leftright">
+            <div class="verso-topbar verso-topbar-right">
                 <div class="verso-topbar-inner">
                     <div class="verso-topbar-container">
                         <div class="verso-topbar-col">
-                            <!-- <div class="verso-widget widget_text">
-                                <a class="verso-pr-2" href="about.html">About</a>
-                                <a class="verso-pr-2" href="faq.html">FAQ</a>
-                                <a href="courses-list.html">Courses</a>
-                            </div> -->
-                        </div>
-                        <div class="verso-topbar-col">
-                            <!-- <div class="verso-widget widget_text">
-                                <div class="verso-icon-set">
-                                    <a class="verso-icon-set-item verso-transition" href="#">
-                                        <i class="fa fa-linkedin"></i>
-                                    </a>
-                                    <a class="verso-icon-set-item verso-transition" href="#">
-                                        <i class="fa fa-facebook"></i>
-                                    </a>
-                                    <a class="verso-icon-set-item verso-transition" href="#">
-                                        <i class="fa fa-twitter"></i>
-                                    </a>
-                                </div>
-                            </div> -->
                             <div class="verso-widget widget_text">
                                 <?php if($this->session->userdata('USER_LOGGED')) { ?>
                                     <a class="verso-pr-2 verso-pl-4"><?= strtok($this->session->userdata('NAMA_MHS'), " ") ?></a>
@@ -73,26 +54,26 @@
             </div>
 
             <!-- Navigation -->
-            <div class="verso-nav verso-nav-sticky verso-nav-layout-logo-l-menu-r">
+            <div class="verso-nav verso-nav-sticky verso-nav-layout-logo-c-menu-lr">
                 <div class="verso-nav-inner">
                     <div class="verso-nav-container">
 
                         <!-- Logo -->
                         <div class="verso-nav-brand">
                             <a href="<?= site_url()?>">
-                                <img src="<?= site_url()?>/assets/mhs/images/education-modern-logo-130x100.png" alt="verso"> Education
+                                <img src="<?= site_url()?>/assets/mhs/images/education-modern-logo-130x100.png" alt="verso"> Spageti
                             </a>
                         </div>
 
                         <!-- Mobile menu toggle button -->
-                        <div class="verso-nav-mobile">
+                        <!-- <div class="verso-nav-mobile">
                             <a id="nav-toggle" href="#">
                                 <span></span>
                             </a>
-                        </div>
+                        </div> -->
 
                         <!-- Menu One -->
-                        <nav class="verso-nav-menu">
+                        <!-- <nav class="verso-nav-menu">
                             <ul class="verso-nav-list">
                                 <li>
                                     <a href="<?= site_url()?>">Home</a>
@@ -101,17 +82,7 @@
                                     <a href="<?= site_url('course')?>">Course</a>
                                 </li>
                             </ul>
-                            <!-- <div class="verso-nav-widget">
-                                <div class="verso-widget">
-                                    <div class="verso-icon-set">
-                                        <a class="verso-icon-set-item verso-transition verso-search-widget-button-open" href="">
-                                            <i class="fa fa-search"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div> -->
-
-                        </nav>
+                        </nav> -->
                     </div>
                 </div>
                 <?php if ($this->session->tempdata("auth_msg")) { ?>

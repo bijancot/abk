@@ -58,7 +58,6 @@ class QuestionController extends CI_Controller {
                 $this->session->set_flashdata('succ', 'Successfully updated questions!');
             }
         }else if($param['TIPE'] == "2"){
-            print_r($param);
             $storeQuest = array();
             for($i = 0; $i < count($param['MULTI_QUESTION']); $i++){
                 if($param['ID_QUEST'][$i] == "kosong"){
@@ -90,10 +89,34 @@ class QuestionController extends CI_Controller {
                 $this->session->set_flashdata('succ', 'Successfully updated questions!');
             }
         }else if($param['TIPE'] == "3"){
-            $storeQuest['ID_WSD']            = $idWSD;
-            $storeQuest['SOAL_MS']           = $param['MISSING_QUESTION'];
-            $storeQuest['KUNCIJAWABAN_MS']   = implode(';', $param['MISSING_RESPONSE']);
-            $this->Question->missing_insert($storeQuest);
+            $storeQuest = array();
+            for($i = 0; $i < count($param['MISSING_QUESTION']); $i++){
+                if($param['ID_QUEST'][$i] == "kosong"){
+                    $status = "insert";
+                    // Insert WSD
+                    $storeWSD['ID_WS'] = $param['ID_WS'];
+                    $idWSD = $this->Worksheet->insert_detail($storeWSD);
+    
+                    $temp['ID_WSD']             = $idWSD;
+                    $temp['SOAL_MS']            = $param['MISSING_QUESTION'][$i];
+                    $temp['KUNCIJAWABAN_MS']    = implode(';', $param['MISSING_RESPONSE_'.$i]);
+                    array_push($storeQuest, $temp);
+                }else{
+                    $status = "update";
+                    $temp['ID_MS']           = $param['ID_QUEST'][$i];
+                    $temp['SOAL_MS']         = $param['MISSING_QUESTION'][$i];
+                    $temp['KUNCIJAWABAN_MS'] = implode(';', $param['MISSING_RESPONSE_'.$i]);
+                    array_push($storeQuest, $temp);
+                }
+            }
+            if($status == 'insert'){
+                $this->Question->missing_insertBatch($storeQuest);
+                $this->Worksheet->update(['ID_WS' => $param['ID_WS'], 'ISREADY_WS' => '1']);
+                $this->session->set_flashdata('succ', 'Successfully inserted questions!');
+            }else if($status == 'update'){
+                $this->Question->missing_updateBatch($storeQuest);
+                $this->session->set_flashdata('succ', 'Successfully updated questions!');
+            }
         }
 
         redirect('admin/question/manage/'.$param['ID_WS']);

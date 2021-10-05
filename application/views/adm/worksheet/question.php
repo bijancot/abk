@@ -77,18 +77,20 @@
                     </div>
                 ';
             }else if($worksheet->TYPEQUESTION_WS == "3"){
+                $idQuest     = !empty($worksheetDetail[$no-1]) ? $worksheetDetail[$no-1]->ID_MS : "kosong";
                 $typeContent = '
                     <div class="form-group mb-3">
                         <label class="form-label" for="">Question <span class="text-danger">*</span></label>
-                        <textarea name="MISSING_QUESTION" id="ckEditor'.$no.'" class="editor"></textarea>
+                        <textarea name="MISSING_QUESTION[]" id="ckEditor'.$no.'" class="editor"></textarea>
                         <span class="text-secondary" style="font-size: 10px;">Use "_" underscores to specify where you would like a blank to appear in the text below</span>
                     </div>
                     <input type="hidden" id="typeMissResp" />
                     <div class="form-group mb-3">
                         <label class="form-label" for="">Responses <span class="text-danger">*</span></label>
-                        <div class="type_missing_content"></div>
+                        <div class="type_missing_content_'.($no-1).'"></div>
                         <span class="text-secondary" style="font-size: 10px;">Students will have to answer in the exact order for the question to be marked as correct</span>
                     </div>
+                    <input class="form-control"  value="'.$idQuest.'" name="ID_QUEST[]" style="width: 30%;" type="hidden" required>
                 ';
             }
 
@@ -329,6 +331,7 @@
 <script>
     let quest = []
     let questFilled = []
+    let missingResp = []
     <?php
         if($worksheetDetail != null){
             for ($i=0; $i < count($worksheetDetail); $i++) { 
@@ -336,11 +339,19 @@
                     echo 'questFilled['.$i.'] = "'.$worksheetDetail[$i]->SOAL_ES.'";';
                 }else if($worksheetDetail[$i]->TYPEQUESTION_WS == '2'){
                     echo 'questFilled['.$i.'] = "'.$worksheetDetail[$i]->SOAL_MC.'";';
+                }else if($worksheetDetail[$i]->TYPEQUESTION_WS == '3'){
+                    echo 'questFilled['.$i.'] = "'.$worksheetDetail[$i]->SOAL_MS.'";';
+                    
+                    echo 'missingResp['.$i.'] = [';
+                        $resp = explode(';', $worksheetDetail[$i]->KUNCIJAWABAN_MS);
+                        for($x = 0; $x < count($resp); $x++) {
+                            echo '{resp: "'.$resp[$x].'"},';
+                        }
+                    echo '];';
                 }
             }
         }
     ?>
-
     $(document).ready(function(){
         const totalQuest = '<?= $worksheet->TOTALQUESTION_WS;?>'
         var allEditors = document.querySelectorAll('.editor');
@@ -350,17 +361,49 @@
                 .create(allEditors[i])
                 .then(editor => {
                     quest.push(editor)
+                    
                 })
                 .finally(() => {
                     let x = 0
                     for(const item of quest){
                         if(questFilled[x] != null || questFilled[x] != undefined){
                             item.setData(questFilled[x])
+                            
+                            // const type = "<?= $worksheet->TYPEQUESTION_WS?>"
+                            // if(type == "3"){
+                            //     $(".type_missing_content_"+x).html(questFilled[x].split("_").join(` <input class="typeMiss_resp_${x}" style="border: 1px solid #ced4da;border-radius: .25rem;padding: 5px;" placeholder="Enter Answer" type="text" name="MISSING_RESPONSE_${x}[]" required /> `))
+
+                            //     let inputMissResp = $(`.typeMiss_resp_${x}`)
+                            //     for(let i = 0; i < missingResp.length; i++){
+                            //         for(const item of missingResp[i]){
+                            //             inputMissResp[i].val(item.resp)
+                            //             console.log(inputMissResp.find('input')[i].val(item.resp))
+                            //             inputMissResp[0].val("Ilham")
+                            //             console.log(inputMissResp[0])
+                            //         }
+                            //     }
+                            // }
                         }
                         x++
                     }
+
+                    // missing sentence config
+                    <?php
+                        for ($i=0; $i < $worksheet->TOTALQUESTION_WS; $i++) { 
+                            if($worksheet->TYPEQUESTION_WS == '3'){
+                                echo '
+                                    quest['.$i.'].editing.view.document.on( "keyup", ( evt, data ) => {
+                                        let text = quest['.$i.'].getData()
+                                        $(".type_missing_content_"+'.$i.').html(text.split("_").join(` <input class="typeMiss_resp_${i}" style="border: 1px solid #ced4da;border-radius: .25rem;padding: 5px;" placeholder="Enter Answer" type="text" name="MISSING_RESPONSE_'.$i.'[]" required /> `))
+                                    });
+                                ';
+                            }
+                        }
+                    ?>
+                    
                 })
         }
+
         
     })
     $('#btn-save').click(function(){

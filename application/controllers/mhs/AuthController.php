@@ -8,6 +8,12 @@ class AuthController extends CI_Controller {
     // public function VLogin(){
     //     echo 'ilham';
     // }
+    public function index() {
+        $this->load->view('mhs/auth/login');
+    }
+    public function register() {
+        $this->load->view('mhs/auth/register');
+    }
     public function proses_register() {
         $this->form_validation->set_rules('name','Name','trim|required');
         $this->form_validation->set_rules('npm','NPM','trim|required|is_unique[mahasiswa.NPM_MHS]');
@@ -36,11 +42,11 @@ class AuthController extends CI_Controller {
             $this->session->set_tempdata('auth_msg', 'Register Successfully', 5);
 
             //Redirect to pages
-            redirect();
+            redirect('login');
         } else {
             //Create Message
             $this->session->set_tempdata('failed_auth_msg', validation_errors(), 5);
-            redirect();
+            redirect('register');
         }
     }
     public function proses_login() {
@@ -68,12 +74,12 @@ class AuthController extends CI_Controller {
                 redirect('course');
             } else {
                 $this->session->set_tempdata('failed_auth_msg', 'Login Failed, Email or Password is incorrect!', 5);
-                redirect();
+                redirect('login');
             }
         } else {
             //Create Message
             $this->session->set_tempdata('failed_auth_msg', validation_errors(), 5);
-            redirect();
+            redirect('login');
         }
     }
     public function proses_logout() {
