@@ -19,11 +19,11 @@ class Question extends CI_Model{
     public function multiple_get($param){
         return $this->db->get_where('multiple_choice', ['ID_WSD' => $param['ID_WSD']])->row();
     }
-    public function multiple_insert($param){
-        $this->db->insert('multiple_choice', $param);
+    public function multiple_insertBatch($param){
+        $this->db->insert_batch('multiple_choice', $param);
     }
-    public function multiple_update($param){
-        $this->db->where('ID_MC', $param['ID_MC'])->update('multiple_choice', $param);
+    public function multiple_updateBatch($param){
+        $this->db->update_batch('multiple_choice', $param, 'ID_MC');
     }
     public function missing_get($param){
         return $this->db->get_where('missing_sentence', ['ID_WSD' => $param['ID_WSD']])->row();

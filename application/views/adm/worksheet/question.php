@@ -23,6 +23,7 @@
         </div>
     </div>
     <?php
+        $countMC = 1;
         for($no = 1; $no <= $worksheet->TOTALQUESTION_WS; $no++) {
             if($worksheet->TYPEQUESTION_WS == "1"){
                 $grade = !empty($worksheetDetail[$no-1]) ? $worksheetDetail[$no-1]->GRADE_ES : "";
@@ -40,47 +41,38 @@
                     <input class="form-control"  value="'.$idQuest.'" name="ID_QUEST[]" style="width: 30%;" type="hidden" required>
                 ';
             }else if($worksheet->TYPEQUESTION_WS == "2"){
-                $idQuest = !empty($worksheetDetail[$no-1]) ? $worksheetDetail[$no-1]->ID_MC : "kosong";
-                $tempResp = $no-1;
-
+                $idQuest     = !empty($worksheetDetail[$no-1]) ? $worksheetDetail[$no-1]->ID_MC : "kosong";
+                $multiResp   = !empty($worksheetDetail[$no-1]) ? explode(';', $worksheetDetail[$no-1]->PILIHAN_MC) : "";
+                $rightAns    = !empty($worksheetDetail[$no-1]) ? $worksheetDetail[$no-1]->KUNCIJAWABAN_MC : "kosong";
+                $tempResp    = $no-1;
+                
                 $typeContent = '
+                <div class="form-group mb-3">
                     <div class="form-group mb-3">
-                        <div class="form-group mb-3">
-                            <label class="form-label" for="">Question <span class="text-danger">*</span></label>
-                            <textarea id="ckEditor'.$no.'" class="editor" name="MULTI_QUESTION[]" required></textarea>
-                        </div>
-                        
-                        <label class="form-label" for="">Response <span class="text-danger">*</span></label>
-                        <div class="type_multiple_content" style="margin-bottom: -10px;">
-                            <div class="input-group mb-3 type_multiple_input" id="type_multiple_content_1">
-                                <input class="form-control" data-item="'.$tempResp.'" onkeypress="" name="MULTI_RESPONSE_'.$tempResp.'[]" type="text" required>
-                                <div class="input-group-text">
-                                    <input class="form-check-input" type="radio" value="tes" name="MULTI_RIGHTANS_'.$tempResp.'[]" required>
-                                </div>
-                            </div>
-                            <div class="input-group mb-3 type_multiple_input" id="type_multiple_content_2">
-                                <input class="form-control" name="MULTI_RESPONSE_'.$tempResp.'[] type="text" required>
-                                <div class="input-group-text">
-                                    <input class="form-check-input" type="radio" value="" name="MULTI_RIGHTANS_'.$tempResp.'[]" required>
-                                </div>
-                            </div>
-                            <div class="input-group mb-3 type_multiple_input" id="type_multiple_content_3">
-                                <input class="form-control" name="MULTI_RESPONSE_'.$tempResp.'[] type="text" required>
-                                <div class="input-group-text">
-                                    <input class="form-check-input" type="radio" value="" name="MULTI_RIGHTANS_'.$tempResp.'[]" required>
-                                </div>
-                            </div>
-                            <div class="input-group mb-3 type_multiple_input" id="type_multiple_content_3">
-                                <input class="form-control" name="MULTI_RESPONSE_'.$tempResp.'[] type="text" required>
-                                <div class="input-group-text">
-                                    <input class="form-check-input" type="radio" value="" name="MULTI_RIGHTANS_'.$tempResp.'[]" required>
-                                </div>
+                        <label class="form-label" for="">Question <span class="text-danger">*</span></label>
+                        <textarea id="ckEditor'.$no.'" class="editor" name="MULTI_QUESTION[]" required></textarea>
+                    </div>
+
+                    <label class="form-label" for="">Response <span class="text-danger">*</span></label>
+                    <div class="type_multiple_content" style="margin-bottom: -10px;">
+                ';
+
+                for($x = 0; $x < 4; $x++){
+                    $resp = !empty($multiResp[$x]) && $multiResp[$x] != "" ? $multiResp[$x] : "";
+                    $checked = $resp == $rightAns ? "checked" : "";
+                    $typeContent .= '
+                        <div class="input-group mb-3 type_multiple_input" id="type_multiple_content_1">
+                            <input class="form-control" value="'.$resp.'" id="textResp_'.$countMC.'" onkeyup="keyPressMC('.$countMC.')" name="MULTI_RESPONSE_'.$tempResp.'[]" type="text" required>
+                            <div class="input-group-text">
+                                <input class="form-check-input" value="'.$resp.'" type="radio" id="radResp_'.$countMC.'" name="MULTI_RIGHTANS_'.$tempResp.'" '.$checked.' required>
                             </div>
                         </div>
-                        <div class="form-check form-switch" style="margin-top: 20px;">
-                            <input class="form-check-input" name="MULTI_ISRANDOM[]" type="checkbox" id="randomResponse">
-                            <label class="form-check-label" for="flexSwitchCheckChecked">Random Response</label>
-                            <input class="form-control"  value="'.$idQuest.'" name="ID_QUEST[]" style="width: 30%;" type="hidden" required>
+                    ';
+                    $countMC++;
+                }
+
+                $typeContent .= '
+                        <input class="form-control"  value="'.$idQuest.'" name="ID_QUEST[]" style="width: 30%;" type="hidden" required>
                         </div>
                     </div>
                 ';
@@ -342,6 +334,8 @@
             for ($i=0; $i < count($worksheetDetail); $i++) { 
                 if($worksheetDetail[$i]->TYPEQUESTION_WS == '1'){
                     echo 'questFilled['.$i.'] = "'.$worksheetDetail[$i]->SOAL_ES.'";';
+                }else if($worksheetDetail[$i]->TYPEQUESTION_WS == '2'){
+                    echo 'questFilled['.$i.'] = "'.$worksheetDetail[$i]->SOAL_MC.'";';
                 }
             }
         }
@@ -387,6 +381,10 @@
         }
         // }
     })
+    const keyPressMC = idResp => {
+        const val = $(`#textResp_${idResp}`).val()
+        $(`#radResp_${idResp}`).val(val)
+    } 
     // Number only input
     function isNumberKey(evt) {
         var charCode = (evt.which) ? evt.which : event.keyCode
