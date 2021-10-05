@@ -24397,7 +24397,8 @@ body.verso-agent-touch .verso-os-animation.animated {
 }
 
 .verso-demo-bg-image-01 {
-    background-image: url(../images/education-modern-bg-01-1600x4000-notinclude.jpg);
+    /* background-image: url(../images/education-modern-bg-01-1600x4000-notinclude.jpg); */
+    background: #E5E5E5;
 }
 
 .verso-demo-bg-gradient-01 {

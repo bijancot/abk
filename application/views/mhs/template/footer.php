@@ -1,6 +1,6 @@
  <!-- Footer -->
 
- <footer class="verso-footer">
+ <!-- <footer class="verso-footer">
             <div class="section verso-py-9">
                 <div class="section-content">
                     <div class="container">
@@ -121,7 +121,7 @@
                     </div>
                 </div>
             </div>
-        </footer>
+        </footer> -->
 
         <a href="#" class="verso-go-top verso-shadow-10 verso-shadow-hover-15 d-none d-sm-block hide">
             <i class="fa fa-angle-up"></i>
@@ -132,7 +132,7 @@
 
     </div>
 
-    <div class="verso-search-widget-container">
+    <!-- <div class="verso-search-widget-container">
         <button class="verso-search-widget-button-close">
             <i class="fa fa-close"></i>
         </button>
@@ -140,7 +140,7 @@
             <input class="verso-search-widget-input" name="search" type="search" spellcheck="false" />
             <span class="verso-search-widget-info">Hit enter to search or ESC to close</span>
         </form>
-    </div>
+    </div> -->
 
     <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">

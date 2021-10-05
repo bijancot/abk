@@ -7,3 +7,16 @@ div.alert {
 input#signin, input#signup {
     background: #0D3B66;
 }
+div.verso-nav {
+    background: #56CBF9;
+}
+.card-title, .card-body {
+    color: black;
+    background: white;
+}
+div.embed-responsive {
+    background: #E5E5E5;
+}
+h2 {
+    color: black;
+}
