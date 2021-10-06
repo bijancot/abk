@@ -24,9 +24,9 @@ class CourseController extends CI_Controller {
         foreach ($data as $item) {
             $htmlQuestion .= "<h5>Question ".$no."</h5>";
             if($item->TYPEQUESTION_WS == 1){
-                $htmlQuestion .= $this->questEssay($item, $status);
+                $htmlQuestion .= $this->questEssay($item, $status, $idWSM);
             }else if($item->TYPEQUESTION_WS == 2){
-                $htmlQuestion .= $this->questMulti($item, $status);
+                $htmlQuestion .= $this->questMulti($item, $status, $no);
             }else if($item->TYPEQUESTION_WS == 3){
 
             }
@@ -74,16 +74,22 @@ class CourseController extends CI_Controller {
         //     </form>
         // ';
     }
-    public function questEssay($item, $status){
-        $statusDisabled = $status != "0" ? "disabled" : "";
+    public function questEssay($item, $status, $idWSM){
+        $ansES = "";
+        if($status != "0"){
+            $statusDisabled = "disabled";
+            $ansES = $this->Worksheet->get_essRes(['ID_WSM' => $idWSM, 'ID_ES' => $item->ID_ES])->JAWABAN_ESR;
+        }else{
+            $statusDisabled = "";
+        }
         return '
                 '.$item->SOAL_ES.'
-                <input '.$statusDisabled.' type="hidden" name="ID_ES" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->ID_ES.'">
+                <textarea '.$statusDisabled.' type="text" name="answer[]" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" placeholder="Your Answer" required>'.$ansES.'</textarea>
                 <input '.$statusDisabled.' type="hidden" name="TYPEQUESTION_WS" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->TYPEQUESTION_WS.'">
-                <textarea '.$statusDisabled.' type="text" name="answer[]" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" placeholder="Your Answer" required></textarea>
+                <input '.$statusDisabled.' type="hidden" name="ID_QUEST[]" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->ID_ES.'">
         ';
     }
-    public function questMulti($item, $status){
+    public function questMulti($item, $status, $no){
         $statusDisabled = $status != "0" ? "disabled" : "";
         $html = '
             '.$item->SOAL_MC.'
@@ -98,7 +104,10 @@ class CourseController extends CI_Controller {
             ';
             $i++;
         }
-        $html .= '</div>';
+        $html .= '
+            </div>
+            <input '.$statusDisabled.' type="hidden" name="TYPEQUESTION_WS" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->TYPEQUESTION_WS.'">
+        ';
 
         return $html;
     }
@@ -111,6 +120,7 @@ class CourseController extends CI_Controller {
             ';
         }else if($status == "0"){
             return '
+                <input type="hidden" name="ID_WSM" value="'.$idWSM.'" />
                 <button type="submit" class="btn btn-primary verso-shadow-2">Submit</button>
             ';
         }else if($status == "3"){
@@ -141,13 +151,32 @@ class CourseController extends CI_Controller {
         redirect('course');
     }
     public function submitCourse() {
-        $param = $_POST;     
+        $param = $_POST;
+        // print_r($param['ID_QUEST'][0]);
+        if($param['TYPEQUESTION_WS'] == "1"){
+            $wsmd['ID_WSM']      = $param['ID_WSM'];
+            $wsmd['STATUS_WSMD'] = '0';
+            $idWSMD = $this->Worksheet->insert_wsmd($wsmd);
+
+            for ($i=0; $i < count($param['ID_QUEST']); $i++) { 
+                $essRes['ID_WSMD']      = $idWSMD;
+                $essRes['ID_ES']        = $param['ID_QUEST'][$i];
+                $essRes['EMAIL_MHS']    = $this->session->userdata('EMAIL_MHS');
+                $essRes['JAWABAN_ESR']  = $param['answer'][$i];
+                $this->Worksheet->insert_essRes($essRes);
+            }
+            
+            $wsm['ID_WSM'] = $param['ID_WSM'];
+            $wsm['STATUS_WSM'] = '1';
+            $this->Worksheet->update_mahasiswa($wsm);
+        }
+        // print_r($param);
         
-        $storeWM['ID_WS']       = $param['ID_WS'];
-        $storeWM['EMAIL_MHS']   = $this->session->userdata('EMAIL_MHS');
-        $storeWM['NPM_MHS']     = $this->session->userdata('NPM_MHS');
-        $storeWM['STATUS_WSM']  = "0";
-        $this->Course->insertWM($storeWM);
+        // $storeWM['ID_WS']       = $param['ID_WS'];
+        // $storeWM['EMAIL_MHS']   = $this->session->userdata('EMAIL_MHS');
+        // $storeWM['NPM_MHS']     = $this->session->userdata('NPM_MHS');
+        // $storeWM['STATUS_WSM']  = "0";
+        // $this->Course->insertWM($storeWM);
 
         
         // $this->db->insert();
@@ -172,6 +201,6 @@ class CourseController extends CI_Controller {
         // );
         // $this->Course->insertWM($data);
         // $this->Course->insertBatch($store);
-        // redirect('course');
+        redirect('course');
     }
 }
