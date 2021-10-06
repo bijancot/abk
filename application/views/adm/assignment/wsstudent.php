@@ -37,8 +37,8 @@
                                         $status = '-';
                                         foreach ($score as $items){
                                             if($item->NPM_MHS == $items->NPM_MHS){
-                                                $nilai = $items->NILAI_WSM;
-                                                $catatan = $items->CATATAN_WSM;
+                                                $nilai = $items->SCOREFINAL_WSM;
+                                                //$catatan = $items->CATATAN_WSM;
                                                 $status = $items->STATUS_WSM;
                                                 
                                                 if($status == 0){
@@ -56,7 +56,7 @@
                                                 <td>'.$item->NPM_MHS.'</td>
                                                 <td>'.$item->NAMA_MHS.'</td>
                                                 <td>'.$nilai.'</td>
-                                                <td>'.$catatan.'</td>
+                                                <td>-</td>
                                                 <td>'.$status.'</td>
                                                 <td>
                                                     <div class="table-actions d-flex align-items-center gap-3 fs-6">

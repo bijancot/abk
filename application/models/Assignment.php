@@ -26,12 +26,12 @@ class Assignment extends CI_Model{
         return $result->row()->C_WS;
     }
     public function getScore($param){
-        $sql = "SELECT wm.NILAI_WSM, wm.CATATAN_WSM, wm.STATUS_WSM,wm.NPM_MHS FROM worksheet_mahasiswa wm , mahasiswa m 
+        $sql = "SELECT wm.SCOREFINAL_WSM, wm.STATUS_WSM, wm.NPM_MHS FROM worksheet_mahasiswa wm , mahasiswa m 
         WHERE wm.NPM_MHS = m.NPM_MHS AND wm.ID_WS = $param";
         return $this->db->query($sql)->result();
     }
     public function getStudentScore($param){
-        $sql = "SELECT wm.ID_WS, wm.NILAI_WSM, wm.CATATAN_WSM, wm.STATUS_WSM,wm.NPM_MHS FROM worksheet_mahasiswa wm , mahasiswa m 
+        $sql = "SELECT wm.ID_WS, wm.SCOREFINAL_WSM, wm.STATUS_WSM, wm.NPM_MHS FROM worksheet_mahasiswa wm , mahasiswa m 
         WHERE wm.NPM_MHS = m.NPM_MHS 
         AND wm.NPM_MHS = $param";
         return $this->db->query($sql)->result();

@@ -64,28 +64,34 @@
                                                 <input type="text" class="form-control radius-10"style="width:70px;
                                                 font-size:14px;text-align:center;margin-top:5px;" placeholder="Score">
                                                 <span style="font-size:12px;color:#bbbbbb;"> Max Score : '.$items->GRADE_ES.'</span>
-                                            </div><br>
+                                            </div>
                                             ';
                                         $no++;
                                     } 
-                                    echo'     
-                                        <hr>                              
-                                        <div style="text-align: left;">
-                                        <button id="btn-save" class="btn btn-success btn-sm">Submit</button>
-                                        </div>
-                                    ';
                                 }else{
                                     foreach ($questions as $items) {
                                         $text = str_replace("<p>", "", $items->SOAL);
                                         echo '
-                                            <div>
-                                                <span><b>'.$no.'. '.$text.'</b>Answer</span>
-                                            </div><br>
-                                            ';
+                                        <div>
+                                        <span><b>'.$no.'. '.$text.'</b>Answer</span>
+                                        </div><br>
+                                        ';
                                         $no++;
                                     }
                                 }                                
-                            ?>
+                                echo'     
+                                    <hr>       
+                                    <div>
+                                        <span><b>Feedback</b></span>
+                                        <textarea class="form-control radius-10" rows="3" style="width:500px;
+                                        font-size:14px; margin-top: 10px;" placeholder=""></textarea>
+                                    </div>
+                                    <br>
+                                    <div style="text-align: left;">
+                                    <button id="btn-save" class="btn btn-success btn-sm">Submit</button>
+                                    </div>
+                                ';
+                                ?>
                         </div>
                     </form>
                 </div>

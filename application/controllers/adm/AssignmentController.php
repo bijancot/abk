@@ -63,4 +63,9 @@ class AssignmentController extends CI_Controller {
 
         $this->template->admin('adm/assignment/wsdetail', $data);
     }
+
+    public function insert()
+    {
+        # code...
+    }
 }

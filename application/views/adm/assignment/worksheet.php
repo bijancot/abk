@@ -46,8 +46,8 @@
 
                                         foreach ($ws_mhs as $items){
                                             if($item->ID_WS == $items->ID_WS){
-                                                $nilai = $items->NILAI_WSM;
-                                                $catatan = $items->CATATAN_WSM;
+                                                $nilai = $items->SCOREFINAL_WSM;
+                                                //$catatan = $items->CATATAN_WSM;
                                                 $status = $items->STATUS_WSM;
 
                                                                                            
@@ -66,7 +66,7 @@
                                                 <td>'.$item->NAMA_WS.'</td>
                                                 <td>'.$type.'</td>
                                                 <td>'.$nilai.'</td>
-                                                <td>'.$catatan.'</td>
+                                                <td>-</td>
                                                 <td>'.$status.'</td>
                                                 <td>
                                                     <div class="table-actions d-flex align-items-center gap-3 fs-6">
