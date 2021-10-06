@@ -26,7 +26,7 @@ class CourseController extends CI_Controller {
             if($item->TYPEQUESTION_WS == 1){
                 $htmlQuestion .= $this->questEssay($item, $status, $idWSM);
             }else if($item->TYPEQUESTION_WS == 2){
-                $htmlQuestion .= $this->questMulti($item, $status, $no);
+                $htmlQuestion .= $this->questMulti($item, $status, $no-1, $idWSM);
             }else if($item->TYPEQUESTION_WS == 3){
 
             }
@@ -82,6 +82,7 @@ class CourseController extends CI_Controller {
         }else{
             $statusDisabled = "";
         }
+
         return '
                 '.$item->SOAL_ES.'
                 <textarea '.$statusDisabled.' type="text" name="answer[]" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" placeholder="Your Answer" required>'.$ansES.'</textarea>
@@ -89,8 +90,15 @@ class CourseController extends CI_Controller {
                 <input '.$statusDisabled.' type="hidden" name="ID_QUEST[]" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->ID_ES.'">
         ';
     }
-    public function questMulti($item, $status, $no){
-        $statusDisabled = $status != "0" ? "disabled" : "";
+    public function questMulti($item, $status, $no, $idWSM){
+        $ansMC = "";
+        if($status != "0"){
+            $statusDisabled = "disabled";
+            $ansMC = $this->Worksheet->get_mcRes(['ID_WSM' => $idWSM, 'ID_MC' => $item->ID_MC])->JAWABAN_MCR;
+        }else{
+            $statusDisabled = "";
+        }
+
         $html = '
             '.$item->SOAL_MC.'
             <div style="margin-top: -10px;margin-bottom: 25px;">
@@ -99,14 +107,17 @@ class CourseController extends CI_Controller {
         $resp = explode(';', $item->PILIHAN_MC);
         $i = 0;
         foreach ($resp as $item2) {
+            $isChecked = $ansMC == $item2 ? "checked" : "";
             $html .= '
-                <div><input '.$statusDisabled.' type="radio" name="answer_'.$no.'" value="'.$item2.'" required /> '.$this->utils->getChar($i).'. '.$item2.'</div>
+                <div><input '.$statusDisabled.' '.$isChecked.' type="radio" name="answer_'.$no.'" value="'.$item2.'" required /> '.$this->utils->getChar($i).'. '.$item2.'</div>
             ';
             $i++;
         }
         $html .= '
             </div>
             <input '.$statusDisabled.' type="hidden" name="TYPEQUESTION_WS" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->TYPEQUESTION_WS.'">
+            <input '.$statusDisabled.' type="hidden" name="ID_QUEST[]" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->ID_MC.'">
+            <input '.$statusDisabled.' type="hidden" name="PASSGRADE_WS" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->PASSGRADE_WS.'">
         ';
 
         return $html;
@@ -152,7 +163,6 @@ class CourseController extends CI_Controller {
     }
     public function submitCourse() {
         $param = $_POST;
-        // print_r($param['ID_QUEST'][0]);
         if($param['TYPEQUESTION_WS'] == "1"){
             $wsmd['ID_WSM']      = $param['ID_WSM'];
             $wsmd['STATUS_WSMD'] = '0';
@@ -169,38 +179,40 @@ class CourseController extends CI_Controller {
             $wsm['ID_WSM'] = $param['ID_WSM'];
             $wsm['STATUS_WSM'] = '1';
             $this->Worksheet->update_mahasiswa($wsm);
+        }else if($param['TYPEQUESTION_WS'] == "2"){
+            $grade = $this->essGrading($param);
+
+            $wsmd['ID_WSM']      = $param['ID_WSM'];
+            $wsmd['SCORE_WSMD']  = $grade;
+            $wsmd['STATUS_WSMD'] = $grade >= $param['PASSGRADE_WS'] ? '1' : '2';
+            $idWSMD = $this->Worksheet->insert_wsmd($wsmd);
+
+            for ($i=0; $i < count($param['ID_QUEST']); $i++) { 
+                $mcRes['ID_WSMD']      = $idWSMD;
+                $mcRes['ID_MC']        = $param['ID_QUEST'][$i];
+                $mcRes['EMAIL_MHS']    = $this->session->userdata('EMAIL_MHS');
+                $mcRes['JAWABAN_MCR']  = $param['answer_'.$i];
+                $this->Worksheet->insert_mcRes($mcRes);
+            }
+            
+            $wsm['ID_WSM']          = $param['ID_WSM'];
+            $wsm['SCOREFINAL_WSM']  = $grade;
+            $wsm['STATUS_WSM']      = $grade >= $param['PASSGRADE_WS'] ? '2' : '3';
+            $this->Worksheet->update_mahasiswa($wsm);
         }
-        // print_r($param);
-        
-        // $storeWM['ID_WS']       = $param['ID_WS'];
-        // $storeWM['EMAIL_MHS']   = $this->session->userdata('EMAIL_MHS');
-        // $storeWM['NPM_MHS']     = $this->session->userdata('NPM_MHS');
-        // $storeWM['STATUS_WSM']  = "0";
-        // $this->Course->insertWM($storeWM);
-
-        
-        // $this->db->insert();
-        
-        // foreach ($param['answer'] as $item) {
-        //     if($param['TYPEQUESTION_WS'] == 1) {
-        //         $temp['ID_ES'] = $param['ID_ES'];
-        //         $temp['EMAIL_MHS'] = $this->session->userdata('EMAIL_MHS');
-        //         $temp['JAWABAN_ESR'] = $item;
-        //         array_push($store, $temp);
-        //     } else if($param['TYPEQUESTION_WS'] == 2) {
-        //         print_r($param);
-        //     } else if($param['TYPEQUESTION_WS'] == 3) {
-
-        //     }
-        // }
-        // $data = array(
-        //     'ID_WS' => $param['ID_WS'],
-        //     'EMAIL_MHS' => $this->session->userdata('EMAIL_MHS'),
-        //     'STATUS_WSM' => 1,
-        //     'NPM_MHS' => $this->session->userdata('NPM_MHS')
-        // );
-        // $this->Course->insertWM($data);
-        // $this->Course->insertBatch($store);
         redirect('course');
+    }
+    public function essGrading($param){
+        $countQuest = count($param['ID_QUEST']);
+        $wrongQuest = 0;
+
+        for($i = 0; $i < $countQuest; $i++){
+            $rightAns = $this->Worksheet->get_mc(['ID_MC' => $param['ID_QUEST'][$i]]);
+            if($rightAns->KUNCIJAWABAN_MC != $param['answer_'.$i]){
+                ++$wrongQuest;
+            }
+        }
+        $rightQuest = $countQuest - $wrongQuest;
+        return (int)(($rightQuest/$countQuest) * 100);
     }
 }

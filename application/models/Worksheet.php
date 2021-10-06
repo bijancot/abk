@@ -56,8 +56,31 @@ class Worksheet extends CI_Model{
             LIMIT 1        
         ")->row();
     }
+    
     public function insert_essRes($param){
         $this->db->insert('essay_result', $param);
+    }
+    public function get_mc($param){
+        return $this->db->get_where('multiple_choice', ['ID_MC' => $param['ID_MC']])->row();
+    }
+    public function get_mcRes($param){
+        return $this->db->query("
+            SELECT *
+            FROM multiple_choice_result mcr 
+            WHERE 
+                mcr.ID_MC = ".$param['ID_MC']."
+                AND mcr.ID_WSMD IN (
+                    SELECT wmd.ID_WSMD 
+                    FROM worksheet_mahasiswa_detail wmd 
+                    WHERE wmd.ID_WSM = ".$param['ID_WSM']."
+                    ORDER by wmd.created_at DESC
+                )
+            ORDER BY mcr.created_at DESC 
+            LIMIT 1        
+        ")->row();
+    }
+    public function insert_mcRes($param){
+        $this->db->insert('multiple_choice_result', $param);
     }
     public function checkPosition($param){
         return $this->db->query("

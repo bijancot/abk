@@ -32,7 +32,7 @@
                         <div id="accordion">
                             <?php 
                                 if($this->session->userdata('USER_LOGGED')) {
-                                    $isTestFirst    = false;
+                                    $isTestFirst    = true;
                                     $statusAllowed  = 'cursor: pointer;';
                                     foreach ($courses as $item) {
                                         $statusWSM  = $item->STATUS_WSM != null ? $item->STATUS_WSM : "kosong";
@@ -48,13 +48,15 @@
                                         // Check Status
                                         if($item->STATUS_WSM == "0"){
                                             $status = '<div style="float: right;background: #FFE66D;padding: 3px 10px;color: white;border-radius: 15px;font-weight: 600;">In Progress</div>';
+                                            $isTestFirst = false;
                                         }else if($item->STATUS_WSM == "1"){
                                             $status = '<div style="float: right;background: #56CBF9;padding: 3px 10px;color: #fff;border-radius: 15px;font-weight: 600;">Waiting For Response</div>';
+                                            $isTestFirst = false;
                                         }else if($item->STATUS_WSM == "2"){
                                             $status = '<div style="float: right;background: #27ae60;padding: 3px 10px;color: #fff;border-radius: 15px;font-weight: 600;">Passed</div>';
-                                            $isTestFirst = true;
                                         }else if($item->STATUS_WSM == "3"){
                                             $status = '<div style="float: right;background: #e74c3c;padding: 3px 10px;color: #fff;border-radius: 15px;font-weight: 600;">Failed</div>';
+                                            $isTestFirst = false;
                                         }else{
                                             if($isTestFirst == true){
                                                 $status = '<div style="float: right;background: #F0803C;padding: 3px 10px;color: white;border-radius: 15px;font-weight: 600;">Take Test</div>';
