@@ -54,13 +54,14 @@ class AssignmentController extends CI_Controller {
         $data['questions'] = '';
 
         if($tipe == 1){
-            $data['questions']  = $this->Assignment->getQuestionES($wsid);
+            // $data['questions']  = $this->Assignment->getQuestionES($wsid);
+            $data['attempts'] = $this->Assignment->getAttempts($npm, $wsid);
+            $data['essay'] = $this->Assignment->getES($npm, $wsid);
         }else if($tipe == 2){
             $data['questions']  = $this->Assignment->getQuestionMC($wsid);
         }else{
             $data['questions']  = $this->Assignment->getQuestionMS($wsid);
         }
-
         $this->template->admin('adm/assignment/wsdetail', $data);
     }
 

@@ -57,4 +57,24 @@ class Assignment extends CI_Model{
         AND w.ID_WS = $param";
         return $this->db->query($sql)->result();
     }
+    public function getAttempts($npm_mhs, $id_ws) {
+        $sql = "SELECT * FROM worksheet w
+        LEFT JOIN worksheet_mahasiswa wm on w.ID_WS = wm.ID_WS
+        LEFT JOIN worksheet_mahasiswa_detail wmd on wm.ID_WSM = wmd.ID_WSM
+        WHERE w.ISPUBLISHED_WS = 1
+          and w.deleted_at is null
+          and wm.NPM_MHS = $npm_mhs
+          and w.ID_WS = $id_ws";
+        return $this->db->query($sql)->result();
+    }
+    public function getES($npm_mhs, $id_ws) {
+        $sql = "SELECT *
+        FROM essay e
+        LEFT JOIN essay_result er on e.ID_ES = er.ID_ES
+        LEFT JOIN worksheet_mahasiswa_detail wmd on er.ID_WSMD = wmd.ID_WSMD
+        LEFT JOIN worksheet_mahasiswa wm on wmd.ID_WSM = wm.ID_WSM
+        LEFT JOIN worksheet w on wm.ID_WS = w.ID_WS
+        WHERE wm.NPM_MHS = $npm_mhs and wm.ID_WS = $id_ws or er.ID_ESR is null";
+        return $this->db->query($sql)->result();
+    }
 }
