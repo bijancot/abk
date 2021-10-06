@@ -30,6 +30,9 @@ class Worksheet extends CI_Model{
     public function update($param){
         $this->db->where('ID_WS', $param['ID_WS'])->update('worksheet', $param);
     }
+    public function update_mahasiswa($param){
+        $this->db->where('ID_WSM', $param['ID_WSM'])->update('worksheet_mahasiswa', $param);
+    }
     public function update_Detail($param){
         $this->db->where('ID_WSD', $param['ID_WSD'])->update('worksheet_detail', $param);
     }

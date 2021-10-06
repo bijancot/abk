@@ -4,6 +4,7 @@ class CourseController extends CI_Controller {
     public function __construct(){
         parent::__construct();
         $this->load->model('Course');
+        $this->load->model('Worksheet');
         if (empty($this->session->userdata('USER_LOGGED'))) {
 			redirect();
 		};
@@ -15,45 +16,129 @@ class CourseController extends CI_Controller {
         $data['courses']            = $this->Course->getAll($email);
         $this->template->mahasiswa('mhs/course/course', $data);
     }
-    public function getQuestion($id) {
+    public function getQuestion($id, $idWSM, $status) {
+        $htmlQuestion = "";
         $data = $this->Course->getQuestionbyID($id);
-        echo '
-            <form action="'.site_url('course/submit').'" method="post">';
-            $no = 1;
+
+        $no = 1;
         foreach ($data as $item) {
-            echo "<h5>Question ".$no."</h5>";
-            if ($item->TYPEQUESTION_WS == 1) {
-                echo $item->SOAL_ES;
-                echo '<input type="hidden" name="ID_ES" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->ID_ES.'">';
-                echo '<input type="hidden" name="TYPEQUESTION_WS" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->TYPEQUESTION_WS.'">';
-                echo '<textarea type="text" name="answer[]" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" placeholder="Your Answer" required></textarea>';
-            } elseif ($item->TYPEQUESTION_WS == 2) {
-                echo $item->SOAL_MC;
+            $htmlQuestion .= "<h5>Question ".$no."</h5>";
+            if($item->TYPEQUESTION_WS == 1){
+                $htmlQuestion .= $this->questEssay($item, $status);
+            }else if($item->TYPEQUESTION_WS == 2){
+                $htmlQuestion .= $this->questMulti($item, $status);
+            }else if($item->TYPEQUESTION_WS == 3){
 
-                $resp = explode(';', $item->PILIHAN_MC);
-                echo '<div style="margin-top: -10px;margin-bottom: 25px;">';
-                $i = 0;
-                foreach ($resp as $item2) {
-                    echo '
-                        <div><input type="radio" name="answer_'.$no.'" value="'.$item2.'" required /> '.$this->utils->getChar($i).'. '.$item2.'</div>
-                    ';
-                    $i++;
-                }
-                echo '</div>';
-
-                echo '<input type="hidden" name="id" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->ID_MC.'">';
-            } elseif ($item->TYPEQUESTION_WS == 3) {
-                echo str_replace("_", ' <input type="text" style="font-size: 14px;color: #A79086;background-color: #EFE9E8;font-family: Roboto;border-left: 3px solid #A79086;" placeholder="Enter answer" name="answer_'.$no.'[]" /> ', $item->SOAL_MS);
-                
-                echo '<input type="hidden" name="id" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->ID_MS.'">';
             }
+
             $no++;
         }
-        echo '<input type="hidden" name="ID_WS" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->ID_WS.'">';
-        echo '
+        $htmlQuestion .= $this->renderButton($status, $idWSM);
+        $this->renderQuestion($htmlQuestion, $status);
+        
+        // echo '
+        //     <form action="'.site_url('course/submit').'" method="post">';
+        //     $no = 1;
+        // foreach ($data as $item) {
+        //     echo "<h5>Question ".$no."</h5>";
+        //     if ($item->TYPEQUESTION_WS == 1) {
+        //         echo $item->SOAL_ES;
+        //         echo '<input type="hidden" name="ID_ES" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->ID_ES.'">';
+        //         echo '<input type="hidden" name="TYPEQUESTION_WS" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->TYPEQUESTION_WS.'">';
+        //         echo '<textarea type="text" name="answer[]" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" placeholder="Your Answer" required></textarea>';
+        //     } elseif ($item->TYPEQUESTION_WS == 2) {
+        //         echo $item->SOAL_MC;
+
+        //         $resp = explode(';', $item->PILIHAN_MC);
+        //         echo '<div style="margin-top: -10px;margin-bottom: 25px;">';
+        //         $i = 0;
+        //         foreach ($resp as $item2) {
+        //             echo '
+        //                 <div><input type="radio" name="answer_'.$no.'" value="'.$item2.'" required /> '.$this->utils->getChar($i).'. '.$item2.'</div>
+        //             ';
+        //             $i++;
+        //         }
+        //         echo '</div>';
+
+        //         echo '<input type="hidden" name="id" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->ID_MC.'">';
+        //     } elseif ($item->TYPEQUESTION_WS == 3) {
+        //         echo str_replace("_", ' <input type="text" style="font-size: 14px;color: #A79086;background-color: #EFE9E8;font-family: Roboto;border-left: 3px solid #A79086;" placeholder="Enter answer" name="answer_'.$no.'[]" /> ', $item->SOAL_MS);
+                
+        //         echo '<input type="hidden" name="id" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->ID_MS.'">';
+        //     }
+        //     $no++;
+        // }
+        // echo '<input type="hidden" name="ID_WS" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->ID_WS.'">';
+        // echo '
+        //         <button type="submit" class="btn btn-primary verso-shadow-2">Submit</button>
+        //     </form>
+        // ';
+    }
+    public function questEssay($item, $status){
+        $statusDisabled = $status != "0" ? "disabled" : "";
+        return '
+                '.$item->SOAL_ES.'
+                <input '.$statusDisabled.' type="hidden" name="ID_ES" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->ID_ES.'">
+                <input '.$statusDisabled.' type="hidden" name="TYPEQUESTION_WS" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->TYPEQUESTION_WS.'">
+                <textarea '.$statusDisabled.' type="text" name="answer[]" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" placeholder="Your Answer" required></textarea>
+        ';
+    }
+    public function questMulti($item, $status){
+        $statusDisabled = $status != "0" ? "disabled" : "";
+        $html = '
+            '.$item->SOAL_MC.'
+            <div style="margin-top: -10px;margin-bottom: 25px;">
+        ';
+        
+        $resp = explode(';', $item->PILIHAN_MC);
+        $i = 0;
+        foreach ($resp as $item2) {
+            $html .= '
+                <div><input '.$statusDisabled.' type="radio" name="answer_'.$no.'" value="'.$item2.'" required /> '.$this->utils->getChar($i).'. '.$item2.'</div>
+            ';
+            $i++;
+        }
+        $html .= '</div>';
+
+        return $html;
+    }
+    public function renderButton($status, $idWSM){
+        if($status == "kosong"){
+            return '
+                <input type="hidden" name="ID_WSM" value="'.$idWSM.'" />
+                <input type="hidden" name="STATUS_WSM" value="0" />
+                <button type="submit" class="btn btn-primary verso-shadow-2">Take Test</button>
+            ';
+        }else if($status == "0"){
+            return '
                 <button type="submit" class="btn btn-primary verso-shadow-2">Submit</button>
+            ';
+        }else if($status == "3"){
+            return '
+                <input type="hidden" name="ID_WSM" value="'.$idWSM.'" />
+                <input type="hidden" name="STATUS_WSM" value="0" />
+                <button type="submit" class="btn btn-primary verso-shadow-2">Retake Test</button>
+            ';
+        }else{
+            return '';
+        }
+    }
+    public function renderQuestion($contentQuestion, $status){
+        if($status == "0"){
+            echo '<form action="'.site_url('course/submit').'" method="post">';
+        }else{
+            echo '<form action="'.site_url('course/takeTest').'" method="post">';
+        }
+
+        echo '
+                '.$contentQuestion.'
             </form>
         ';
+    }
+    public function takeTest(){
+        $param = $_POST;
+        $this->Worksheet->update_mahasiswa($param);
+        redirect('course');
     }
     public function submitCourse() {
         $param = $_POST;     

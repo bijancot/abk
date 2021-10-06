@@ -35,6 +35,8 @@
                                     $isTestFirst    = true;
                                     $statusAllowed  = 'cursor: pointer;';
                                     foreach ($courses as $item) {
+                                        $statusWSM  = $item->STATUS_WSM != null ? $item->STATUS_WSM : "kosong";
+                                        
                                         // Content Worksheet
                                         $contentWorksheet = '
                                             <div id="'.$item->ID_WS.'" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
@@ -42,12 +44,17 @@
                                                 </div>
                                             </div>
                                         ';
+
                                         // Check Status
-                                        if($item->STATUS_WSM == "1"){
-                                            $status = '<div style="float: right;background: #56CBF9;padding: 3px 10px;color: #fff;border-radius: 15px;font-weight: 600;">Complete</div>';
-                                        }else if($item->STATUS_WSM == "0"){
+                                        if($item->STATUS_WSM == "0"){
                                             $status = '<div style="float: right;background: #FFE66D;padding: 3px 10px;color: white;border-radius: 15px;font-weight: 600;">In Progress</div>';
                                             $isTestFirst = false;
+                                        }else if($item->STATUS_WSM == "1"){
+                                            $status = '<div style="float: right;background: #56CBF9;padding: 3px 10px;color: #fff;border-radius: 15px;font-weight: 600;">Waiting For Response</div>';
+                                        }else if($item->STATUS_WSM == "2"){
+                                            $status = '<div style="float: right;background: #27ae60;padding: 3px 10px;color: #fff;border-radius: 15px;font-weight: 600;">Passed</div>';
+                                        }else if($item->STATUS_WSM == "3"){
+                                            $status = '<div style="float: right;background: #e74c3c;padding: 3px 10px;color: #fff;border-radius: 15px;font-weight: 600;">Failed</div>';
                                         }else{
                                             if($isTestFirst == true || $item->STATUS_WSM == "0"){
                                                 $status = '<div style="float: right;background: #F0803C;padding: 3px 10px;color: white;border-radius: 15px;font-weight: 600;">Take Test</div>';
@@ -61,7 +68,7 @@
 
                                         echo '
                                             <div class="card">
-                                                <div class="card-header pick-ws list-group-item list-group-item-action" id="headingTwo" style="background: #fff;'.$statusAllowed.'" data-toggle="collapse" data-myval="'.$item->ID_WS.'" data-target="#'.$item->ID_WS.'">
+                                                <div class="card-header pick-ws list-group-item list-group-item-action" id="headingTwo" style="background: #fff;'.$statusAllowed.'" data-toggle="collapse" data-status="'.$statusWSM.'" data-myval="'.$item->ID_WS.'" data-idwsm="'.$item->ID_WSM.'" data-target="#'.$item->ID_WS.'">
                                                     <div style="color: #333;font-size: 16px;font-weight: bold;">
                                                         '.$item->NAMA_WS.'
                                                     </div>
@@ -88,11 +95,12 @@
     $(document).ready(function() {
         $('.pick-ws').click(function(e){
             var id = $(this).data('myval');
+            var idWSM = $(this).data('idwsm');
+            var status = $(this).data('status')
             $.ajax({
-                url: "<?= site_url('mhs/CourseController/getQuestion/') ?>"+id,
+                url: `<?= site_url('mhs/CourseController/getQuestion/') ?>${id}/${idWSM}/${status}`,
                 type: 'GET',
                 success: function(res) {
-                    console.log(id);
                     $('#display-'+id).html(res);
                 }
             });
