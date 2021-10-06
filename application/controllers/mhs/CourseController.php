@@ -10,8 +10,9 @@ class CourseController extends CI_Controller {
     }
 
     public function index(){
-        $data['title']      = 'Course';
-        $data['courses'] = $this->Course->getAll();
+        $email = $this->session->userdata('EMAIL_MHS');
+        $data['title']              = 'Course';
+        $data['courses']            = $this->Course->getAll($email);
         $this->template->mahasiswa('mhs/course/course', $data);
     }
     public function getQuestion($id) {
@@ -56,8 +57,16 @@ class CourseController extends CI_Controller {
     }
     public function submitCourse() {
         $param = $_POST;     
-        $store = array();
-        print_r($param);
+        
+        $storeWM['ID_WS']       = $param['ID_WS'];
+        $storeWM['EMAIL_MHS']   = $this->session->userdata('EMAIL_MHS');
+        $storeWM['NPM_MHS']     = $this->session->userdata('NPM_MHS');
+        $storeWM['STATUS_WSM']  = "0";
+        $this->Course->insertWM($storeWM);
+
+        
+        // $this->db->insert();
+        
         // foreach ($param['answer'] as $item) {
         //     if($param['TYPEQUESTION_WS'] == 1) {
         //         $temp['ID_ES'] = $param['ID_ES'];

@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700%7CRoboto:300,300i,400,400i,700,700i" rel="stylesheet">
     <link rel="stylesheet" href="<?= site_url()?>/assets/mhs/css/animate.min.css">
     <link rel="stylesheet" href="<?= site_url()?>/assets/mhs/css/education-modern.css">
-    <link rel="stylesheet" href="<?= site_url()?>/assets/mhs/css/custom.css">
+    <link rel="stylesheet" href="<?= base_url('assets/mhs/css/custom.css'); ?>">
 
     <!-- Fav Icons -->
     <link rel="icon" type="image/png" sizes="16x16" href="<?= site_url()?>/assets/mhs/favicon/favicon-16x16.png">

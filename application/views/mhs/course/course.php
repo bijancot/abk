@@ -32,20 +32,42 @@
                         <div id="accordion">
                             <?php 
                                 if($this->session->userdata('USER_LOGGED')) {
+                                    $isTestFirst    = true;
+                                    $statusAllowed  = 'cursor: pointer;';
                                     foreach ($courses as $item) {
+                                        // Content Worksheet
+                                        $contentWorksheet = '
+                                            <div id="'.$item->ID_WS.'" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                                                <div id="display-'.$item->ID_WS.'" class="card-body">
+                                                </div>
+                                            </div>
+                                        ';
+                                        // Check Status
+                                        if($item->STATUS_WSM == "1"){
+                                            $status = '<div style="float: right;background: #56CBF9;padding: 3px 10px;color: #fff;border-radius: 15px;font-weight: 600;">Complete</div>';
+                                        }else if($item->STATUS_WSM == "0"){
+                                            $status = '<div style="float: right;background: #FFE66D;padding: 3px 10px;color: white;border-radius: 15px;font-weight: 600;">In Progress</div>';
+                                            $isTestFirst = false;
+                                        }else{
+                                            if($isTestFirst == true || $item->STATUS_WSM == "0"){
+                                                $status = '<div style="float: right;background: #F0803C;padding: 3px 10px;color: white;border-radius: 15px;font-weight: 600;">Take Test</div>';
+                                                $isTestFirst = false;
+                                            }else{
+                                                $status = '<div style="float: right;background: #D7D7D7;padding: 3px 10px;color: #555555;border-radius: 15px;font-weight: 600;">Take Test</div>';
+                                                $statusAllowed      = 'cursor: not-allowed;';
+                                                $contentWorksheet   = "";
+                                            }
+                                        }
+
                                         echo '
                                             <div class="card">
-                                                <div class="card-header list-group-item list-group-item-action verso-demo-bg-color-quicksand" id="headingTwo">
-                                                    <div class="list-group-item-content">
-                                                        <button id="dropdown" class="pick-ws btn btn-link collapsed verso-text-light" data-myval="'.$item->ID_WS.'" data-toggle="collapse" data-target="#'.$item->ID_WS.'" aria-expanded="false" aria-controls="'.$item->ID_WS.'">
-                                                            '.$item->NAMA_WS.'
-                                                        </button>
+                                                <div class="card-header pick-ws list-group-item list-group-item-action" id="headingTwo" style="background: #fff;'.$statusAllowed.'" data-toggle="collapse" data-myval="'.$item->ID_WS.'" data-target="#'.$item->ID_WS.'">
+                                                    <div style="color: #333;font-size: 16px;font-weight: bold;">
+                                                        '.$item->NAMA_WS.'
                                                     </div>
+                                                    '.$status.'
                                                 </div>
-                                                <div id="'.$item->ID_WS.'" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-                                                    <div id="display-'.$item->ID_WS.'" class="card-body">
-                                                    </div>
-                                                </div>
+                                                '.$contentWorksheet.'
                                             </div>
                                         ';
                                     }
