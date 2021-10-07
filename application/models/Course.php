@@ -7,7 +7,8 @@ class Course extends CI_Model {
                 w.*,
                 wm.ID_WSM ,
                 wm.EMAIL_MHS ,
-                wm.STATUS_WSM 
+                wm.STATUS_WSM,
+                wm.SCOREFINAL_WSM
             FROM worksheet w 
             LEFT JOIN worksheet_mahasiswa wm on wm.ID_WS = w.ID_WS 
             WHERE 

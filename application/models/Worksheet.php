@@ -82,6 +82,12 @@ class Worksheet extends CI_Model{
     public function insert_mcRes($param){
         $this->db->insert('multiple_choice_result', $param);
     }
+    public function get_ms($param){
+        return $this->db->get_where('missing_sentence', ['ID_MS' => $param['ID_MS']])->row();
+    }
+    public function insert_msRes($param){
+        $this->db->insert('missing_sentence_result', $param);
+    }
     public function checkPosition($param){
         return $this->db->query("
             SELECT * FROM worksheet WHERE POSITION_WS = '".$param['POSITION_WS']."' AND deleted_at IS NULL
