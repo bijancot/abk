@@ -17,7 +17,7 @@ class Worksheet extends CI_Model{
     }
     public function get_mahasiswa($param){
         return $this->db->query("
-            SELECT * FROM worksheet_mahasiswa WHERE ID_WS = '".$param['ID_WS']."'
+            SELECT * FROM worksheet_mahasiswa WHERE ID_WS = '".$param['ID_WS']."' AND STATUS_WSM IS NOT NULL
         ")->result();
     }
     public function insert($param){
