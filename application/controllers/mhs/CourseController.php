@@ -40,7 +40,11 @@ class CourseController extends CI_Controller {
         $ansES = "";
         if($status != "0"){
             $statusDisabled = "disabled";
-            $ansES = $this->Worksheet->get_essRes(['ID_WSM' => $idWSM, 'ID_ES' => $item->ID_ES])->JAWABAN_ESR;
+            $esR = $this->Worksheet->get_essRes(['ID_WSM' => $idWSM, 'ID_ES' => $item->ID_ES]);
+            if(!empty($esR)){
+                $ansES = $esR->JAWABAN_ESR;
+            }
+
         }else{
             $statusDisabled = "";
         }
@@ -56,7 +60,10 @@ class CourseController extends CI_Controller {
         $ansMC = "";
         if($status != "0"){
             $statusDisabled = "disabled";
-            $ansMC = $this->Worksheet->get_mcRes(['ID_WSM' => $idWSM, 'ID_MC' => $item->ID_MC])->JAWABAN_MCR;
+            $mcR = $this->Worksheet->get_mcRes(['ID_WSM' => $idWSM, 'ID_MC' => $item->ID_MC]);
+            if(!empty($mcR)){
+                $ansMC = $mcR->JAWABAN_MCR;
+            }
         }else{
             $statusDisabled = "";
         }
