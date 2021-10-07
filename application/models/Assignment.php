@@ -26,12 +26,12 @@ class Assignment extends CI_Model{
         return $result->row()->C_WS;
     }
     public function getScore($param){
-        $sql = "SELECT wm.NILAI_WSM, wm.CATATAN_WSM, wm.STATUS_WSM,wm.NPM_MHS FROM worksheet_mahasiswa wm , mahasiswa m 
+        $sql = "SELECT wm.SCOREFINAL_WSM, wm.STATUS_WSM, wm.NPM_MHS FROM worksheet_mahasiswa wm , mahasiswa m 
         WHERE wm.NPM_MHS = m.NPM_MHS AND wm.ID_WS = $param";
         return $this->db->query($sql)->result();
     }
     public function getStudentScore($param){
-        $sql = "SELECT wm.ID_WS, wm.NILAI_WSM, wm.CATATAN_WSM, wm.STATUS_WSM,wm.NPM_MHS FROM worksheet_mahasiswa wm , mahasiswa m 
+        $sql = "SELECT wm.ID_WS, wm.SCOREFINAL_WSM, wm.STATUS_WSM, wm.NPM_MHS FROM worksheet_mahasiswa wm , mahasiswa m 
         WHERE wm.NPM_MHS = m.NPM_MHS 
         AND wm.NPM_MHS = $param";
         return $this->db->query($sql)->result();
@@ -55,6 +55,37 @@ class Assignment extends CI_Model{
         WHERE w.ID_WS = wd.ID_WS 
         AND wd.ID_WSD = ms.ID_WSD 
         AND w.ID_WS = $param";
+        return $this->db->query($sql)->result();
+    }
+    public function getAttempts($npm_mhs, $id_ws) {
+        $sql = "SELECT * FROM worksheet w
+        LEFT JOIN worksheet_mahasiswa wm on w.ID_WS = wm.ID_WS
+        LEFT JOIN worksheet_mahasiswa_detail wmd on wm.ID_WSM = wmd.ID_WSM
+        WHERE w.ISPUBLISHED_WS = 1
+          and w.deleted_at is null
+          and wm.NPM_MHS = $npm_mhs
+          and w.ID_WS = $id_ws
+        ORDER BY wmd.created_at";
+        return $this->db->query($sql)->result();
+    }
+    public function getES($npm_mhs, $id_ws) {
+        $sql = "SELECT *
+        FROM essay e
+        LEFT JOIN essay_result er on e.ID_ES = er.ID_ES
+        LEFT JOIN worksheet_mahasiswa_detail wmd on er.ID_WSMD = wmd.ID_WSMD
+        LEFT JOIN worksheet_mahasiswa wm on wmd.ID_WSM = wm.ID_WSM
+        LEFT JOIN worksheet w on wm.ID_WS = w.ID_WS
+        WHERE wm.NPM_MHS = $npm_mhs and wm.ID_WS = $id_ws or er.ID_ESR is null";
+        return $this->db->query($sql)->result();
+    }
+    public function getAnswerES($id_ws, $npm_mhs, $created_at) {
+        $sql = "SELECT *
+        FROM essay e
+        LEFT JOIN essay_result er on e.ID_ES = er.ID_ES
+        LEFT JOIN worksheet_mahasiswa_detail wmd on er.ID_WSMD = wmd.ID_WSMD
+        LEFT JOIN worksheet_mahasiswa wm on wmd.ID_WSM = wm.ID_WSM
+        LEFT JOIN worksheet w on wm.ID_WS = w.ID_WS
+        WHERE wm.NPM_MHS = $npm_mhs and wm.ID_WS = $id_ws and wmd.created_at = '$created_at' or er.ID_ESR is null";
         return $this->db->query($sql)->result();
     }
 }
