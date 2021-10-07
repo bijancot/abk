@@ -18,16 +18,9 @@ class WorksheetController extends CI_Controller {
     public function store(){
         $param = $_POST;
 
-        $position = $this->Worksheet->checkPosition($param);
-        
-        if(!empty($position->POSITION_WS) && $position->POSITION_WS != null){
-            $this->session->set_flashdata('err', 'The order of positions has been registered !');
-            redirect('admin/worksheet');
-        }else{
-            $this->Worksheet->insert($param);
-            $this->session->set_flashdata('succ', 'Successfully created a new worksheet');
-            redirect('admin/worksheet');
-        }
+        $idWS = $this->Worksheet->insert($param);
+        $this->session->set_flashdata('succ', 'Successfully created a new worksheet');
+        redirect('admin/question/manage/'.$idWS);
     }
     public function edit(){
         $param                  = $_POST;
@@ -35,23 +28,10 @@ class WorksheetController extends CI_Controller {
 
         $worksheetMhs = $this->Worksheet->get_mahasiswa($param);
         if($worksheetMhs == null){
-            $position = $this->Worksheet->checkPosition($param);
-            if($param['POSITIONHIDE'] == $param['POSITION_WS']){
-                unset($param['POSITIONHIDE']);
-                $this->Worksheet->update($param);
-                $this->session->set_flashdata('succ', 'Successfully changing a worksheet');
-                redirect('admin/worksheet');
-            }else{
-                if(!empty($position->POSITION_WS) && $position->POSITION_WS != null){
-                    $this->session->set_flashdata('err', 'The order of positions has been registered !');
-                    redirect('admin/worksheet');
-                }else{
-                    unset($param['POSITIONHIDE']);
-                    $this->Worksheet->update($param);
-                    $this->session->set_flashdata('succ', 'Successfully changing a worksheet');
-                    redirect('admin/worksheet');
-                }
-            }
+            $this->Worksheet->update($param);
+            $this->session->set_flashdata('succ', 'Successfully changing a worksheet');
+            redirect('admin/worksheet');
+
         }else{
             $this->session->set_flashdata('err', "Can't change the worksheet because there is a transaction from the student !");
             redirect('admin/worksheet');
@@ -66,10 +46,16 @@ class WorksheetController extends CI_Controller {
     }
     public function softDestroy(){
         $param                  = $_POST;
-        $param['deleted_at']    = date('Y-m-d H:i:s');
-        $this->Worksheet->update($param);
-        $this->session->set_flashdata('succ', 'Successfully delete a worksheet  ');
-        redirect('admin/worksheet');
+        $worksheetMhs = $this->Worksheet->get_mahasiswa($param);
+        if($worksheetMhs == null){
+            $param['deleted_at']    = date('Y-m-d H:i:s');
+            $this->Worksheet->update($param);
+            $this->session->set_flashdata('succ', 'Successfully delete a worksheet  ');
+            redirect('admin/worksheet');
+        }else{
+            $this->session->set_flashdata('err', "Can't delete the worksheet because there is a transaction from the student !");
+            redirect('admin/worksheet');
+        }
     }
     public function question($idWS){
         $data['title']      = 'Spageti - Manage Question';

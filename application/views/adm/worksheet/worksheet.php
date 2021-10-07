@@ -22,7 +22,7 @@
                         <table id="tblWorksheet" class="table table-striped table-bordered" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>Position</th>
+                                    <th>No</th>
                                     <th>Worksheet</th>
                                     <th>Type Question</th>
                                     <th>Total Question</th>
@@ -34,6 +34,7 @@
                             </thead>
                             <tbody>
                                 <?php
+                                    $no = 1;
                                     foreach ($worksheets as $item) {
                                         if($item->ID_WS == null){
                                             break;
@@ -89,7 +90,7 @@
 
                                         echo '
                                             <tr>
-                                                <td>'.$item->POSITION_WS.'</td>
+                                                <td>'.$no.'</td>
                                                 <td>'.$item->NAMA_WS.'</td>
                                                 <td>'.$typeLabel.'</td>
                                                 <td>'.$item->TOTALQUESTION_WS.'</td>
@@ -98,7 +99,7 @@
                                                 <td>'.$status.'</td>
                                                 <td>
                                                     <div class="table-actions d-flex align-items-center gap-3 fs-6">
-                                                        <a href="#" class="text-primary mdlEdit" data-id="'.$item->ID_WS.'" data-name="'.$item->NAMA_WS.'" data-position="'.$item->POSITION_WS.'" data-type="'.$item->TYPEQUESTION_WS.'" data-grade="'.$item->PASSGRADE_WS.'" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Worksheet"><i class="bi bi-pen-fill"></i></a>
+                                                        <a href="#" class="text-primary mdlEdit" data-id="'.$item->ID_WS.'" data-name="'.$item->NAMA_WS.'" data-type="'.$item->TYPEQUESTION_WS.'" data-grade="'.$item->PASSGRADE_WS.'" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Worksheet"><i class="bi bi-pen-fill"></i></a>
                                                         <a href="'.site_url('admin/question/manage/'.$item->ID_WS).'" class="text-warning" data-bs-toggle="tooltip" data-bs-placement="top" title="Manage Question"><i class="bi bi-kanban-fill"></i></a>
                                                         '.$btnPublish.'
                                                         <a href="#" class="text-danger mdlDelete" data-id="'.$item->ID_WS.'" data-name="'.$item->NAMA_WS.'" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Worksheet"><i class="bi bi-trash-fill"></i></a>
@@ -106,6 +107,7 @@
                                                 </td>
                                             </tr>
                                         ';
+                                        $no++;
                                     }
                                 ?>
                             </tbody>
@@ -131,13 +133,6 @@
                         <div class="col">
                             <label for="">Name</label>
                             <input type="text" class="form-control" placeholder="Name" name="NAMA_WS" required>
-                        </div>
-                    </div>
-                    <div class="modal-body">
-                        <div class="col">
-                            <label for="">Position</label>
-                            <input type="text" onkeypress="return isNumberKey(event)" id="positionCreate" class="form-control" placeholder="Position" name="POSITION_WS" required>
-                            <label for="" id="alertCreate_position" class="text-danger" style="display: none;font-size: 11px;">The order of positions has been registered !</label>
                         </div>
                     </div>
                     <div class="modal-body">
@@ -191,14 +186,6 @@
                         <div class="col">
                             <label for="">Name</label>
                             <input type="text" class="form-control" id="mdlEdit_name" placeholder="Name" name="NAMA_WS" required>
-                        </div>
-                    </div>
-                    <div class="modal-body">
-                        <div class="col">
-                            <label for="">Position</label>
-                            <input type="text" id="mdlEdit_position" class="form-control" placeholder="Position" name="POSITION_WS" required>
-                            <input type="hidden" id="mdlEdit_position_hide" class="form-control" placeholder="Position" name="POSITIONHIDE" >
-                            <label for="" id="alertEdit_position" class="text-danger" style="display: none;font-size: 11px;">The order of positions has been registered !</label>
                         </div>
                     </div>
                     <div class="modal-body">
@@ -290,14 +277,11 @@
         $('#mdlEdit').modal('show');
         const id = $(this).data('id')
         const name = $(this).data('name')
-        const position = $(this).data('position')
         const type = $(this).data('type')
         const grade = $(this).data('grade')
 
         $('#mdlEdit_id').val(id)
         $('#mdlEdit_name').val(name)
-        $('#mdlEdit_position').val(position)
-        $('#mdlEdit_position_hide').val(position)
         $('#mdlEdit_type').val(type)
         $('#mdlEdit_grade').val(grade)
     })
@@ -315,54 +299,6 @@
         const name = $(this).data('name')
         $('#mdlDelete_id').val(id)
         $('#mdlDelete_worksheet').html(name)
-    })
-    $('#positionCreate').change(function(){
-        const val = $(this).val()
-        $.ajax({
-            url: '<?= site_url('admin/worksheet/ajxCheckPosition')?>',
-            method: 'post',
-            data: {POSITION_WS: val},
-            success: function(res){
-                if(res == 1){
-                    $('#alertCreate_position').css('display', 'none')
-                    $('#positionCreate').removeClass('is-invalid')
-                }else{
-                    $('#alertCreate_position').css('display', 'block')
-                    $('#positionCreate').addClass('is-invalid')
-                }
-            }
-        })
-    })
-    $('#mdlEdit_position').change(function(){
-        const val = $(this).val()
-        const valHide = $('#mdlEdit_position_hide').val()
-        if(val == valHide){
-            $('#alertEdit_position').css('display', 'none')
-            $('#mdlEdit_position').removeClass('is-invalid')
-        }else{
-            $.ajax({
-                url: '<?= site_url('admin/worksheet/ajxCheckPosition')?>',
-                method: 'post',
-                data: {POSITION_WS: val},
-                success: function(res){
-                    if(res == 1){
-                        $('#alertEdit_position').css('display', 'none')
-                        $('#mdlEdit_position').removeClass('is-invalid')
-                    }else{
-                        $('#alertEdit_position').css('display', 'block')
-                        $('#mdlEdit_position').addClass('is-invalid')
-                    }
-                }
-            })
-        }
-    })
-    $('#mdlAdd').on('hidden.bs.modal', function () {
-        $('#alertCreate_position').css('display', 'none')
-        $('#positionCreate').removeClass('is-invalid')
-    })
-    $('#mdlEdit').on('hidden.bs.modal', function () {
-        $('#alertEdit_position').css('display', 'none')
-        $('#mdlEdit_position').removeClass('is-invalid')
     })
     // Number only input
     function isNumberKey(evt) {

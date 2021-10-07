@@ -2,7 +2,7 @@
 
 class Worksheet extends CI_Model{
     public function getAll(){
-        return $this->db->order_by('POSITION_WS', 'asc')->get("worksheet")->result();
+        return $this->db->where('deleted_at is NULL', NULL, TRUE)->order_by('ID_WS', 'asc')->get("worksheet")->result();
     }
     public function get($param){
         return $this->db->where('ID_WS', $param['ID_WS'])->get("worksheet")->row();
@@ -22,6 +22,7 @@ class Worksheet extends CI_Model{
     }
     public function insert($param){
         $this->db->insert('worksheet', $param);
+        return $this->db->insert_id();
     }
     public function insert_detail($param){
         $this->db->insert('worksheet_detail', $param);
