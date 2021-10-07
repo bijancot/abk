@@ -158,6 +158,14 @@ class QuestionController extends CI_Controller {
     }
     public function softDestroy(){
         $param  = $_POST;
+        
+        $worksheetMhs = $this->Worksheet->get_mahasiswa($param);
+
+        if($worksheetMhs != null){
+            $this->session->set_flashdata('err', "Can't change the question because there is a transaction from the student!");
+            redirect('admin/worksheet');
+        }
+
         $idWS   = $param['ID_WS'];
         $param['deleted_at']    = date('Y-m-d H:i:s');
         unset($param['ID_WS']);

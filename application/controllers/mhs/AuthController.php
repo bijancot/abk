@@ -111,7 +111,9 @@ class AuthController extends CI_Controller {
                 FROM  worksheet w 
                 WHERE w.deleted_at IS NULL
             ")->row();
-            $this->insertWSM($worksheet, $email, $npm);
+            if($worksheet->ID_WS != null){
+                $this->insertWSM($worksheet, $email, $npm);
+            }
         }
     }
     public function insertWSM($worksheet, $email, $npm){
