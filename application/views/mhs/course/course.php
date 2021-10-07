@@ -53,16 +53,16 @@
                                             $status = '<div style="float: right;background: #56CBF9;padding: 3px 10px;color: #fff;border-radius: 15px;font-weight: 600;">Waiting For Response</div>';
                                             $isTestFirst = false;
                                         }else if($item->STATUS_WSM == "2"){
-                                            $status = '<div style="float: right;background: #27ae60;padding: 3px 10px;color: #fff;border-radius: 15px;font-weight: 600;">Passed</div>';
+                                            $status = '<div style="float: right;">'.$item->SCOREFINAL_WSM.' <span style="background: #27ae60;padding: 3px 10px;color: #fff;border-radius: 15px;font-weight: 600;">Passed</span></div>';
                                         }else if($item->STATUS_WSM == "3"){
-                                            $status = '<div style="float: right;background: #e74c3c;padding: 3px 10px;color: #fff;border-radius: 15px;font-weight: 600;">Failed</div>';
+                                            $status = '<div style="float: right;">'.$item->SCOREFINAL_WSM.' <span style="background: #e74c3c;padding: 3px 10px;color: #fff;border-radius: 15px;font-weight: 600;">Failed</span></div>';
                                             $isTestFirst = false;
                                         }else{
                                             if($isTestFirst == true){
-                                                $status = '<div style="float: right;background: #F0803C;padding: 3px 10px;color: white;border-radius: 15px;font-weight: 600;">Take Test</div>';
+                                                $status = '<div style="float: right;"><span style="background: #F0803C;padding: 3px 10px;color: white;border-radius: 15px;font-weight: 600;">Take Test</span></div>';
                                                 $isTestFirst = false;
                                             }else{
-                                                $status = '<div style="float: right;background: #D7D7D7;padding: 3px 10px;color: #555555;border-radius: 15px;font-weight: 600;">Take Test</div>';
+                                                $status = '<div style="float: right;"><span style="background: #D7D7D7;padding: 3px 10px;color: #555555;border-radius: 15px;font-weight: 600;">Take Test</span></div>';
                                                 $statusAllowed      = 'cursor: not-allowed;';
                                                 $contentWorksheet   = "";
                                             }

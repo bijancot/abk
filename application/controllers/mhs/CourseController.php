@@ -28,51 +28,13 @@ class CourseController extends CI_Controller {
             }else if($item->TYPEQUESTION_WS == 2){
                 $htmlQuestion .= $this->questMulti($item, $status, $no-1, $idWSM);
             }else if($item->TYPEQUESTION_WS == 3){
-
+                $htmlQuestion .= $this->questMiss($item, $status, $no-1, $idWSM);
             }
 
             $no++;
         }
         $htmlQuestion .= $this->renderButton($status, $idWSM);
         $this->renderQuestion($htmlQuestion, $status);
-        
-        // echo '
-        //     <form action="'.site_url('course/submit').'" method="post">';
-        //     $no = 1;
-        // foreach ($data as $item) {
-        //     echo "<h5>Question ".$no."</h5>";
-        //     if ($item->TYPEQUESTION_WS == 1) {
-        //         echo $item->SOAL_ES;
-        //         echo '<input type="hidden" name="ID_ES" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->ID_ES.'">';
-        //         echo '<input type="hidden" name="TYPEQUESTION_WS" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->TYPEQUESTION_WS.'">';
-        //         echo '<textarea type="text" name="answer[]" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" placeholder="Your Answer" required></textarea>';
-        //     } elseif ($item->TYPEQUESTION_WS == 2) {
-        //         echo $item->SOAL_MC;
-
-        //         $resp = explode(';', $item->PILIHAN_MC);
-        //         echo '<div style="margin-top: -10px;margin-bottom: 25px;">';
-        //         $i = 0;
-        //         foreach ($resp as $item2) {
-        //             echo '
-        //                 <div><input type="radio" name="answer_'.$no.'" value="'.$item2.'" required /> '.$this->utils->getChar($i).'. '.$item2.'</div>
-        //             ';
-        //             $i++;
-        //         }
-        //         echo '</div>';
-
-        //         echo '<input type="hidden" name="id" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->ID_MC.'">';
-        //     } elseif ($item->TYPEQUESTION_WS == 3) {
-        //         echo str_replace("_", ' <input type="text" style="font-size: 14px;color: #A79086;background-color: #EFE9E8;font-family: Roboto;border-left: 3px solid #A79086;" placeholder="Enter answer" name="answer_'.$no.'[]" /> ', $item->SOAL_MS);
-                
-        //         echo '<input type="hidden" name="id" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->ID_MS.'">';
-        //     }
-        //     $no++;
-        // }
-        // echo '<input type="hidden" name="ID_WS" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->ID_WS.'">';
-        // echo '
-        //         <button type="submit" class="btn btn-primary verso-shadow-2">Submit</button>
-        //     </form>
-        // ';
     }
     public function questEssay($item, $status, $idWSM){
         $ansES = "";
@@ -121,6 +83,24 @@ class CourseController extends CI_Controller {
         ';
 
         return $html;
+    }
+    public function questMiss($item, $status, $no, $idWSM){
+        $ansMC = "";
+        if($status != "0"){
+            $statusDisabled = "disabled";
+            // $ansMC = $this->Worksheet->get_mcRes(['ID_WSM' => $idWSM, 'ID_MC' => $item->ID_MC])->JAWABAN_MCR;
+        }else{
+            $statusDisabled = "";
+        }
+        $html = str_replace("_", ' <input '.$statusDisabled.' type="text" style="font-size: 14px;color: #A79086;background-color: #EFE9E8;font-family: Roboto;border-left: 3px solid #A79086;" placeholder="Enter answer" name="answer_'.$no.'[]" required /> ', $item->SOAL_MS);
+        $html .= '
+            <input '.$statusDisabled.' type="hidden" name="TYPEQUESTION_WS" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->TYPEQUESTION_WS.'">
+            <input '.$statusDisabled.' type="hidden" name="ID_QUEST[]" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->ID_MS.'">
+            <input '.$statusDisabled.' type="hidden" name="PASSGRADE_WS" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->PASSGRADE_WS.'">
+        ';
+        return $html;
+
+        // echo '<input type="hidden" name="id" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->ID_MS.'">';
     }
     public function renderButton($status, $idWSM){
         if($status == "kosong"){
@@ -199,6 +179,26 @@ class CourseController extends CI_Controller {
             $wsm['SCOREFINAL_WSM']  = $grade;
             $wsm['STATUS_WSM']      = $grade >= $param['PASSGRADE_WS'] ? '2' : '3';
             $this->Worksheet->update_mahasiswa($wsm);
+        }else if($param['TYPEQUESTION_WS'] == "3"){
+            $grade = $this->missGrading($param);
+            
+            $wsmd['ID_WSM']      = $param['ID_WSM'];
+            $wsmd['SCORE_WSMD']  = $grade;
+            $wsmd['STATUS_WSMD'] = $grade >= $param['PASSGRADE_WS'] ? '1' : '2';
+            $idWSMD = $this->Worksheet->insert_wsmd($wsmd);
+
+            for ($i=0; $i < count($param['ID_QUEST']); $i++) { 
+                $msRes['ID_WSMD']      = $idWSMD;
+                $msRes['ID_MS']        = $param['ID_QUEST'][$i];
+                $msRes['EMAIL_MHS']    = $this->session->userdata('EMAIL_MHS');
+                $msRes['JAWABAN_MSR']  = implode(';', $param['answer_'.$i]);
+                $this->Worksheet->insert_msRes($msRes);
+            }
+            
+            $wsm['ID_WSM']          = $param['ID_WSM'];
+            $wsm['SCOREFINAL_WSM']  = $grade;
+            $wsm['STATUS_WSM']      = $grade >= $param['PASSGRADE_WS'] ? '2' : '3';
+            $this->Worksheet->update_mahasiswa($wsm);
         }
         redirect('course');
     }
@@ -212,6 +212,26 @@ class CourseController extends CI_Controller {
                 ++$wrongQuest;
             }
         }
+        $rightQuest = $countQuest - $wrongQuest;
+        return (int)(($rightQuest/$countQuest) * 100);
+    }
+    public function missGrading($param){
+        $countQuest = 0;
+        $wrongQuest = 0;
+
+        for($i = 0; $i < count($param['ID_QUEST']); $i++){
+            $countQuest += count($param['answer_'.$i]);
+
+            $rightAns   = $this->Worksheet->get_ms(['ID_MS' => $param['ID_QUEST'][$i]]);
+            $rightAns   = explode(';', $rightAns->KUNCIJAWABAN_MS);
+
+            for($j = 0; $j < count($rightAns); $j++){
+                if(strcasecmp($rightAns[$j], $param['answer_'.$i][$j]) != 0){
+                    ++$wrongQuest;
+                }
+            }
+        }
+
         $rightQuest = $countQuest - $wrongQuest;
         return (int)(($rightQuest/$countQuest) * 100);
     }
