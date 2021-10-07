@@ -64,7 +64,8 @@ class Assignment extends CI_Model{
         WHERE w.ISPUBLISHED_WS = 1
           and w.deleted_at is null
           and wm.NPM_MHS = $npm_mhs
-          and w.ID_WS = $id_ws";
+          and w.ID_WS = $id_ws
+        ORDER BY wmd.created_at";
         return $this->db->query($sql)->result();
     }
     public function getES($npm_mhs, $id_ws) {
@@ -75,6 +76,16 @@ class Assignment extends CI_Model{
         LEFT JOIN worksheet_mahasiswa wm on wmd.ID_WSM = wm.ID_WSM
         LEFT JOIN worksheet w on wm.ID_WS = w.ID_WS
         WHERE wm.NPM_MHS = $npm_mhs and wm.ID_WS = $id_ws or er.ID_ESR is null";
+        return $this->db->query($sql)->result();
+    }
+    public function getAnswerES($id_ws, $npm_mhs, $created_at) {
+        $sql = "SELECT *
+        FROM essay e
+        LEFT JOIN essay_result er on e.ID_ES = er.ID_ES
+        LEFT JOIN worksheet_mahasiswa_detail wmd on er.ID_WSMD = wmd.ID_WSMD
+        LEFT JOIN worksheet_mahasiswa wm on wmd.ID_WSM = wm.ID_WSM
+        LEFT JOIN worksheet w on wm.ID_WS = w.ID_WS
+        WHERE wm.NPM_MHS = $npm_mhs and wm.ID_WS = $id_ws and wmd.created_at = '$created_at' or er.ID_ESR is null";
         return $this->db->query($sql)->result();
     }
 }
