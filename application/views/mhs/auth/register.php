@@ -53,7 +53,7 @@
                                 <label for="phone"><i class="zmdi zmdi-phone"></i></label>
                                 <input type="tel" onkeypress="return isNumberKey(event)" name="phone" id="phone" placeholder="Your Phone Number" required/>
                             </div>
-                            <span><i class="zmdi zmdi-male-female"></i>   Your gender</span><br><br>
+                            <!-- <span><i class="zmdi zmdi-male-female"></i>   Your gender</span><br><br>
                             <div class="form-group">
                                 <input style="width: auto;" type="radio" name="gender" id="signupgenderMale" value="1" checked>
                                 <label style="margin-left: 50px;" for="signupgenderMale">Male</label>
@@ -64,7 +64,7 @@
                             </div>
                             <div class="form-group">
                                 <textarea class="form-control" name="address" placeholder="Your Address" style="height: 100px" required></textarea>
-                            </div>
+                            </div> -->
                             <div class="form-group">
                                 <label for="pass"><i class="zmdi zmdi-lock"></i></label>
                                 <input type="password" id="r_password" name="password" id="password" placeholder="Your Password" required/>
