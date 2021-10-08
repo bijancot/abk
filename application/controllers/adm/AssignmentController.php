@@ -115,7 +115,7 @@ class AssignmentController extends CI_Controller {
                         </div>
                     </div>
                     <hr>
-                    <form id="formSubmit" action="'.site_url('admin/assignment/submit').'" method="post">';
+                    <form id="formSubmit" action="'.site_url('admin/assignment/submit_feedback').'" method="post">';
                     echo '<input type="hidden" name="ID_WSM" value="'.$data[0]->ID_WSM.'">';
                     echo '<input type="hidden" name="PASSGRADE_WS" value="'.$data[0]->PASSGRADE_WS.'">';
                     echo '<input type="hidden" name="ID_WSMD" value="'.$data[0]->ID_WSMD.'">';
@@ -154,7 +154,7 @@ class AssignmentController extends CI_Controller {
 
         }
     }
-    public function submitAnswers() {
+    public function submitFeedback() {
         $param = $_POST;
 
         // Init

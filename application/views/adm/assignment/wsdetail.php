@@ -28,7 +28,15 @@
                                 if($items->created_at) {
                                     echo '
                                         <div class="mx-1 mb-2">
-                                            <a class="btn btn btn-success cardFilled cardNo" data-idws="'.$wsid.'" data-npm="'.$npm.'" data-tipe="'.$tipe.'" data-created="'.str_replace(" ", "%", $items->created_at).'" style="width:200px;">
+                                            <a class="btn btn ';
+                                            if($items->STATUS_WSMD == 2) {
+                                                echo 'btn-danger';
+                                            } else if ($items->STATUS_WSMD == 1) {
+                                                echo 'btn-success';
+                                            } else {
+                                                echo 'btn-warning';
+                                            }
+                                    echo ' cardFilled cardNo" data-idws="'.$wsid.'" data-npm="'.$npm.'" data-tipe="'.$tipe.'" data-created="'.str_replace(" ", "%", $items->created_at).'" style="width:200px;">
                                                 <span>'.date_format(date_create($items->created_at), "d M Y H:i:s").'</span>
                                             </a>
                                         </div>
