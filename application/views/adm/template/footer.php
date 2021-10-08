@@ -31,8 +31,8 @@
 	<script src="<?= site_url()?>assets/adm/plugins/notifications/js/notifications.min.js"></script>
 	<script src="<?= site_url()?>assets/adm/plugins/notifications/js/notification-custom-script.js"></script>
   <script src="<?= site_url()?>assets/adm/js/pace.min.js"></script>
-  <script src="<?= site_url()?>assets/adm/js/ckeditor.js"></script>
   <!--app-->
+  <script src="<?= site_url()?>/assets/adm/summernote/summernote.min.js"></script>
   <script src="<?= site_url()?>/assets/adm/js/app.js"></script>
   <!-- <script>
     new PerfectScrollbar(".best-product")

@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
   <link href="<?= site_url()?>/assets/adm/plugins/datatable/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="<?= site_url()?>/assets/adm/plugins/notifications/css/lobibox.min.css" />
+  <link rel="stylesheet" href="<?= site_url()?>/assets/adm/summernote/summernote.min.css" />
 
   <!-- loader-->
 	<link href="<?= site_url()?>/assets/adm/css/pace.min.css" rel="stylesheet" />
