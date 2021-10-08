@@ -16,8 +16,12 @@ class AuthController extends CI_Controller {
     }
     public function proses_register() {
         $this->form_validation->set_rules('name','Name','trim|required');
-        $this->form_validation->set_rules('npm','NPM','trim|required|is_unique[mahasiswa.NPM_MHS]');
-        $this->form_validation->set_rules('email','Email','trim|required|valid_email|is_unique[mahasiswa.EMAIL_MHS]');
+        $this->form_validation->set_rules('npm','NPM','trim|required|is_unique[mahasiswa.NPM_MHS]', array(
+            'is_unique' => '%s already exists.'
+        ));
+        $this->form_validation->set_rules('email','Email','trim|required|valid_email|is_unique[mahasiswa.EMAIL_MHS]', array(
+            'is_unique' => '%s already exists.'
+        ));
         $this->form_validation->set_rules('phone','Phone','trim|required');
         $this->form_validation->set_rules('password', 'Password', 'required');
         $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
