@@ -30,6 +30,7 @@ class QuestionController extends CI_Controller {
 
         if($param['TIPE'] == "1"){
             $storeQuest = array();
+            $file = $this->upload_pdf($param['ID_WS']);
             for($i = 0; $i < count($param['ESSAY_QUESTION']); $i++){
                 if($param['ID_QUEST'][$i] == "kosong"){
                     $status = "insert";
@@ -52,9 +53,15 @@ class QuestionController extends CI_Controller {
             if($status == 'insert'){
                 $this->Question->essay_insertBatch($storeQuest);
                 $this->Worksheet->update(['ID_WS' => $param['ID_WS'], 'ISREADY_WS' => '1']);
+                if($file != NULL){                    
+                    $this->Worksheet->update(['ID_WS' => $param['ID_WS'], 'PATH_PDF' => $file]);
+                }
                 $this->session->set_flashdata('succ', 'Successfully inserted questions!');
             }else if($status == 'update'){
                 $this->Question->essay_updateBatch($storeQuest);
+                if($file != NULL){                    
+                    $this->Worksheet->update(['ID_WS' => $param['ID_WS'], 'PATH_PDF' => $file]);
+                }
                 $this->session->set_flashdata('succ', 'Successfully updated questions!');
             }
         }else if($param['TIPE'] == "2"){
@@ -182,6 +189,29 @@ class QuestionController extends CI_Controller {
             echo json_encode($this->Question->multiple_get($param));
         }else if($param['TYPEQUESTION_WS'] == "3"){
             echo json_encode($this->Question->missing_get($param));
+        }
+    }
+
+    function upload_pdf($idws){
+        $this->load->library('upload');
+        $newPath = './assets/uploads/pdf/'.$idws.'/';
+        if(!is_dir($newPath)){
+            mkdir($newPath, 0777, TRUE);
+        }
+        $config['upload_path'] = $newPath;
+        $config['allowed_types'] = 'pdf'; 
+        $config['encrypt_name'] = FALSE;
+ 
+        $this->upload->initialize($config);
+        if(!empty($_FILES['pdffile']['name'])){
+ 
+            if ($this->upload->do_upload('pdffile')){
+                $pdf = $this->upload->data(); 
+                $filepdf = $pdf['file_name'];
+
+                return base_url('/assets/uploads/pdf/'.$idws.'/'.$filepdf);
+            }
+                      
         }
     }
 }
