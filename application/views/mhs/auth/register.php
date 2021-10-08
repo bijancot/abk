@@ -14,21 +14,6 @@
     <link rel="stylesheet" href="<?= base_url('assets/mhs/css/custom.css'); ?>">
 </head>
 <body>
-    <?php if ($this->session->tempdata("auth_msg")) { ?>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong><?php echo $this->session->tempdata("auth_msg"); ?></strong>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    <?php  } else if ($this->session->tempdata("failed_auth_msg")) {?>
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <strong><?php echo $this->session->tempdata("failed_auth_msg"); ?></strong>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    <?php  }?>
     <div class="main">
         <!-- Sign up form -->
         <section class="signup">
@@ -73,6 +58,11 @@
                                 <label for="pass"><i class="zmdi zmdi-lock"></i></label>
                                 <input type="password" id="r_confirm_password" name="confirm_password" id="confirm_password" placeholder="Repeat Password" required/>
                             </div>
+                            <?php if ($this->session->tempdata("auth_msg")) { ?>
+                                <span><strong><?php echo $this->session->tempdata("auth_msg"); ?></strong></span>
+                            <?php  } else if ($this->session->tempdata("failed_auth_msg")) {?>
+                                <span><strong><?php echo $this->session->tempdata("failed_auth_msg"); ?></strong></span>
+                            <?php  }?>
                             <div class="form-group form-button">
                                 <input type="submit" class="form-submit" id="signup" value="Register"/>
                             </div>
