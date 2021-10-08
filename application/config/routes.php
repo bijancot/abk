@@ -95,5 +95,5 @@ $route['admin/assignment/student']                           = 'adm/AssignmentCo
 $route['admin/assignment/student/(:any)']                    = 'adm/AssignmentController/worksheet/$1';
 $route['admin/assignment/worksheet']                         = 'adm/AssignmentController/worksheetmenu';
 $route['admin/assignment/worksheetstudent/(:any)']           = 'adm/AssignmentController/wsstudent/$1';
-$route['admin/assignment/submit']                            = 'adm/AssignmentController/submitAnswers';
+$route['admin/assignment/submit_feedback']                            = 'adm/AssignmentController/submitFeedback';
 $route['admin/wsdetail/(:any)/(:any)/(:any)']                = 'adm/AssignmentController/wsdetail/$1/$2/$3';
