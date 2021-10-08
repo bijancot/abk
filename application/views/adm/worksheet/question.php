@@ -17,22 +17,18 @@
     <form id="form-submit" action="<?= site_url('admin/question/store')?>" method="post">
     <input type="hidden" name="ID_WS" value="<?= $idWS?>" />
     <input type="hidden" name="TIPE" value="<?= $worksheet->TYPEQUESTION_WS?>" />
-    <div class="row" style="margin-bottom: 10px;margin-top: 10px;">
-        <div class="col-md-12 col-sm-12">
-            <a id="btn-save" style="float: right;" class="btn btn-sm btn-success"><i class="bi bi-save"></i> Save</a>
-        </div>
-    </div>
     <?php
         $countMC = 1;
         for($no = 1; $no <= $worksheet->TOTALQUESTION_WS; $no++) {
             if($worksheet->TYPEQUESTION_WS == "1"){
-                $grade = !empty($worksheetDetail[$no-1]) ? $worksheetDetail[$no-1]->GRADE_ES : "";
+                $grade   = !empty($worksheetDetail[$no-1]) ? $worksheetDetail[$no-1]->GRADE_ES : "";
+                $quest   = !empty($worksheetDetail[$no-1]) ? $worksheetDetail[$no-1]->SOAL_ES : "";
                 $idQuest = !empty($worksheetDetail[$no-1]) ? $worksheetDetail[$no-1]->ID_ES : "kosong";
 
                 $typeContent =  '
                     <div class="form-group mb-3">
                         <label class="form-label" for="">Question <span class="text-danger">*</span></label>
-                        <textarea id="ckEditor'.$no.'" class="editor" name="ESSAY_QUESTION[]" required></textarea>
+                        <textarea id="ckEditor'.$no.'" class="editor" name="ESSAY_QUESTION[]" required>'.$quest.'</textarea>
                     </div>
                     <div class="form-group mb-3">
                         <label class="form-label" for="">Grading (points) <span class="text-danger">*</span></label>
@@ -45,12 +41,13 @@
                 $multiResp   = !empty($worksheetDetail[$no-1]) ? explode(';', $worksheetDetail[$no-1]->PILIHAN_MC) : "";
                 $rightAns    = !empty($worksheetDetail[$no-1]) ? $worksheetDetail[$no-1]->KUNCIJAWABAN_MC : "kosong";
                 $tempResp    = $no-1;
+                $quest       = !empty($worksheetDetail[$no-1]) ? $worksheetDetail[$no-1]->SOAL_MC : "";
                 
                 $typeContent = '
                 <div class="form-group mb-3">
                     <div class="form-group mb-3">
                         <label class="form-label" for="">Question <span class="text-danger">*</span></label>
-                        <textarea id="ckEditor'.$no.'" class="editor" name="MULTI_QUESTION[]" required></textarea>
+                        <textarea id="ckEditor'.$no.'" class="editor" name="MULTI_QUESTION[]" required>'.$quest.'</textarea>
                     </div>
 
                     <label class="form-label" for="">Response <span class="text-danger">*</span></label>
@@ -77,11 +74,12 @@
                     </div>
                 ';
             }else if($worksheet->TYPEQUESTION_WS == "3"){
-                $idQuest     = !empty($worksheetDetail[$no-1]) ? $worksheetDetail[$no-1]->ID_MS : "kosong";
+                $idQuest    = !empty($worksheetDetail[$no-1]) ? $worksheetDetail[$no-1]->ID_MS : "kosong";
+                $quest     = !empty($worksheetDetail[$no-1]) ? $worksheetDetail[$no-1]->SOAL_MS : "";
                 $typeContent = '
                     <div class="form-group mb-3">
                         <label class="form-label" for="">Question <span class="text-danger">*</span></label>
-                        <textarea name="MISSING_QUESTION[]" id="ckEditor'.$no.'" class="editor"></textarea>
+                        <textarea name="MISSING_QUESTION[]" id="editor'.($no-1).'" data-item="'.($no-1).'" class="editor" required>'.$quest.'</textarea>
                         <span class="text-secondary" style="font-size: 10px;">Use "_" underscores to specify where you would like a blank to appear in the text below</span>
                     </div>
                     <input type="hidden" id="typeMissResp" />
@@ -110,6 +108,11 @@
             ';
         }
     ?>
+    <div class="row" style="margin-top: 5px;">
+        <div class="col-md-12 col-sm-12">
+            <a id="btn-save" style="float: right;" class="btn btn-sm btn-success"><i class="bi bi-save"></i> Save</a>
+        </div>
+    </div>
     </form>
     <!-- Modal Delete -->
     <div class="modal fade" id="mdlDelete" tabindex="-1" aria-labelledby="mdlDelete" aria-hidden="true">
@@ -139,111 +142,56 @@
 </main>
 <script src="<?= site_url()?>/assets/adm/js/sortable.min.js"></script>
 <script>
-    let quest = []
-    let questFilled = []
-    let missingResp = []
-    <?php
-        if($worksheetDetail != null){
-            for ($i=0; $i < count($worksheetDetail); $i++) { 
-                if($worksheetDetail[$i]->TYPEQUESTION_WS == '1'){
-                    echo 'questFilled['.$i.'] = "'.$worksheetDetail[$i]->SOAL_ES.'";';
-                }else if($worksheetDetail[$i]->TYPEQUESTION_WS == '2'){
-                    echo 'questFilled['.$i.'] = "'.$worksheetDetail[$i]->SOAL_MC.'";';
-                }else if($worksheetDetail[$i]->TYPEQUESTION_WS == '3'){
-                    echo 'questFilled['.$i.'] = "'.$worksheetDetail[$i]->SOAL_MS.'";';
-                    
-                    echo 'missingResp['.$i.'] = [';
-                        $resp = explode(';', $worksheetDetail[$i]->KUNCIJAWABAN_MS);
-                        for($x = 0; $x < count($resp); $x++) {
-                            echo '{resp: "'.$resp[$x].'"},';
-                        }
-                    echo '];';
-                }
-            }
-        }
-    ?>
+    let msResp = []
     $(document).ready(function(){
         const totalQuest = '<?= $worksheet->TOTALQUESTION_WS;?>'
-        var allEditors = document.querySelectorAll('.editor');
-        for (var i = 0; i < allEditors.length; ++i) {
-            let x = 0;
-            ClassicEditor
-                .create(allEditors[i])
-                .then(editor => {
-                    quest.push(editor)
-                    // editor.keystrokes.set('space', (key, stop) => {
-                    //     editor.execute('input', {
-                    //         text: ' '
-                    //     });
-                    //     stop();
-                    // });
-                    
-                })
-                .finally(() => {
-                    let x = 0
-                    for(const item of quest){
-                        if(questFilled[x] != null || questFilled[x] != undefined){
-                            item.setData(questFilled[x])
-                            
-                            // const type = "<?= $worksheet->TYPEQUESTION_WS?>"
-                            // if(type == "3"){
-                            //     $(".type_missing_content_"+x).html(questFilled[x].split("_").join(` <input class="typeMiss_resp_${x}" style="border: 1px solid #ced4da;border-radius: .25rem;padding: 5px;" placeholder="Enter Answer" type="text" name="MISSING_RESPONSE_${x}[]" required /> `))
-
-                            //     let inputMissResp = $(`.typeMiss_resp_${x}`)
-                            //     for(let i = 0; i < missingResp.length; i++){
-                            //         for(const item of missingResp[i]){
-                            //             inputMissResp[i].val(item.resp)
-                            //             console.log(inputMissResp.find('input')[i].val(item.resp))
-                            //             inputMissResp[0].val("Ilham")
-                            //             console.log(inputMissResp[0])
-                            //         }
-                            //     }
-                            // }
-                        }
-                        x++
-                    }
-
-                    // missing sentence config
-                    <?php
-                        for ($i=0; $i < $worksheet->TOTALQUESTION_WS; $i++) { 
-                            if($worksheet->TYPEQUESTION_WS == '3'){
-                                echo '
-                                    quest['.$i.'].editing.view.document.on( "keyup", ( evt, data ) => {
-                                        let text = quest['.$i.'].getData()
-                                        $(".type_missing_content_"+'.$i.').html(text.split("_").join(` <input class="typeMiss_resp_${i}" style="border: 1px solid #ced4da;border-radius: .25rem;padding: 5px;" placeholder="Enter Answer" type="text" name="MISSING_RESPONSE_'.$i.'[]" required /> `))
-                                    });
-                                ';
-                            }
-                        }
-                    ?>
-                    
-                })
-        }
-
-        
+        $('.editor').summernote({height: 150});
     })
-    $('#btn-save').click(function(){
-        // $('#form-submit').submit()
-        const status = $('#form-submit').valid()
-        let statusQuest = true
-        for(const item of quest){
-            if(item.getData() == ""){
-                statusQuest = false
-                break;
+    $('.editor').on('summernote.change', function(we, contents, $editable) {
+        const item = $(this).data('item')
+        $(".type_missing_content_"+item).html(contents.split("_").join(` <input class="typeMiss_resp_${item}" onkeyup="setMSResp(${item})" style="border: 1px solid #ced4da;border-radius: .25rem;padding: 5px;" placeholder="Enter Answer" type="text" name="MISSING_RESPONSE_${item}[]" required /> `))
+        
+        const countResp = (contents.match(new RegExp("_", "g")) || []).length
+        if(!msResp[item]){
+            msResp.push([])
+        }else{
+            if(countResp < msResp[item].length){
+                msResp[item].pop()
             }
         }
 
-        if(status && statusQuest){
+        for(let i = 0; i < countResp; i++){
+            if(msResp[item][i]){
+                $('.type_missing_content_'+item).find('input')[i].value = msResp[item][i]
+            }else{
+                $('.type_missing_content_'+item).find('input')[i].value = ""
+            }
+        }
+    });
+
+
+    $('#btn-save').click(function(){
+        const status = $('#form-submit').valid()
+        if(status){
             $('#form-submit').submit()
         }else{
             warning_noti("Some forms are not filled yet!")
         }
-        // }
     })
+    
     const keyPressMC = idResp => {
         const val = $(`#textResp_${idResp}`).val()
         $(`#radResp_${idResp}`).val(val)
-    } 
+    }
+    const getMSResp = () => {
+
+    }
+    const setMSResp = item => {
+        var ek = $('.typeMiss_resp_'+item).map((_,el) => el.value).get()
+        for(let i=0; i < ek.length; i++){
+            msResp[item][i] = ek[i]
+        }
+    }
     // Number only input
     function isNumberKey(evt) {
         var charCode = (evt.which) ? evt.which : event.keyCode
