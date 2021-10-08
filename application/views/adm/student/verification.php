@@ -66,7 +66,7 @@
                                                 <td>'.$status.'</td>
                                                 <td>
                                                     <div class="table-actions d-flex align-items-center gap-3 fs-6">
-                                                        <a href="#" class="text-info mdlDetail" data-id="'.$item->NPM_MHS.'" data-jk="'.$item->JK_MHS.'" data-status="'.$item->ISVERIF_MHS.'" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail"><i class="bi bi-file-text-fill"></i></a>
+                                                        <a href="#" class="text-info mdlDetail" data-id="'.$item->NPM_MHS.'" data-status="'.$item->ISVERIF_MHS.'" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail"><i class="bi bi-file-text-fill"></i></a>
                                                         '.$btnVerif.'
                                                     </div>
                                                 </td>
@@ -116,12 +116,18 @@
                     </div>
                     <div class="col">
                         <div class="form-group">
+                            <h5><label for="telp">Telepon</label></h5>
+                            <span id="telpMhs"></span>
+                        </div>
+                    </div>
+                    <!-- <div class="col">
+                        <div class="form-group">
                         <h5><label for="jenkel">Jenis Kelamin</label></h5>
                             <span id="mdlDetail_jk"></span>
                         </div>
-                    </div>
+                    </div> -->
                 </div><br>
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col">
                         <div class="form-group">
                             <h5><label for="alamat">Alamat</label></h5>
@@ -134,7 +140,7 @@
                             <span id="telpMhs"></span>
                         </div>
                     </div>
-                </div><br>                        
+                </div><br>                         -->
                 <div class="form-group">
                     <h5><label for="status">Status</label></h5>
                     <span id="mdlDetail_status"></span>
@@ -186,9 +192,9 @@
     $('#tblUser tbody').on('click', '.mdlDetail', function() {        
         $('#mdlDetail').modal('show');
         const id = $(this).data('id')
-        const jk = $(this).data('jk')
+        // const jk = $(this).data('jk')
         const status = $(this).data('status')
-        jk == "1" ? $('#mdlDetail_jk').html('Laki-laki') : $('#mdlDetail_jk').html('Perempuan')
+        // jk == "1" ? $('#mdlDetail_jk').html('Laki-laki') : $('#mdlDetail_jk').html('Perempuan')
         status == "1" ? $('#mdlDetail_status').html('Verified') : $('#mdlDetail_status').html('Unverified')
         $.ajax({
             url: "<?= site_url('admin/student/ajxGet') ?>",
@@ -201,7 +207,7 @@
                 $('#namaMhs').html(res[0].NAMA_MHS)
                 $('#npmMhs').html(res[0].NPM_MHS)
                 $('#emailMhs').html(res[0].EMAIL_MHS)
-                $('#alamatMhs').html(res[0].ALAMAT_MHS)
+                // $('#alamatMhs').html(res[0].ALAMAT_MHS)
                 $('#telpMhs').html(res[0].TELP_MHS)
             }
         })
