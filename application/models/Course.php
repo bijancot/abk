@@ -15,7 +15,7 @@ class Course extends CI_Model {
                 w.ISPUBLISHED_WS = '1'
                 AND deleted_at IS NULL 
                 AND wm.EMAIL_MHS = '$email'
-            ORDER BY w.POSITION_WS asc
+            ORDER BY w.ID_WS asc
         ")->result();
     }
     public function getQuestionbyID($param) {
