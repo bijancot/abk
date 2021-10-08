@@ -14,11 +14,19 @@
         </div>
     </div>
     <!--end breadcrumb-->
-    <form id="form-submit" action="<?= site_url('admin/question/store')?>" method="post">
+    <form id="form-submit" action="<?= site_url('admin/question/store')?>" enctype="multipart/form-data" method="post">
     <input type="hidden" name="ID_WS" value="<?= $idWS?>" />
     <input type="hidden" name="TIPE" value="<?= $worksheet->TYPEQUESTION_WS?>" />
+    
     <?php
         $countMC = 1;
+        if($worksheet->TYPEQUESTION_WS == "1"){
+            echo '
+                <div class="form-group mb-3">
+                    <label class="form-label" for="pdf-source">Upload PDF (Optional)</label>
+                    <input  type="file" class="form-control" name="pdffile" id="pdf-source" style="width: 30%;">
+                </div>';
+        }
         for($no = 1; $no <= $worksheet->TOTALQUESTION_WS; $no++) {
             if($worksheet->TYPEQUESTION_WS == "1"){
                 $grade   = !empty($worksheetDetail[$no-1]) ? $worksheetDetail[$no-1]->GRADE_ES : "";
