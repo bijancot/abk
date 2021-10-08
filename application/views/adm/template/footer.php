@@ -39,8 +39,8 @@
  </script> -->
 <script>
     <?php
-      if($this->session->flashdata('succ')){
-        echo 'success_noti("'.$this->session->flashdata('succ').'")';
+      if($this->session->tempdata('succ')){
+        echo 'success_noti("'.$this->session->tempdata('succ').'")';
       }else if($this->session->flashdata('err')){
         echo 'error_noti("'.$this->session->flashdata('err').'")';
       }else if($this->session->flashdata('warn')){

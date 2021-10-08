@@ -21,7 +21,7 @@ class Assignment extends CI_Model{
         $this->db->where('NPM_MHS', $param['NPM_MHS'])->update('mahasiswa', $param);
     }
     public function getCountWs(){
-        $sql = "SELECT COUNT(ID_WS) as C_WS FROM worksheet WHERE ISPUBLISHED_WS = 1";
+        $sql = "SELECT COUNT(ID_WS) as C_WS FROM worksheet WHERE ISPUBLISHED_WS = 1 AND deleted_at IS NULL";
         $result = $this->db->query($sql);
         return $result->row()->C_WS;
     }
@@ -65,7 +65,7 @@ class Assignment extends CI_Model{
           and w.deleted_at is null
           and wm.NPM_MHS = $npm_mhs
           and w.ID_WS = $id_ws
-        ORDER BY wmd.created_at";
+        ORDER BY wmd.created_at DESC";
         return $this->db->query($sql)->result();
     }
     public function getES($npm_mhs, $id_ws) {
@@ -75,8 +75,8 @@ class Assignment extends CI_Model{
         LEFT JOIN worksheet_mahasiswa_detail wmd on er.ID_WSMD = wmd.ID_WSMD
         LEFT JOIN worksheet_mahasiswa wm on wmd.ID_WSM = wm.ID_WSM
         LEFT JOIN worksheet w on wm.ID_WS = w.ID_WS
-        WHERE wm.NPM_MHS = $npm_mhs and wm.ID_WS = $id_ws or er.ID_ESR is null";
-        return $this->db->query($sql)->result();
+        WHERE wm.NPM_MHS = $npm_mhs and wm.ID_WS = $id_ws";
+        return $this->db->query($sql)->row();
     }
     public function getAnswerES($id_ws, $npm_mhs, $created_at) {
         $sql = "SELECT *
@@ -85,7 +85,13 @@ class Assignment extends CI_Model{
         LEFT JOIN worksheet_mahasiswa_detail wmd on er.ID_WSMD = wmd.ID_WSMD
         LEFT JOIN worksheet_mahasiswa wm on wmd.ID_WSM = wm.ID_WSM
         LEFT JOIN worksheet w on wm.ID_WS = w.ID_WS
-        WHERE wm.NPM_MHS = $npm_mhs and wm.ID_WS = $id_ws and wmd.created_at = '$created_at' or er.ID_ESR is null";
+        WHERE wm.NPM_MHS = $npm_mhs and wm.ID_WS = $id_ws and wmd.created_at = '$created_at'";
         return $this->db->query($sql)->result();
+    }
+    public function updateWSMD($data, $param) {
+        return $this->db->where('ID_WSMD', $param)->update('worksheet_mahasiswa_detail', $data);
+    }
+    public function updateWSM($data, $param) {
+        return $this->db->where('ID_WSM', $param)->update('worksheet_mahasiswa', $data);
     }
 }

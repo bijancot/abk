@@ -22,35 +22,20 @@
                         <h5 class="card-title">Attempts</h5>
                     </div>
                     <hr>
-                    <div id="list-question" class="d-flex flex-wrap justify-content-center">
+                    <div id="list-attempts" class="d-flex flex-wrap justify-content-center">
                         <?php
                             foreach ($attempts as $items) {
                                 if($items->created_at) {
                                     echo '
                                         <div class="mx-1 mb-2">
-                                            <a class="btn btn btn-success cardFilled cardNo" data-idws="'.$wsid.'" data-npm="'.$npm.'" data-created="'.str_replace(" ", "%", $items->created_at).'" style="width:200px;">
-                                                <span>'.$items->created_at.'</span>
+                                            <a class="btn btn btn-success cardFilled cardNo" data-idws="'.$wsid.'" data-npm="'.$npm.'" data-tipe="'.$tipe.'" data-created="'.str_replace(" ", "%", $items->created_at).'" style="width:200px;">
+                                                <span>'.date_format(date_create($items->created_at), "d M Y H:i:s").'</span>
                                             </a>
                                         </div>
                                     ';
                                 }
                             }
                         ?>
-                        <!-- <div class="mx-1 mb-2">
-                            <a class="btn btn btn-danger cardFilled cardNo" style="width:200px;">
-                                <span>8-03-2021</span>
-                            </a>
-                        </div>
-                        <div class="mx-1 mb-2">
-                            <a class="btn btn-danger cardNoFilled cardNo" style="width:200px;">
-                                <span>9-03-2021</span>
-                            </a>
-                        </div>
-                        <div class="mx-1 mb-2">
-                            <a class="btn btn-success cardNoFilled cardNo" style="width:200px;">
-                                <span>10-03-2021</span>
-                            </a>
-                        </div> -->
                     </div>
                 </div>
             </div>
@@ -69,9 +54,10 @@
         $('.cardNo').click(function(e){
             var id_ws = $(this).data('idws');
             var npm_mhs = $(this).data('npm');
+            var tipe = $(this).data('tipe');
             var created_at = $(this).data('created');
             $.ajax({
-                url: `<?= site_url('adm/AssignmentController/getAnswers/') ?>${id_ws}/${npm_mhs}/${created_at}`,
+                url: `<?= site_url('adm/AssignmentController/getAnswers/') ?>${id_ws}/${npm_mhs}/${tipe}/${created_at}`,
                 type: 'GET',
                 success: function(res) {
                     $('#answers_content').html(res);

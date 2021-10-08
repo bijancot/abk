@@ -41,11 +41,15 @@
                                                 //$catatan = $items->CATATAN_WSM;
                                                 $status = $items->STATUS_WSM;
                                                 
-                                                if($status == 0){
-                                                    $status = 'Waiting for grading';
-                                                }else if($status == 1){
-                                                    $status = 'Pass';
-                                                }else{
+                                                if($status == null){
+                                                    $status = 'Have not taken test';
+                                                }else if($status == 0){
+                                                    $status = 'In progress';
+                                                }else if ($status == 1) {
+                                                    $status = 'Waiting for response';
+                                                } else if ($status == 2){
+                                                    $status = 'Passed';
+                                                } else {
                                                     $status = 'Failed';
                                                 }
                                             }
