@@ -88,6 +88,26 @@ class Assignment extends CI_Model{
         WHERE wm.NPM_MHS = $npm_mhs and wm.ID_WS = $id_ws and wmd.created_at = '$created_at'";
         return $this->db->query($sql)->result();
     }
+    public function getAnswerMC($id_ws, $npm_mhs, $created_at) {
+        $sql = "SELECT *
+        FROM multiple_choice e
+        LEFT JOIN multiple_choice_result er on e.ID_MC = er.ID_MC
+        LEFT JOIN worksheet_mahasiswa_detail wmd on er.ID_WSMD = wmd.ID_WSMD
+        LEFT JOIN worksheet_mahasiswa wm on wmd.ID_WSM = wm.ID_WSM
+        LEFT JOIN worksheet w on wm.ID_WS = w.ID_WS
+        WHERE wm.NPM_MHS = $npm_mhs and wm.ID_WS = $id_ws and wmd.created_at = '$created_at'";
+        return $this->db->query($sql)->result();
+    }
+    public function getAnswerMS($id_ws, $npm_mhs, $created_at) {
+        $sql = "SELECT *
+        FROM missing_sentence e
+        LEFT JOIN missing_sentence_result er on e.ID_MS = er.ID_MS
+        LEFT JOIN worksheet_mahasiswa_detail wmd on er.ID_WSMD = wmd.ID_WSMD
+        LEFT JOIN worksheet_mahasiswa wm on wmd.ID_WSM = wm.ID_WSM
+        LEFT JOIN worksheet w on wm.ID_WS = w.ID_WS
+        WHERE wm.NPM_MHS = $npm_mhs and wm.ID_WS = $id_ws and wmd.created_at = '$created_at'";
+        return $this->db->query($sql)->result();
+    }
     public function updateWSMD($data, $param) {
         return $this->db->where('ID_WSMD', $param)->update('worksheet_mahasiswa_detail', $data);
     }
