@@ -151,14 +151,34 @@
 <script src="<?= site_url()?>/assets/adm/js/sortable.min.js"></script>
 <script>
     let msResp = []
+    <?php
+        if($worksheet->TYPEQUESTION_WS == "3"){
+            echo 'let countRes;';
+            for ($i=0; $i < count($worksheetDetail); $i++) {
+                echo 'msResp['.$i.'] = [];';
+                
+                $res = explode(';', $worksheetDetail[$i]->KUNCIJAWABAN_MS);
+                for ($j=0; $j < count($res); $j++) {
+                    echo 'msResp['.$i.']['.$j.'] = "'.$res[$j].'";';
+                }
+                echo '
+                    printMSResp('.$i.', "'.$worksheetDetail[$i]->SOAL_MS.'");
+                    countResp = ("'.$worksheetDetail[$i]->SOAL_MS.'".match(new RegExp("_", "g")) || []).length;
+                    fillMSResp('.$i.', countResp);
+                ';
+                
+            }
+            
+        }
+    ?>
     $(document).ready(function(){
         const totalQuest = '<?= $worksheet->TOTALQUESTION_WS;?>'
         $('.editor').summernote({height: 150});
     })
     $('.editor').on('summernote.change', function(we, contents, $editable) {
         const item = $(this).data('item')
-        $(".type_missing_content_"+item).html(contents.split("_").join(` <input class="typeMiss_resp_${item}" onkeyup="setMSResp(${item})" style="border: 1px solid #ced4da;border-radius: .25rem;padding: 5px;" placeholder="Enter Answer" type="text" name="MISSING_RESPONSE_${item}[]" required /> `))
-        
+
+        printMSResp(item, contents)
         const countResp = (contents.match(new RegExp("_", "g")) || []).length
         if(!msResp[item]){
             msResp.push([])
@@ -167,14 +187,7 @@
                 msResp[item].pop()
             }
         }
-
-        for(let i = 0; i < countResp; i++){
-            if(msResp[item][i]){
-                $('.type_missing_content_'+item).find('input')[i].value = msResp[item][i]
-            }else{
-                $('.type_missing_content_'+item).find('input')[i].value = ""
-            }
-        }
+        fillMSResp(item, countResp);
     });
 
 
@@ -191,13 +204,22 @@
         const val = $(`#textResp_${idResp}`).val()
         $(`#radResp_${idResp}`).val(val)
     }
-    const getMSResp = () => {
-
+    function printMSResp(item, contents){
+        $(".type_missing_content_"+item).html(contents.split("_").join(` <input class="typeMiss_resp_${item}" onkeyup="setMSResp(${item})" style="border: 1px solid #ced4da;border-radius: .25rem;padding: 5px;" placeholder="Enter Answer" type="text" name="MISSING_RESPONSE_${item}[]" required /> `))
     }
     const setMSResp = item => {
         var ek = $('.typeMiss_resp_'+item).map((_,el) => el.value).get()
         for(let i=0; i < ek.length; i++){
             msResp[item][i] = ek[i]
+        }
+    }
+    function fillMSResp(item, countResp){
+        for(let i = 0; i < countResp; i++){
+            if(msResp[item][i]){
+                $('.type_missing_content_'+item).find('input')[i].value = msResp[item][i]
+            }else{
+                $('.type_missing_content_'+item).find('input')[i].value = ""
+            }
         }
     }
     // Number only input

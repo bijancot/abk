@@ -61,10 +61,10 @@ $route['proses_login']          = 'mhs/AuthController/proses_login';
 $route['proses_logout']         = 'mhs/AuthController/proses_logout';
 
 // ROUTE COURSE
-$route['course']                = 'mhs/CourseController';
-$route['course/submit']         = 'mhs/CourseController/submitCourse';
-$route['course/takeTest']       = 'mhs/CourseController/takeTest';
-$route['course/(:any)']         = 'mhs/CourseController/showCourse/$1';
+$route['course']                        = 'mhs/CourseController';
+$route['course/submit']                 = 'mhs/CourseController/submitCourse';
+$route['course/takeTest']               = 'mhs/CourseController/takeTest';
+$route['course/(:any)/(:any)/(:any)']   = 'mhs/CourseController/courseDetail/$1/$2/$3';
 
 // ROUTE ADMIN
 $route['admin']             = 'adm/AuthController';

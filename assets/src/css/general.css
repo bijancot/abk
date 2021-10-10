@@ -78,22 +78,23 @@
       font-size: .9em;
       font-weight: 600; }
       .card .card-header .label span.inprogress {
-        background: #FFE66D; }
+        background: #FFA451;
+        color: white; }
       .card .card-header .label span.waitingforresponse {
-        background: #56CBF9;
+        background: #F6BC00;
         color: white; }
       .card .card-header .label span.passed {
-        background: #27ae60;
+        background: #5CB85C;
         color: white; }
       .card .card-header .label span.failed {
-        background: #e74c3c;
+        background: #FF6C5A;
         color: white; }
       .card .card-header .label span.taketest {
-        background: #F0803C;
+        background: #0D3B66;
         color: white; }
         .card .card-header .label span.taketest.disabled {
-          background: #D7D7D7;
-          color: #0D3B66; }
+          background: #DDDDDD;
+          color: #fff; }
     .card .card-header.collapsed > .iconify {
       transform: rotate(180deg); }
   .card .card-body {

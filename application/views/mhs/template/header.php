@@ -22,6 +22,8 @@
     <link rel="icon" type="image/png" sizes="32x32" href="<?= site_url()?>/assets/mhs/favicon/favicon-32x32.png">
 
     <link rel="shortcut icon" href="<?= site_url()?>/assets/mhs/favicon/favicon.ico">
+    <link rel="stylesheet" href="<?= site_url()?>/assets/mhs/favicon/favicon.ico">
+    <link rel="stylesheet" href="<?= site_url()?>/assets/mhs/game-assets/TemplateData/style.css">
     <script src="https://code.iconify.design/2/2.0.3/iconify.min.js"></script>
     <script src="<?= site_url()?>/assets/mhs/js/jquery.min.js"></script>
 </head>

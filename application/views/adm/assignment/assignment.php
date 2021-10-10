@@ -23,7 +23,7 @@
                                     <th>Name</th>
                                     <th>NPM</th>
                                     <th>Email</th>
-                                    <th>Task</th>
+                                    <!-- <th>Task</th> -->
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -41,7 +41,6 @@
                                                 <td>'.$item->NAMA_MHS.'</td>
                                                 <td>'.$item->NPM_MHS.'</td>
                                                 <td>'.$item->EMAIL_MHS.'</td>
-                                                <td>0/'.$c_ws.'</td>
                                                 <td>
                                                     <div class="table-actions d-flex align-items-center gap-3 fs-6">
                                                         <a href="'. site_url("admin/assignment/student/" . $item->NPM_MHS) .'" class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Worksheet"><i class="bi bi-file-earmark-text-fill"></i></a>
