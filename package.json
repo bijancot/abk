@@ -1,0 +1,22 @@
+{
+  "name": "abk",
+  "version": "1.0.0",
+  "description": "What is CodeIgniter\r ###################",
+  "main": "index.js",
+  "scripts": {
+    "sass": "node-sass -w assets/scss/ -o assets/src/css/ --recursive"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bijancot/abk.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bijancot/abk/issues"
+  },
+  "homepage": "https://github.com/bijancot/abk#readme",
+  "dependencies": {
+    "node-sass": "^6.0.1"
+  }
+}

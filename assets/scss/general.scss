@@ -1,0 +1,122 @@
+@import "variables";
+@import "inputs";
+@import "cards";
+
+* {
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+
+    font-family: 'Montserrat', sans-serif !important;
+    color: $dark;
+}
+
+a:hover {
+    text-decoration: none;
+    color: inherit;
+}
+
+@for $i from 1 to 9 {
+    .font-w-#{$i}00 {
+        font-weight: $i * 100 !important;
+    }
+}
+
+@for $i from 1 to 10 {
+    .opacity-#{$i}0 {
+        opacity: $i * 10% !important;
+    }
+}
+
+.min-h-screen {
+    min-height: 100vh;
+}
+
+.primary-bg {
+    background: $bg-main;
+}
+
+.text-primary {
+    color: $primary !important;
+}
+.text-dark {
+    color: $dark !important;
+}
+
+.brand-logo {
+    
+    img {
+        width: 60px;
+        height: auto;
+    }
+
+    &.home {
+        img {
+            width: 40px;
+            height: auto;
+        }
+    }
+}
+
+.nav-index {
+    z-index: 101;
+
+    padding-top: 10px;
+    padding-bottom: 20px;
+
+    border-top: 10px solid $primary;
+    box-shadow: 0px 2px 20px 0px #0000000D;
+}
+
+.contentt {
+    padding-top: 120px;
+    padding-bottom: 120px;
+}
+
+.welcome {
+    margin-top: 100px !important;
+
+    @media (max-width: 425px) {
+        margin-top: 0 !important;  
+    }
+}
+
+.illust-home {
+    position: absolute;
+    width: 270px;
+
+    bottom: 0;
+    right: 50px;
+
+    @media (max-width: 425px) {
+        position: relative;
+        right: 0;
+        left: 0;
+    }
+}
+
+.pdf {
+    font-size: 1.2em;
+}
+
+.rounded-15 {
+    border-radius: 15px;
+}
+
+.signup {
+    width: 50%;
+
+    @media (max-width: 425px) {
+        width: 95%;
+    }
+}
+
+::placeholder {
+    opacity: 70%;
+}
