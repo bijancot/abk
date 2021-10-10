@@ -20,6 +20,9 @@ class Worksheet extends CI_Model{
             SELECT * FROM worksheet_mahasiswa WHERE ID_WS = '".$param['ID_WS']."' AND STATUS_WSM IS NOT NULL
         ")->result();
     }
+    public function get_mahasiswaDetail($param){  
+        return $this->db->get_where('worksheet_mahasiswa', ['ID_WSM' => $param['ID_WSM']])->row();
+    }
     public function insert($param){
         $this->db->insert('worksheet', $param);
         return $this->db->insert_id();
@@ -83,6 +86,7 @@ class Worksheet extends CI_Model{
     public function insert_mcRes($param){
         $this->db->insert('multiple_choice_result', $param);
     }
+    
     public function get_ms($param){
         return $this->db->get_where('missing_sentence', ['ID_MS' => $param['ID_MS']])->row();
     }

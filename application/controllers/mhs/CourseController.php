@@ -12,9 +12,20 @@ class CourseController extends CI_Controller {
 
     public function index(){
         $email = $this->session->userdata('EMAIL_MHS');
-        $data['title']              = 'Course';
+        $data['title']              = 'Spageti - Course';
         $data['courses']            = $this->Course->getAll($email);
         $this->template->mahasiswa('mhs/course/course', $data);
+    }
+    public function courseDetail($idWS, $idWSM, $noWS){
+        $data['title']      = 'Spageti - Take Test';
+        $data['noWS']       = $noWS;
+        $data['worksheet']  = $this->Worksheet->get(['ID_WS' => $idWS]);
+
+        $wsm = $this->Worksheet->get_mahasiswaDetail(['ID_WSM' => $idWSM]);
+        $statusWSM  = $wsm->STATUS_WSM != null ? $wsm->STATUS_WSM : "kosong";
+        $data['questions']  = $this->getQuestion($idWS, $idWSM, $statusWSM);
+
+        $this->template->mahasiswa('mhs/course/course_detail', $data);
     }
     public function getQuestion($id, $idWSM, $status) {
         $htmlQuestion = "";
@@ -22,7 +33,10 @@ class CourseController extends CI_Controller {
 
         $no = 1;
         foreach ($data as $item) {
-            $htmlQuestion .= "<h5>Question ".$no."</h5>";
+            $htmlQuestion .= '
+                <div class="card mb-3 p-5">
+                    <p class="h5 font-w-700" style="margin-bottom: 1rem;">Question '.$no.'</p>
+            ';
             if($item->TYPEQUESTION_WS == 1){
                 $htmlQuestion .= $this->questEssay($item, $status, $idWSM);
             }else if($item->TYPEQUESTION_WS == 2){
@@ -30,11 +44,12 @@ class CourseController extends CI_Controller {
             }else if($item->TYPEQUESTION_WS == 3){
                 $htmlQuestion .= $this->questMiss($item, $status, $no-1, $idWSM);
             }
+            $htmlQuestion .= "</div>";
 
             $no++;
         }
         $htmlQuestion .= $this->renderButton($status, $idWSM);
-        $this->renderQuestion($htmlQuestion, $status);
+        return $this->renderQuestion($htmlQuestion, $status);
     }
     public function questEssay($item, $status, $idWSM){
         $ansES = "";
@@ -51,7 +66,7 @@ class CourseController extends CI_Controller {
 
         return '
                 '.$item->SOAL_ES.'
-                <textarea '.$statusDisabled.' type="text" name="answer[]" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" placeholder="Your Answer" required>'.$ansES.'</textarea>
+                <textarea '.$statusDisabled.' type="text" name="answer[]" class="question-text" placeholder="Your Answer" required>'.$ansES.'</textarea>
                 <input '.$statusDisabled.' type="hidden" name="TYPEQUESTION_WS" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->TYPEQUESTION_WS.'">
                 <input '.$statusDisabled.' type="hidden" name="ID_QUEST[]" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->ID_ES.'">
         ';
@@ -75,13 +90,18 @@ class CourseController extends CI_Controller {
         
         $resp = explode(';', $item->PILIHAN_MC);
         $i = 0;
+
         foreach ($resp as $item2) {
             $isChecked = $ansMC == $item2 ? "checked" : "";
             $html .= '
-                <div><input '.$statusDisabled.' '.$isChecked.' type="radio" name="answer_'.$no.'" value="'.$item2.'" required /> '.$this->utils->getChar($i).'. '.$item2.'</div>
+                <div class="input-group">
+                    <input '.$statusDisabled.' '.$isChecked.' type="radio" name="answer_'.$no.'" value="'.$item2.'" required /> 
+                    <label>'.$this->utils->getChar($i).'. '.$item2.'</label>
+                </div>
             ';
             $i++;
         }
+
         $html .= '
             </div>
             <input '.$statusDisabled.' type="hidden" name="TYPEQUESTION_WS" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->TYPEQUESTION_WS.'">
@@ -92,14 +112,14 @@ class CourseController extends CI_Controller {
         return $html;
     }
     public function questMiss($item, $status, $no, $idWSM){
-        $ansMC = "";
+        $ansMS = "";
         if($status != "0"){
             $statusDisabled = "disabled";
-            // $ansMC = $this->Worksheet->get_mcRes(['ID_WSM' => $idWSM, 'ID_MC' => $item->ID_MC])->JAWABAN_MCR;
+            // $ansMS = $this->Worksheet->get_mcRes(['ID_WSM' => $idWSM, 'ID_MC' => $item->ID_MC])->JAWABAN_MCR;
         }else{
             $statusDisabled = "";
         }
-        $html = str_replace("_", ' <input '.$statusDisabled.' type="text" style="font-size: 14px;color: #A79086;background-color: #EFE9E8;font-family: Roboto;border-left: 3px solid #A79086;" placeholder="Enter answer" name="answer_'.$no.'[]" required /> ', $item->SOAL_MS);
+        $html = str_replace("_", ' <input '.$statusDisabled.' type="text" class="input-isian" name="answer_'.$no.'[]" required /> ', $item->SOAL_MS);
         $html .= '
             <input '.$statusDisabled.' type="hidden" name="TYPEQUESTION_WS" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->TYPEQUESTION_WS.'">
             <input '.$statusDisabled.' type="hidden" name="ID_QUEST[]" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->ID_MS.'">
@@ -110,16 +130,11 @@ class CourseController extends CI_Controller {
         // echo '<input type="hidden" name="id" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->ID_MS.'">';
     }
     public function renderButton($status, $idWSM){
-        if($status == "kosong"){
+        if($status == "0"){
             return '
+                <input type="hidden" name="ID_WS" value="'.$idWSM.'" />
                 <input type="hidden" name="ID_WSM" value="'.$idWSM.'" />
-                <input type="hidden" name="STATUS_WSM" value="0" />
-                <button type="submit" class="btn btn-primary verso-shadow-2">Take Test</button>
-            ';
-        }else if($status == "0"){
-            return '
-                <input type="hidden" name="ID_WSM" value="'.$idWSM.'" />
-                <button type="submit" class="btn btn-primary verso-shadow-2">Submit</button>
+                <button type="submit" class="viewWrk-btn mr-auto w-50">Submit Test</button>
             ';
         }else if($status == "3"){
             return '
@@ -133,20 +148,24 @@ class CourseController extends CI_Controller {
     }
     public function renderQuestion($contentQuestion, $status){
         if($status == "0"){
-            echo '<form action="'.site_url('course/submit').'" method="post">';
+            $html = '<form action="'.site_url('course/submit').'" method="post">';
         }else{
-            echo '<form action="'.site_url('course/takeTest').'" method="post">';
+            $html = '<form action="'.site_url('course/takeTest').'" method="post">';
         }
 
-        echo '
+        $html .= '
                 '.$contentQuestion.'
             </form>
         ';
+        return $html;
     }
     public function takeTest(){
         $param = $_POST;
+        $noWS = $param['noWS'];
+        unset($param['noWS']);
+
         $this->Worksheet->update_mahasiswa($param);
-        redirect('course');
+        redirect('course/'.$param['ID_WS']."/".$param['ID_WSM']."/".$noWS);
     }
     public function submitCourse() {
         $param = $_POST;
