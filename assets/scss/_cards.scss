@@ -1,0 +1,71 @@
+.card {
+    padding: 10px;
+    border: 0 !important;
+    border-radius: 8px;
+    background: white;
+    margin-bottom: 10px;
+
+    .card-header {
+        border: 0 !important;
+        border-radius: 8px;
+
+        display: flex;
+        align-items: center;
+
+        padding: 15px;
+
+        .label {
+
+            span {
+                margin-left: 5px;
+                padding: 4px 20px;
+                border-radius: 15px;
+                font-size: .9em;
+                font-weight: 600;
+                
+                &.inprogress {
+                    background: #FFE66D;
+                }
+                &.waitingforresponse {
+                    background: #56CBF9;
+                    color: white;
+                }
+                &.passed {
+                    background: #27ae60;
+                    color: white;
+                }
+                &.failed {
+                    background: #e74c3c;
+                    color: white;
+                }
+                &.taketest{
+                    background: #F0803C;
+                    color: white;
+
+                    &.disabled {
+                        background: #D7D7D7;    
+                        color: $dark;
+                    }
+                }
+            }
+        }
+
+        &.collapsed > .iconify {
+            transform: rotate(180deg);
+        }
+    }
+    .card-body {
+        border-top: 1px solid #e2e2e2;
+    }
+}
+
+.nav-link {
+    color: $dark;
+}
+.nav-link.active {
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    border-bottom: 2px solid $dark !important;
+    font-weight: 600;
+}
