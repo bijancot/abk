@@ -20,7 +20,6 @@
             <nav>
                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
                     <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Overview</a>
-                    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Documents</a>
                 </div>
             </nav>
             <div class="tab-content p-3" id="nav-tabContent">
@@ -51,15 +50,30 @@
         <p class="font-w-600 h2">
             Worksheets
         </p>
+        <?php
+            if($this->session->userdata('USER_ISVERIF') == '0'){
+                echo '
+                    <div class="card mb-5 mt-5 pt-3 pb-3 pl-3" style="color: #FF6C5A;font-weight: bold;">
+                        Opps, your account has not been verified by admin !
+                    </div>
+                ';
+            }
+        ?>
+        
         <div id="accordion">
-
-
             <?php
             if ($this->session->userdata('USER_LOGGED')) {
-                $isTestFirst    = true;
+                if($this->session->userdata('USER_ISVERIF') == '0'){
+                    $isTestFirst    = false;
+                    $statusContent = false;
+                }else{
+                    $isTestFirst    = true;
+                    $statusContent = true;
+                }
                 $statusAllowed  = 'cursor: pointer;';
                 $no = 1;
                 foreach ($courses as $item) {
+                    
                     // Desc type question
                     $type = "";
                     if($item->TYPEQUESTION_WS == "1"){
@@ -108,22 +122,25 @@
                         } else {
                             $status = '<div class="ml-auto label"><span class="taketest disabled">Unavailable</span></div>';
                             $statusAllowed      = 'cursor: not-allowed;';
-                            $contentWorksheet   = "";
+                            $statusContent = false;
                         }
                     }
 
-                      // Content Worksheet
-                      $scoreFinal = $item->SCOREFINAL_WSM == null ? '' : $item->SCOREFINAL_WSM.'/100';
-                      $contentWorksheet = '
-                      <div id="' . $item->ID_WS . '" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-                          <div class="card-body d-flex flex-column flex-md-row justify-content-between align-items-center opacity-70">
-                              <p><b>Type:</b> <br> '.$type.' </p>
-                              <p><b>Questions:</b> <br> '.$item->TOTALQUESTION_WS.' Questions </p>
-                              <p><b>Score:</b> <br> '.$scoreFinal.' </p>
-                              '.$btnStatusWS.'
-                          </div>
-                      </div>
-                  ';
+                    // Content Worksheet
+                    $contentWorksheet = '';
+                    if($statusContent == true){
+                        $scoreFinal = $item->SCOREFINAL_WSM == null ? '' : $item->SCOREFINAL_WSM.'/100';
+                        $contentWorksheet = '
+                            <div id="' . $item->ID_WS . '" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                                <div class="card-body d-flex flex-column flex-md-row justify-content-between align-items-center opacity-70">
+                                    <p><b>Type:</b> <br> '.$type.' </p>
+                                    <p><b>Questions:</b> <br> '.$item->TOTALQUESTION_WS.' Questions </p>
+                                    <p><b>Score:</b> <br> '.$scoreFinal.' </p>
+                                    '.$btnStatusWS.'
+                                </div>
+                            </div>
+                        ';
+                    }
 
                     echo '
                         <div class="card">
@@ -151,27 +168,37 @@
         </div>
     </div>
 
-    
-
-
-</div>
+    <div class="modal fade" id="mdlGame" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="webgl-content">
+                    <div id="unityContainer" style="width: 960px; height: 600px; border: none; outline: none;"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
 <script>
     $(document).ready(function() {
-        $('.pick-ws').click(function(e) {
-            var id = $(this).data('myval');
-            var idWSM = $(this).data('idwsm');
-            var status = $(this).data('status')
-            $.ajax({
-                url: `<?= site_url('mhs/CourseController/getQuestion/') ?>${id}/${idWSM}/${status}`,
-                type: 'GET',
-                success: function(res) {
-                    $('#display-' + id).html(res);
-                }
-            });
-        });
+        <?php
+            if($this->session->flashdata('alert') == '1'){
+                echo 'alertWaiting();';
+            }else if($this->session->flashdata('alert') == '2'){
+                echo 'alertSuccess();';
+            }else if($this->session->flashdata('alert') == '3'){
+                echo 'alertFailed();';
+            }
+        ?>
     });
-    $('.collapsed').click(function(){
-        const item = $(this).data('item')
-
-    })
 </script>

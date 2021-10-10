@@ -223,6 +223,45 @@
     <script src="<?= site_url()?>/assets/mhs/js/countdown.min.js"></script>
     <script src="<?= site_url()?>/assets/mhs/js/education-modern.min.js"></script>
     <script src="<?= site_url()?>/assets/mhs/js/custom.js"></script>
+    <script src="<?= site_url()?>/assets/mhs/js/sweetalert.js"></script>
+    <script src="<?= site_url()?>/assets/mhs/game-assets/TemplateData/UnityProgress.js"></script>
+    <script src="<?= site_url()?>/assets/mhs/game-assets/Build/UnityLoader.js"></script>
+    <script>
+      var unityInstance = UnityLoader.instantiate("unityContainer", "<?= site_url()?>/assets/mhs/game-assets/Build/puzzle.json", {onProgress: UnityProgress});
+    </script>
+    <script>
+        const alertSuccess = () => {
+            Swal.fire({
+                title: 'Good Job!',
+                text: "You have passed the worksheet !",
+                icon: 'success',
+                confirmButtonColor: '#5CB85C',
+                confirmButtonText: 'OK'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#mdlGame').modal('show')
+                }
+            })
+        }
+        const alertFailed = () => {
+            Swal.fire({
+                title: 'Sorry!',
+                text: "You failed to do the worksheet, and try again ",
+                icon: 'error',
+                confirmButtonColor: '#FF6C5A',
+                confirmButtonText: 'OK'
+            })
+        }
+        const alertWaiting = () => {
+            Swal.fire({
+                title: 'Info!',
+                text: "Please wait, your worksheet is being checked by the lecturer ",
+                icon: 'info',
+                confirmButtonColor: '#4EBBFF',
+                confirmButtonText: 'OK'
+            })
+        }
+    </script>
 
 
 </body>

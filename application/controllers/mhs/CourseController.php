@@ -226,6 +226,9 @@ class CourseController extends CI_Controller {
             $wsm['STATUS_WSM']      = $grade >= $param['PASSGRADE_WS'] ? '2' : '3';
             $this->Worksheet->update_mahasiswa($wsm);
         }
+
+        $this->session->set_flashdata('alert', $wsm['STATUS_WSM']);
+
         redirect('course');
     }
     public function essGrading($param){
