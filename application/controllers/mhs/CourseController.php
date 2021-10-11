@@ -115,7 +115,7 @@ class CourseController extends CI_Controller {
         $ansMS = "";
         if($status != "0"){
             $statusDisabled = "disabled";
-            // $ansMS = $this->Worksheet->get_mcRes(['ID_WSM' => $idWSM, 'ID_MC' => $item->ID_MC])->JAWABAN_MCR;
+            $ansMS = $this->Worksheet->get_msRes(['ID_WSM' => $idWSM, 'ID_MS' => $item->ID_MS])->JAWABAN_MSR;
         }else{
             $statusDisabled = "";
         }
@@ -124,13 +124,15 @@ class CourseController extends CI_Controller {
             <input '.$statusDisabled.' type="hidden" name="TYPEQUESTION_WS" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->TYPEQUESTION_WS.'">
             <input '.$statusDisabled.' type="hidden" name="ID_QUEST[]" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->ID_MS.'">
             <input '.$statusDisabled.' type="hidden" name="PASSGRADE_WS" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->PASSGRADE_WS.'">
+            <input '.$statusDisabled.' type="hidden" value="'.$ansMS.'">
         ';
         return $html;
 
         // echo '<input type="hidden" name="id" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->ID_MS.'">';
     }
     public function renderButton($status, $idWSM){
-        if($status == "0"){
+        if($status == 
+        "0"){
             return '
                 <input type="hidden" name="ID_WS" value="'.$idWSM.'" />
                 <input type="hidden" name="ID_WSM" value="'.$idWSM.'" />

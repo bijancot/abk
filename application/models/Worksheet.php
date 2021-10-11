@@ -90,6 +90,22 @@ class Worksheet extends CI_Model{
     public function get_ms($param){
         return $this->db->get_where('missing_sentence', ['ID_MS' => $param['ID_MS']])->row();
     }
+    public function get_msRes($param){
+        return $this->db->query("
+            SELECT *
+            FROM missing_sentence_result msr
+            WHERE 
+                msr.ID_MS = ".$param['ID_MS']."
+                AND msr.ID_WSMD IN (
+                    SELECT wmd.ID_WSMD 
+                    FROM worksheet_mahasiswa_detail wmd 
+                    WHERE wmd.ID_WSM = ".$param['ID_WSM']."
+                    ORDER by wmd.created_at DESC
+                )
+            ORDER BY msr.created_at DESC 
+            LIMIT 1        
+        ")->row();
+    }
     public function insert_msRes($param){
         $this->db->insert('missing_sentence_result', $param);
     }
