@@ -128,7 +128,7 @@ class AssignmentController extends CI_Controller {
                         echo '
                             <div>
                                 <span><b>'.$no.'. '.$text.'</b>Answer: '.$items->JAWABAN_ESR.'</span>
-                                <input type="number" name="score[]" class="form-control radius-10"style="width:80px;
+                                <input type="number" name="score[]" id="numberBox" min="0" max="'.$items->GRADE_ES.'" onkeypress="return isNumberKey(event)" class="form-control radius-10"style="width:80px;
                                 font-size:14px;text-align:center;margin-top:5px;" placeholder="Score" required>
                                 <input type="hidden" name="pass_grade[]" value="'.$items->GRADE_ES.'">
                                 <span style="font-size:12px;color:#bbbbbb;"> Max Score : '.$items->GRADE_ES.'</span>
