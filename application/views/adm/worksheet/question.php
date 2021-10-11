@@ -161,12 +161,11 @@
                 for ($j=0; $j < count($res); $j++) {
                     echo 'msResp['.$i.']['.$j.'] = "'.$res[$j].'";';
                 }
-                echo '
-                    printMSResp('.$i.', "'.$worksheetDetail[$i]->SOAL_MS.'");
-                    countResp = ("'.$worksheetDetail[$i]->SOAL_MS.'".match(new RegExp("_", "g")) || []).length;
-                    fillMSResp('.$i.', countResp);
-                ';
-                
+                echo "
+                    printMSResp(".$i.", '".$worksheetDetail[$i]->SOAL_MS."');
+                    countResp = ('".$worksheetDetail[$i]->SOAL_MS."'.match(new RegExp('_', 'g')) || []).length;
+                    fillMSResp(".$i.", countResp);
+                ";
             }
             
         }
