@@ -39,7 +39,7 @@
  </script> -->
 <script>
     <?php
-      if($this->session->tempdata('succ')){
+      if($this->session->flashdata('succ')){
         echo 'success_noti("'.$this->session->flashdata('succ').'")';
       }else if($this->session->flashdata('err')){
         echo 'error_noti("'.$this->session->flashdata('err').'")';
