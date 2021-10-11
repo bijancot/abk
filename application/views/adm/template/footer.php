@@ -40,7 +40,7 @@
 <script>
     <?php
       if($this->session->tempdata('succ')){
-        echo 'success_noti("'.$this->session->tempdata('succ').'")';
+        echo 'success_noti("'.$this->session->flashdata('succ').'")';
       }else if($this->session->flashdata('err')){
         echo 'error_noti("'.$this->session->flashdata('err').'")';
       }else if($this->session->flashdata('warn')){
