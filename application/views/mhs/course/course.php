@@ -54,7 +54,7 @@
             if($this->session->userdata('USER_ISVERIF') == '0'){
                 echo '
                     <div class="card mb-5 mt-5 pt-3 pb-3 pl-3" style="color: #FF6C5A;font-weight: bold;">
-                        Opps, your account has not been verified by admin !
+                        Opps, your account has not been verified by admin!
                     </div>
                 ';
             }
@@ -198,6 +198,10 @@
                 echo 'alertSuccess();';
             }else if($this->session->flashdata('alert') == '3'){
                 echo 'alertFailed();';
+            }
+
+            if($this->session->flashdata('err_noti')){
+                echo 'alertNoti("'.$this->session->flashdata('err_noti').'")';
             }
         ?>
     });
