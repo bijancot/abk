@@ -261,6 +261,15 @@
                 confirmButtonText: 'OK'
             })
         }
+        const alertNoti = msg => {
+            Swal.fire({
+                title: 'Sorry!',
+                text: msg,
+                icon: 'error',
+                confirmButtonColor: '#FF6C5A',
+                confirmButtonText: 'OK'
+            })
+        }
     </script>
 
 

@@ -17,15 +17,25 @@ class CourseController extends CI_Controller {
         $this->template->mahasiswa('mhs/course/course', $data);
     }
     public function courseDetail($idWS, $idWSM, $noWS){
-        $data['title']      = 'Spageti - Take Test';
-        $data['noWS']       = $noWS;
-        $data['worksheet']  = $this->Worksheet->get(['ID_WS' => $idWS]);
-
         $wsm = $this->Worksheet->get_mahasiswaDetail(['ID_WSM' => $idWSM]);
-        $statusWSM  = $wsm->STATUS_WSM != null ? $wsm->STATUS_WSM : "kosong";
-        $data['questions']  = $this->getQuestion($idWS, $idWSM, $statusWSM);
-
-        $this->template->mahasiswa('mhs/course/course_detail', $data);
+        if(!empty($wsm->ID_WSM)){
+            if($wsm->EMAIL_MHS == $this->session->userdata('EMAIL_MHS')){
+                $data['title']      = 'Spageti - Take Test';
+                $data['noWS']       = $noWS;
+                $data['worksheet']  = $this->Worksheet->get(['ID_WS' => $idWS]);
+        
+                $statusWSM  = $wsm->STATUS_WSM != null ? $wsm->STATUS_WSM : "kosong";
+                $data['questions']  = $this->getQuestion($idWS, $idWSM, $statusWSM);
+        
+                $this->template->mahasiswa('mhs/course/course_detail', $data);
+            }else{
+                $this->session->set_flashdata('err_noti', "You are not allowed to open this worksheet!");
+                redirect('course');
+            }
+        }else{
+            $this->session->set_flashdata('err_noti', "The worksheet you are accessing is not available!");
+            redirect('course');
+        }
     }
     public function getQuestion($id, $idWSM, $status) {
         $htmlQuestion = "";
