@@ -303,7 +303,92 @@ class AssignmentController extends CI_Controller {
                 </form>
             ';
             }
-        }
+        }else if($tipe == 4) {
+
+        }else if($tipe == 5){
+            $data = $this->Assignment->getAnswerTF($id_ws, $npm_mhs, $created_at);
+            $date_attempt = str_replace("%", " ", $created_at);
+            if($data[0]->TGLFEEDBACK_WSMD){
+                echo '
+                <div class="row">
+                    <div class="col-md-6 col-sm-12">
+                        <h5 id="question_title" class="card-title">'.date_format(date_create($date_attempt), "d M Y H:i:s").' (Done)</h5>
+                    </div>
+                </div>
+                <hr>';
+            }else{
+                echo '
+                <div class="row">
+                    <div class="col-md-6 col-sm-12">
+                        <h5 id="question_title" class="card-title">'.date_format(date_create($date_attempt), "d M Y H:i:s").'</h5>
+                    </div>
+                </div>
+                <hr>';
+            };
+            $no = 1;
+            foreach ($data as $items) {
+                $text = str_replace("<p>", "", $items->SOAL_TF);
+                $falsekey = ''; $falseanswer= '';
+                $truekey = ''; $trueanswer = '';
+
+                if($items->KUNCIJAWABAN_TF == 0){
+                    $falsekey = 'style="color:green; font-weight:bold;"';
+                }else{
+                    $truekey = 'style="color:green; font-weight:bold;"';
+                };
+                if($items->JAWABAN_TFR == 0){
+                    $falseanswer = 'checked';
+                }else{
+                    $trueanswer = 'checked';
+                };
+                echo '
+                    <div>
+                        <span><b>'.$no.'. '.$text.'</b></span>  
+                        <input type="radio" id="true"  value="TRUE" '.$trueanswer.' disabled>
+                        <label '.$truekey.' for="true">TRUE</label>      
+                        <br>     
+                        <input type="radio" id="false"  value="FALSE" '.$falseanswer.' disabled>
+                        <label '.$falsekey.' for="false">FALSE</label>       
+                        <br>                              
+                    </div>
+                    <br>                               
+                    ';
+                $no++;
+            }
+            echo '
+                <div>
+                    <span><b>Final Score</b></span><br>
+                    <span>'.$data[0]->SCORE_WSMD.'</span>
+                </div>
+            ';
+            if($data[0]->TGLFEEDBACK_WSMD) {
+                echo'     
+                <hr>       
+                <div>
+                    <span><b>Feedback</b></span>
+                    <textarea class="form-control radius-10" name="FEEDBACK_WSMD" rows="3" style="width:700px;
+                    font-size:14px; margin-top: 10px;" placeholder="" disabled>'.$data[0]->FEEDBACK_WSMD.'</textarea>
+                </div>
+                ';
+            }else{
+                echo '
+                <form id="formSubmit" action="'.site_url('admin/assignment/submit_feedback').'" method="post">
+                    <input type="hidden" name="ID_WSMD" value="'.$data[0]->ID_WSMD.'"> 
+                    <input type="hidden" name="ID_WS" value="'.$data[0]->ID_WS.'">
+                    <hr>       
+                    <div>
+                        <span><b>Feedback</b></span>
+                        <textarea class="form-control radius-10" name="FEEDBACK_WSMD" rows="3" style="width:700px;
+                        font-size:14px; margin-top: 10px;" placeholder="" >'.$data[0]->FEEDBACK_WSMD.'</textarea>
+                    </div>
+                    <br>
+                    <div style="text-align: left;">
+                    <button id="btn-save" class="btn btn-success btn-sm">Submit</button>
+                    </div>
+                </form>
+            ';
+            }
+        };
     }
     public function submitFeedback() {
         $param = $_POST;
