@@ -2,10 +2,10 @@
 <aside class="sidebar-wrapper" data-simplebar="true">
           <div class="sidebar-header">
             <div>
-              <img src="<?= base_url()?>assets/adm/images/logo-icon.png" class="logo-icon" alt="logo icon">
+              <img src="<?= base_url()?>assets/src/img/logo2.svg" class="logo-icon" alt="logo icon">
             </div>
             <div>
-              <h4 class="logo-text">SPAGETI</h4>
+              <h4 class="logo-text">Spageti.</h4>
             </div>
             <div class="toggle-icon ms-auto"> <i class="bi bi-list"></i>
             </div>

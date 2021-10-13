@@ -5,7 +5,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" href="<?= site_url()?>/assets/adm/images/favicon-32x32.png" type="image/png" />
+  <link rel="icon" href="<?= site_url()?>/assets/src/img/logo2.svg" sizes="any" type="image/svg+xml">
   <!--plugins-->
   <link href="<?= site_url()?>/assets/adm/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
   <link href="<?= site_url()?>/assets/adm/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />
@@ -15,6 +15,7 @@
   <link href="<?= site_url()?>/assets/adm/css/bootstrap-extended.css" rel="stylesheet" />
   <link href="<?= site_url()?>/assets/adm/css/style.css" rel="stylesheet" />
   <link href="<?= site_url()?>/assets/adm/css/icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
   <link href="<?= site_url()?>/assets/adm/plugins/datatable/css/dataTables.bootstrap5.min.css" rel="stylesheet" />

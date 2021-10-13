@@ -53,6 +53,9 @@ class CourseController extends CI_Controller {
                 $htmlQuestion .= $this->questMulti($item, $status, $no-1, $idWSM);
             }else if($item->TYPEQUESTION_WS == 3){
                 $htmlQuestion .= $this->questMiss($item, $status, $no-1, $idWSM);
+            }else if($item->TYPEQUESTION_WS == 4){
+            }else if($item->TYPEQUESTION_WS == 5){
+                $htmlQuestion .= $this->questTF($item, $status, $no-1, $idWSM);
             }
             $htmlQuestion .= "</div>";
 
@@ -140,6 +143,37 @@ class CourseController extends CI_Controller {
 
         // echo '<input type="hidden" name="id" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->ID_MS.'">';
     }
+    public function questTF($item, $status, $no, $idWSM){
+        $ansTF = "";
+        if($status != "0"){
+            $statusDisabled = "disabled";
+            $tfR = $this->Worksheet->get_tfRes(['ID_WSM' => $idWSM, 'ID_TF' => $item->ID_TF]);
+            if(!empty($tfR)){
+                $ansTF = $tfR->JAWABAN_TFR;
+            }
+        }else{
+            $statusDisabled = "";
+        }
+
+        $html = '
+            '.$item->SOAL_TF.'
+            <div style="margin-top: -10px;margin-bottom: 25px;">
+                <div class="input-group">
+                    <input '.$statusDisabled.' '.($ansTF == "1" ? "checked" : "").' type="radio" name="answer_'.$no.'" value="1" required /> 
+                    <label>True</label>
+                </div>
+                <div class="input-group">
+                    <input '.$statusDisabled.' '.($ansTF == "0" ? "checked" : "").' type="radio" name="answer_'.$no.'" value="0" required /> 
+                    <label>False</label>
+                </div>
+            </div>
+            <input '.$statusDisabled.' type="hidden" name="TYPEQUESTION_WS" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->TYPEQUESTION_WS.'">
+            <input '.$statusDisabled.' type="hidden" name="ID_QUEST[]" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->ID_TF.'">
+            <input '.$statusDisabled.' type="hidden" name="PASSGRADE_WS" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->PASSGRADE_WS.'">
+        ';
+
+        return $html;
+    }
     public function renderButton($status, $idWSM){
         if($status == 
         "0"){
@@ -198,7 +232,7 @@ class CourseController extends CI_Controller {
             $wsm['STATUS_WSM'] = '1';
             $this->Worksheet->update_mahasiswa($wsm);
         }else if($param['TYPEQUESTION_WS'] == "2"){
-            $grade = $this->essGrading($param);
+            $grade = $this->mcGrading($param);
 
             $wsmd['ID_WSM']      = $param['ID_WSM'];
             $wsmd['SCORE_WSMD']  = $grade;
@@ -237,13 +271,33 @@ class CourseController extends CI_Controller {
             $wsm['SCOREFINAL_WSM']  = $grade;
             $wsm['STATUS_WSM']      = $grade >= $param['PASSGRADE_WS'] ? '2' : '3';
             $this->Worksheet->update_mahasiswa($wsm);
+        }else if($param['TYPEQUESTION_WS'] == "5"){
+            $grade = $this->TFGrading($param);
+            
+            $wsmd['ID_WSM']      = $param['ID_WSM'];
+            $wsmd['SCORE_WSMD']  = $grade;
+            $wsmd['STATUS_WSMD'] = $grade >= $param['PASSGRADE_WS'] ? '1' : '2';
+            $idWSMD = $this->Worksheet->insert_wsmd($wsmd);
+
+            for ($i=0; $i < count($param['ID_QUEST']); $i++) { 
+                $tfRes['ID_WSMD']      = $idWSMD;
+                $tfRes['ID_TF']        = $param['ID_QUEST'][$i];
+                $tfRes['EMAIL_MHS']    = $this->session->userdata('EMAIL_MHS');
+                $tfRes['JAWABAN_TFR']  = $param['answer_'.$i];
+                $this->Worksheet->insert_tfRes($tfRes);
+            }
+            
+            $wsm['ID_WSM']          = $param['ID_WSM'];
+            $wsm['SCOREFINAL_WSM']  = $grade;
+            $wsm['STATUS_WSM']      = $grade >= $param['PASSGRADE_WS'] ? '2' : '3';
+            $this->Worksheet->update_mahasiswa($wsm);
         }
 
         $this->session->set_flashdata('alert', $wsm['STATUS_WSM']);
 
         redirect('course');
     }
-    public function essGrading($param){
+    public function mcGrading($param){
         $countQuest = count($param['ID_QUEST']);
         $wrongQuest = 0;
 
@@ -273,6 +327,19 @@ class CourseController extends CI_Controller {
             }
         }
 
+        $rightQuest = $countQuest - $wrongQuest;
+        return (int)(($rightQuest/$countQuest) * 100);
+    }
+    public function TFGrading($param){
+        $countQuest = count($param['ID_QUEST']);
+        $wrongQuest = 0;
+
+        for($i = 0; $i < $countQuest; $i++){
+            $rightAns = $this->Worksheet->get_tf(['ID_TF' => $param['ID_QUEST'][$i]]);
+            if($rightAns->KUNCIJAWABAN_TF != $param['answer_'.$i]){
+                ++$wrongQuest;
+            }
+        }
         $rightQuest = $countQuest - $wrongQuest;
         return (int)(($rightQuest/$countQuest) * 100);
     }

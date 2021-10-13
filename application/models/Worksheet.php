@@ -109,6 +109,28 @@ class Worksheet extends CI_Model{
     public function insert_msRes($param){
         $this->db->insert('missing_sentence_result', $param);
     }
+    public function get_tf($param){
+        return $this->db->get_where('truefalse', ['ID_TF' => $param['ID_TF']])->row();
+    }
+    public function get_tfRes($param){
+        return $this->db->query("
+            SELECT *
+            FROM truefalse_result tfr
+            WHERE 
+                tfr.ID_TF = ".$param['ID_TF']."
+                AND tfr.ID_WSMD IN (
+                    SELECT wmd.ID_WSMD 
+                    FROM worksheet_mahasiswa_detail wmd 
+                    WHERE wmd.ID_WSM = ".$param['ID_WSM']."
+                    ORDER by wmd.created_at DESC
+                )
+            ORDER BY tfr.created_at DESC 
+            LIMIT 1        
+        ")->row();
+    }
+    public function insert_tfRes($param){
+        $this->db->insert('truefalse_result', $param);
+    }
     public function checkPosition($param){
         return $this->db->query("
             SELECT * FROM worksheet WHERE POSITION_WS = '".$param['POSITION_WS']."' AND deleted_at IS NULL

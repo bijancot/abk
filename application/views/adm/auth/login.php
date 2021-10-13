@@ -5,7 +5,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" href="<?= site_url()?>/assets/adm/images/favicon-32x32.png" type="image/png" />
+  <link rel="icon" href="<?= site_url()?>/assets/src/img/logo2.svg" sizes="any" type="image/svg+xml">
   <!-- Bootstrap CSS -->
   <link href="<?= site_url()?>/assets/adm/css/bootstrap.min.css" rel="stylesheet" />
   <link href="<?= site_url()?>/assets/adm/css/bootstrap-extended.css" rel="stylesheet" />
