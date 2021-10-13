@@ -142,6 +142,8 @@
                                 <option value="1">Essay</option>
                                 <option value="2">Multiple Choice</option>
                                 <option value="3">Missing Sentence</option>
+                                <option value="4">Matching</option>
+                                <option value="5">True of False</option>
                             </select>
                         </div>
                     </div>
@@ -195,6 +197,8 @@
                                 <option value="1">Essay</option>
                                 <option value="2">Multiple Choice</option>
                                 <option value="3">Missing Sentence</option>
+                                <option value="4">Matching</option>
+                                <option value="5">True of False</option>
                             </select>
                         </div>
                     </div>

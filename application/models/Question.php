@@ -7,6 +7,9 @@ class Question extends CI_Model{
     public function get(){
 
     }
+    public function update($param){
+        $this->db->where('ID_WS', $param['ID_WS'])->update('worksheet', $param);
+    }
     public function essay_get($param){
         return $this->db->get_where('essay', ['ID_WSD' => $param['ID_WSD']])->row();
     }
@@ -34,8 +37,13 @@ class Question extends CI_Model{
     public function missing_updateBatch($param){
         $this->db->update_batch('missing_sentence', $param, 'ID_MS');
     }
-    public function update($param){
-        $this->db->where('ID_WS', $param['ID_WS'])->update('worksheet', $param);
+    public function matching_get($param){
+        return $this->db->get_where('matching', ['ID_WSD' => $param['ID_WSD']])->row();
     }
-    
+    public function matching_insertBatch($param){
+        $this->db->insert_batch('matching', $param);
+    }
+    public function matching_updateBatch($param){
+        $this->db->update_batch('matching', $param, 'ID_MAT');
+    }
 }

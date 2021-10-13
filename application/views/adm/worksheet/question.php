@@ -98,6 +98,22 @@
                     </div>
                     <input class="form-control"  value="'.$idQuest.'" name="ID_QUEST[]" style="width: 30%;" type="hidden" required>
                 ';
+            }else if($worksheet->TYPEQUESTION_WS == "4"){
+                $idQuest    = !empty($worksheetDetail[$no-1]) ? $worksheetDetail[$no-1]->ID_MAT : "kosong";
+                $quest      = !empty($worksheetDetail[$no-1]) ? $worksheetDetail[$no-1]->SOAL_MAT : "";
+                $resp       = !empty($worksheetDetail[$no-1]) ? $worksheetDetail[$no-1]->KUNCIJAWABAN_MAT : "";
+                $typeContent = '
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="">Question <span class="text-danger">*</span></label>
+                        <textarea name="MATCHING_QUESTION[]" id="editor'.($no-1).'" data-item="'.($no-1).'" class="editor" required>'.$quest.'</textarea>
+                    </div>
+                    <input type="hidden" id="typeMissResp" />
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="">Response <span class="text-danger">*</span></label>
+                        <textarea class="form-control" name="MATCHING_RESPONSE[]" required>'.$resp.'</textarea>
+                    </div>
+                    <input class="form-control"  value="'.$idQuest.'" name="ID_QUEST[]" style="width: 30%;" type="hidden" required>
+                ';
             }
 
             echo '
