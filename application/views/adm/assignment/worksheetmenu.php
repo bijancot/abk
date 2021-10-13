@@ -40,9 +40,13 @@
                                             $type = 'Essay';
                                         }else if($item->TYPEQUESTION_WS == 2){
                                             $type = 'Multiple Choice';
-                                        }else{
+                                        }else if($item->TYPEQUESTION_WS == 3){
                                             $type = 'Missing Sentence';
-                                        }
+                                        }else if($item->TYPEQUESTION_WS == 4){
+                                            $type = 'Matching';
+                                        }else if($item->TYPEQUESTION_WS == 5){
+                                            $type = 'True or False';
+                                        };
 
 
                                         echo '

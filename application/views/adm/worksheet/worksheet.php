@@ -48,6 +48,10 @@
                                             $typeLabel = "Multiple Choice";
                                         }else if($type == "3"){
                                             $typeLabel = "Missing Sentence";
+                                        }else if($type == "4"){
+                                            $typeLabel = "Matching";
+                                        }else if($type == "5"){
+                                            $typeLabel = "True or False";
                                         }
                                         
                                         $status = "";
