@@ -82,6 +82,10 @@
                         $type = "Multiple Choice";
                     }else if($item->TYPEQUESTION_WS == "3"){
                         $type = "Missing Sentence";
+                    }else if($item->TYPEQUESTION_WS == "4"){
+                        $type = "Matching";
+                    }else if($item->TYPEQUESTION_WS == "5"){
+                        $type = "True or False";
                     }
 
                     // Check Status
