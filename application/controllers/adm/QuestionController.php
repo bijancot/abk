@@ -153,6 +153,35 @@ class QuestionController extends CI_Controller {
                 $this->Question->matching_updateBatch($storeQuest);
                 $this->session->set_flashdata('succ', 'Successfully updated questions!');
             }
+        }else if($param['TIPE'] == "5"){
+            $storeQuest = array();
+            for($i = 0; $i < count($param['TRUEFALSE_QUESTION']); $i++){
+                if($param['ID_QUEST'][$i] == "kosong"){
+                    $status = "insert";
+                    // Insert WSD
+                    $storeWSD['ID_WS'] = $param['ID_WS'];
+                    $idWSD = $this->Worksheet->insert_detail($storeWSD);
+    
+                    $temp['ID_WSD']              = $idWSD;
+                    $temp['SOAL_TF']            = $param['TRUEFALSE_QUESTION'][$i];
+                    $temp['KUNCIJAWABAN_TF']    = $param['TRUEFALSE_RESPONSE_'.$i];
+                    array_push($storeQuest, $temp);
+                }else{
+                    $status = "update";
+                    $temp['ID_TF']            = $param['ID_QUEST'][$i];
+                    $temp['SOAL_TF']         = $param['TRUEFALSE_QUESTION'][$i];
+                    $temp['KUNCIJAWABAN_TF'] = $param['TRUEFALSE_RESPONSE_'.$i];
+                    array_push($storeQuest, $temp);
+                }
+            }
+            if($status == 'insert'){
+                $this->Question->truefalse_insertBatch($storeQuest);
+                $this->Worksheet->update(['ID_WS' => $param['ID_WS'], 'ISREADY_WS' => '1']);
+                $this->session->set_flashdata('succ', 'Successfully inserted questions!');
+            }else if($status == 'update'){
+                $this->Question->truefalse_updateBatch($storeQuest);
+                $this->session->set_flashdata('succ', 'Successfully updated questions!');
+            }
         }
 
         redirect('admin/question/manage/'.$param['ID_WS']);

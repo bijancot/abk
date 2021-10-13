@@ -107,12 +107,34 @@
                         <label class="form-label" for="">Question <span class="text-danger">*</span></label>
                         <textarea name="MATCHING_QUESTION[]" id="editor'.($no-1).'" data-item="'.($no-1).'" class="editor" required>'.$quest.'</textarea>
                     </div>
-                    <input type="hidden" id="typeMissResp" />
                     <div class="form-group mb-3">
                         <label class="form-label" for="">Response <span class="text-danger">*</span></label>
                         <textarea class="form-control" name="MATCHING_RESPONSE[]" required>'.$resp.'</textarea>
                     </div>
                     <input class="form-control"  value="'.$idQuest.'" name="ID_QUEST[]" style="width: 30%;" type="hidden" required>
+                ';
+            }else if($worksheet->TYPEQUESTION_WS == "5"){
+                $idQuest    = !empty($worksheetDetail[$no-1]) ? $worksheetDetail[$no-1]->ID_TF : "kosong";
+                $quest      = !empty($worksheetDetail[$no-1]) ? $worksheetDetail[$no-1]->SOAL_TF : "";
+                $rightAns   = !empty($worksheetDetail[$no-1]) ? $worksheetDetail[$no-1]->KUNCIJAWABAN_TF : "";
+                $typeContent = '
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="">Question <span class="text-danger">*</span></label>
+                        <textarea name="TRUEFALSE_QUESTION[]" id="editor'.($no-1).'" data-item="'.($no-1).'" class="editor" required>'.$quest.'</textarea>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="">Response <span class="text-danger">*</span></label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" value="1" name="TRUEFALSE_RESPONSE_'.($no-1).'" requried '.($rightAns == "1"? 'checked' :"").'>
+                            <label class="form-check-label" for="TRUEFALSE_RESPONSE_'.($no-1).'">True</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" value="0" name="TRUEFALSE_RESPONSE_'.($no-1).'" required '.($rightAns == "0"? 'checked' : "").'>
+                            <label class="form-check-label" for="TRUEFALSE_RESPONSE_'.($no-1).'">False</label>
+                        </div>
+                        <input class="form-control"  value="'.$idQuest.'" name="ID_QUEST[]" style="width: 30%;" type="hidden" required>
+                    </div>
+
                 ';
             }
 

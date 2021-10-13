@@ -46,4 +46,13 @@ class Question extends CI_Model{
     public function matching_updateBatch($param){
         $this->db->update_batch('matching', $param, 'ID_MAT');
     }
+    public function truefalse_get($param){
+        return $this->db->get_where('truefalse', ['ID_WSD' => $param['ID_WSD']])->row();
+    }
+    public function truefalse_insertBatch($param){
+        $this->db->insert_batch('truefalse', $param);
+    }
+    public function truefalse_updateBatch($param){
+        $this->db->update_batch('truefalse', $param, 'ID_TF');
+    }
 }

@@ -143,7 +143,7 @@
                                 <option value="2">Multiple Choice</option>
                                 <option value="3">Missing Sentence</option>
                                 <option value="4">Matching</option>
-                                <option value="5">True of False</option>
+                                <option value="5">True or False</option>
                             </select>
                         </div>
                     </div>
@@ -198,7 +198,7 @@
                                 <option value="2">Multiple Choice</option>
                                 <option value="3">Missing Sentence</option>
                                 <option value="4">Matching</option>
-                                <option value="5">True of False</option>
+                                <option value="5">True or False</option>
                             </select>
                         </div>
                     </div>
