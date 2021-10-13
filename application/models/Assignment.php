@@ -98,6 +98,16 @@ class Assignment extends CI_Model{
         WHERE wm.NPM_MHS = $npm_mhs and wm.ID_WS = $id_ws and wmd.created_at = '$created_at'";
         return $this->db->query($sql)->result();
     }
+    public function getAnswerMAT($id_ws, $npm_mhs, $created_at) {
+        $sql = "SELECT *
+        FROM matching e
+        LEFT JOIN matching_result er on e.ID_MAT = er.ID_MAT
+        LEFT JOIN worksheet_mahasiswa_detail wmd on er.ID_WSMD = wmd.ID_WSMD
+        LEFT JOIN worksheet_mahasiswa wm on wmd.ID_WSM = wm.ID_WSM
+        LEFT JOIN worksheet w on wm.ID_WS = w.ID_WS
+        WHERE wm.NPM_MHS = $npm_mhs and wm.ID_WS = $id_ws and wmd.created_at = '$created_at'";
+        return $this->db->query($sql)->result();
+    }
     public function getAnswerTF($id_ws, $npm_mhs, $created_at) {
         $sql = "SELECT *
         FROM truefalse e
