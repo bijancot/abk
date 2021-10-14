@@ -258,17 +258,34 @@ class AssignmentController extends CI_Controller {
             
             $no = 1;
             foreach ($data as $items) {
-                $text = str_replace("<p>", "", $items->SOAL_MS);
-                $answer = str_replace(";", ", ", $items->JAWABAN_MSR);
+
+                $soal = explode("_", $items->SOAL_MS);
+                $jawaban = explode(";", $items->JAWABAN_MSR);
+                $kunci = explode(";", $items->KUNCIJAWABAN_MS);
                 $correctAnswer = str_replace(";", ", ", $items->KUNCIJAWABAN_MS);
-                    echo '
-                        <div>
-                            <span><b>'.$no.'. '.$text.'</b> Answer : '.$answer.'</span><br>   
-                            <span style="font-size:12px;color:#bbbbbb;"> Correct Answer : '.$correctAnswer.'</span>
-                        </div>
-                        <br>                             
-                        ';
-                    $no++;
+                echo '
+                    <div>
+                        <span><b>'.$no.'.</b></span>
+                    ';
+
+                for($i=0; $i<sizeof($soal)-1; $i++){
+                    
+                    $mark = '<span style ="color:green;">';
+                    if($jawaban[$i] != $kunci[$i]){
+                        $mark = '<span style ="color:red;">';
+                    };
+
+                    echo'
+                        '.$soal[$i].' '.$mark.'<b><u>'.$jawaban[$i].'</u></b></span>
+                    ';
+                };
+                echo ' 
+                        <br><br>
+                        <span style="font-size:12px;color:#bbbbbb;"> Correct Answer : '.$correctAnswer.'</span>
+                    </div>
+                    <br>                             
+                    ';
+                $no++;
             }
             echo '
                 <div>
