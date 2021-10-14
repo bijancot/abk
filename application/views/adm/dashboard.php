@@ -11,13 +11,12 @@
     }
 
     // Student Status
-    $st_null = null;
-    $st_ip = null;
-    $st_wr = null;
-    $st_p = null;
-    $st_f = null;
+    $st_null = 0;
+    $st_ip = 0;
+    $st_wr = 0;
+    $st_p = 0;
+    $st_f = 0;
     $st_total = null;
-    $st_totalp = null;
     foreach ($studentStatus as $item) {
         $status = $item->status;
         $temp = $item->total;
@@ -48,8 +47,8 @@
     $st_wrp = $st_wr / $st_total * 100;
     $st_pp = $st_p / $st_total * 100;
     $st_fp = $st_f / $st_total * 100;
-    $st_totalp = $st_ipp + $st_wrp + $st_pp + $st_fp;
 
+    // Pass Rates
     $nama_ws = null;
     $st_passed = null;
     $total_p = 0;
@@ -71,6 +70,7 @@
         $temp = $ws;
     }
 
+    // Student Ranking
     $nama_mhs = "";
     $points = null;
     foreach ($studentRanking as $item) {
@@ -147,18 +147,6 @@
      <!--end row-->
 
      <div class="row">
-         <div class="col-12 col-lg-12 d-flex">
-             <div class="card radius-10 w-100">
-                 <div class="card-body">
-                     <div class="d-flex align-items-center">
-                         <h6 class="mb-0">Student Activity <?= date('Y') ?></h6>
-                     </div>
-                     <div id="chartStudentActivity"></div>
-                 </div>
-             </div>
-         </div>
-     </div>
-     <div class="row">
          <div class="col-12 col-lg-6 d-flex">
              <div class="card radius-10 w-100">
                  <div class="card-body">
@@ -166,32 +154,29 @@
                          <h6 class="mb-0">Student Status</h6>
                      </div>
                      <div class="row row-cols-1 row-cols-md-2 g-3 mt-2 align-items-center">
-                         <div class="col-lg-7 col-xl-7 col-xxl-6">
-                             <div class="by-device-container">
-                                 <div class="piechart-legend">
-                                     <h2 class="mb-1"><?= number_format((float)$st_totalp, 2, '.', '') ?>%</h2>
-                                     <h6 class="mb-0">Total Status</h6>
-                                 </div>
-                                 <canvas id="chartStudentStatus"></canvas>
-                             </div>
+                         <div class="col-sm-7 col-md-7 col-lg-7 col-xl-7 col-xxl-7">
+                             <div id="chartStudentStatus" class="d-flex align-items-center justify-content-center"></div>
+                             <!-- <div class="by-device-container">
+                                 <div id="chartStudentStatus"></div>
+                             </div> -->
                          </div>
-                         <div class="col-lg-5 col-xl-5 col-xxl-6">
+                         <div class="col-sm-5 col-md-5 col-lg-5 col-xl-5 col-xxl-5">
                              <div class="">
                                  <ul class="list-group list-group-flush">
                                      <li class="list-group-item d-flex align-items-center justify-content-between border-0">
-                                         <i class="bi bi-file-text me-2 text-primary" style="font-size: 2rem; color: #4EBBFF"></i> <span>Haven't Take</span> <span><?= number_format((float)$st_nullp, 2, '.', '') ?>%</span>
+                                         <i class="bi bi-file-text me-2" style="font-size: 2rem; color: #4EBBFF"></i> <span>Haven't Take</span> <span><?= number_format((float)$st_nullp, 0, '.', '') ?>%</span>
                                      </li>
                                      <li class="list-group-item d-flex align-items-center justify-content-between border-0">
-                                         <i class="bi bi-file-earmark-text me-2 text-primary" style="font-size: 2rem; color: #4EBBFF"></i> <span>In Progress</span> <span><?= number_format((float)$st_ipp, 2, '.', '') ?>%</span>
+                                         <i class="bi bi-file-earmark-text me-2" style="font-size: 2rem; color: #ac92eb"></i> <span>In Progress</span> <span><?= number_format((float)$st_ipp, 0, '.', '') ?>%</span>
                                      </li>
                                      <li class="list-group-item d-flex align-items-center justify-content-between border-0">
-                                         <i class="bi bi-exclamation-triangle me-2 text-primary" style="font-size: 2rem; color: #4EBBFF"></i> <span>Waiting for Response</span> <span><?= number_format((float)$st_wrp, 2, '.', ''); ?>%</span>
+                                         <i class="bi bi-exclamation-triangle me-2" style="font-size: 2rem; color: #ffce54"></i> <span>Waiting for Response</span> <span><?= number_format((float)$st_wrp, 0, '.', ''); ?>%</span>
                                      </li>
                                      <li class="list-group-item d-flex align-items-center justify-content-between border-0">
-                                         <i class="bi bi-check-circle me-2 text-primary" style="font-size: 2rem; color: #4EBBFF"></i> <span>Passed</span> <span><?= number_format((float)$st_pp, 2, '.', ''); ?>%</span>
+                                         <i class="bi bi-check-circle me-2" style="font-size: 2rem; color: #a0d568"></i> <span>Passed</span> <span><?= number_format((float)$st_pp, 0, '.', ''); ?>%</span>
                                      </li>
                                      <li class="list-group-item d-flex align-items-center justify-content-between border-0">
-                                         <i class="bi bi-x-circle me-2 text-primary" style="font-size: 2rem; color: #4EBBFF"></i> <span>Failed</span> <span><?= number_format((float)$st_fp, 2, '.', ''); ?>%</span>
+                                         <i class="bi bi-x-circle me-2" style="font-size: 2rem; color: #ed5564"></i> <span>Failed</span> <span><?= number_format((float)$st_fp, 0, '.', ''); ?>%</span>
                                      </li>
                                  </ul>
                              </div>
@@ -227,6 +212,18 @@
              <div class="card radius-10 w-100">
                  <div class="card-body">
                      <div class="d-flex align-items-center">
+                         <h6 class="mb-0">Student Activity <?= date('Y') ?></h6>
+                     </div>
+                     <div id="chartStudentActivity"></div>
+                 </div>
+             </div>
+         </div>
+     </div>
+     <div class="row">
+         <div class="col-12 col-lg-12 d-flex">
+             <div class="card radius-10 w-100">
+                 <div class="card-body">
+                     <div class="d-flex align-items-center">
                          <h6 class="mb-0">Student Ranking <?= date('Y') ?></h6>
                      </div>
                      <div id="chartStudentRanking"></div>
@@ -239,7 +236,7 @@
  </main>
  <!--end page main-->
 
- <script src="<?= site_url() ?>/assets/adm/js/index.js"></script>
+ <!-- <script src="<?= site_url() ?>/assets/adm/js/index.js"></script> -->
  <script>
      $(function() {
          "use strict";
@@ -281,24 +278,30 @@
          var chart = new ApexCharts(document.querySelector("#chartStudentActivity"), options);
          chart.render();
 
-         // Chart 6
-         new Chart(document.getElementById("chartStudentStatus"), {
-             type: 'doughnut',
-             data: {
-                 labels: ["Haven't Take", "In Progress", "Waiting for Response", "Passed", "Failed"],
-                 datasets: [{
-                     backgroundColor: ["#4EBBFF", "#61c2ff", "#78cbff", "#8fd4ff", "#a8deff"],
-                     data: [<?php echo $st_null . ', ' . $st_ip . ', ' . $st_wr . ', ' . $st_p . ', ' . $st_f ?>]
-                 }]
+         // Chart Student Status
+         var options = {
+             series: [<?php echo $st_null . ', ' . $st_ip . ', ' . $st_wr . ', ' . $st_p . ', ' . $st_f ?>],
+             chart: {
+                 width: 380,
+                 type: 'pie',
              },
-             options: {
-                 cutoutPercentage: 65,
-                 legend: {
-                     display: false
-                 },
-                 maintainAspectRatio: false,
-             }
-         });
+             legend: {
+                 position: 'bottom',
+             },
+             colors: ["#4EBBFF", "#ac92eb", "#ffce54", "#a0d568", "#ed5564"],
+             labels: ["Haven't Take", "In Progress", "Waiting for Response", "Passed", "Failed"],
+             responsive: [{
+                 breakpoint: 480,
+                 options: {
+                     chart: {
+                         width: 200
+                     }
+                 }
+             }]
+         };
+
+         var chart = new ApexCharts(document.querySelector("#chartStudentStatus"), options);
+         chart.render();
 
          // Chart Students Rates
          var options = {
