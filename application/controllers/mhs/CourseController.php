@@ -54,6 +54,7 @@ class CourseController extends CI_Controller {
             }else if($item->TYPEQUESTION_WS == 3){
                 $htmlQuestion .= $this->questMiss($item, $status, $no-1, $idWSM);
             }else if($item->TYPEQUESTION_WS == 4){
+                $htmlQuestion .= $this->questMat($item, $status, $no-1, $idWSM);
             }else if($item->TYPEQUESTION_WS == 5){
                 $htmlQuestion .= $this->questTF($item, $status, $no-1, $idWSM);
             }
@@ -142,6 +143,50 @@ class CourseController extends CI_Controller {
         return $html;
 
         // echo '<input type="hidden" name="id" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->ID_MS.'">';
+    }
+    public function questMat($item, $status, $no, $idWSM){
+        $ansMat = "";
+        if($status != "0"){
+            $statusDisabled = "disabled";
+            $matR = $this->Worksheet->get_matRes(['ID_WSM' => $idWSM, 'ID_MAT' => $item->ID_MAT]);
+            if(!empty($matR)){
+                $ansMat = $matR->JAWABAN_MATR;
+            }
+        }else{
+            $statusDisabled = "";
+        }
+        
+        $resp = $this->Worksheet->get_matAllRes(['ID_WS' => $item->ID_WS]);
+        
+        $respTemp = array();
+        foreach ($resp as $item2) {
+            array_push($respTemp, $item2->KUNCIJAWABAN_MAT);
+        }
+        shuffle($respTemp);
+
+        $htmlResp = "";
+        foreach ($respTemp as $item2) {
+            $htmlResp .= '<option '.($ansMat == $item2 ? "selected" : "").' value="'.$item2.'">'.$item2.'</option>';
+        }
+
+        $html = '
+            <div class="row">
+                <div class="col-12 col-md-6 primary-bg p-3 rounded-15">
+                    '.$item->SOAL_MAT.'
+                </div>
+                <div class="col-12 col-md-6 px-0 pl-md-3 mt-3 mt-md-0">
+                    <select class="custom-select" name="answer_'.$no.'" required '.$statusDisabled.'>
+                        <option disabled '.($ansMat == '' ? 'selected' : '').' value>Choose...</option>
+                        '.$htmlResp.'
+                    </select>
+                </div>
+            </div>
+            <input '.$statusDisabled.' type="hidden" name="TYPEQUESTION_WS" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->TYPEQUESTION_WS.'">
+            <input '.$statusDisabled.' type="hidden" name="ID_QUEST[]" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->ID_MAT.'">
+            <input '.$statusDisabled.' type="hidden" name="PASSGRADE_WS" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->PASSGRADE_WS.'">
+        ';
+
+        return $html;
     }
     public function questTF($item, $status, $no, $idWSM){
         $ansTF = "";
@@ -271,6 +316,26 @@ class CourseController extends CI_Controller {
             $wsm['SCOREFINAL_WSM']  = $grade;
             $wsm['STATUS_WSM']      = $grade >= $param['PASSGRADE_WS'] ? '2' : '3';
             $this->Worksheet->update_mahasiswa($wsm);
+        }else if($param['TYPEQUESTION_WS'] == "4"){
+            $grade = $this->matGrading($param);
+            
+            $wsmd['ID_WSM']      = $param['ID_WSM'];
+            $wsmd['SCORE_WSMD']  = $grade;
+            $wsmd['STATUS_WSMD'] = $grade >= $param['PASSGRADE_WS'] ? '1' : '2';
+            $idWSMD = $this->Worksheet->insert_wsmd($wsmd);
+
+            for ($i=0; $i < count($param['ID_QUEST']); $i++) { 
+                $matRes['ID_WSMD']       = $idWSMD;
+                $matRes['ID_MAT']        = $param['ID_QUEST'][$i];
+                $matRes['EMAIL_MHS']     = $this->session->userdata('EMAIL_MHS');
+                $matRes['JAWABAN_MATR']  = $param['answer_'.$i];
+                $this->Worksheet->insert_matRes($matRes);
+            }
+            
+            $wsm['ID_WSM']          = $param['ID_WSM'];
+            $wsm['SCOREFINAL_WSM']  = $grade;
+            $wsm['STATUS_WSM']      = $grade >= $param['PASSGRADE_WS'] ? '2' : '3';
+            $this->Worksheet->update_mahasiswa($wsm);
         }else if($param['TYPEQUESTION_WS'] == "5"){
             $grade = $this->TFGrading($param);
             
@@ -327,6 +392,19 @@ class CourseController extends CI_Controller {
             }
         }
 
+        $rightQuest = $countQuest - $wrongQuest;
+        return (int)(($rightQuest/$countQuest) * 100);
+    }
+    public function matGrading($param){
+        $countQuest = count($param['ID_QUEST']);
+        $wrongQuest = 0;
+
+        for($i = 0; $i < $countQuest; $i++){
+            $rightAns = $this->Worksheet->get_mat(['ID_MAT' => $param['ID_QUEST'][$i]]);
+            if($rightAns->KUNCIJAWABAN_MAT != $param['answer_'.$i]){
+                ++$wrongQuest;
+            }
+        }
         $rightQuest = $countQuest - $wrongQuest;
         return (int)(($rightQuest/$countQuest) * 100);
     }

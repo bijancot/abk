@@ -172,7 +172,7 @@
 
         </div>
 
-        <div class="card mb-3 p-5">
+        <!-- <div class="card mb-3 p-5">
             <p class="h5 font-w-700 mb-3">Question 1</p>
 
             <div class="row">
@@ -193,7 +193,7 @@
             <button class="btn btn-primary" onclick="alertSuccess();">
                 Debug Game Modal
             </button>
-        </div>
+        </div> -->
 
     </div>
 

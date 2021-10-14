@@ -109,6 +109,38 @@ class Worksheet extends CI_Model{
     public function insert_msRes($param){
         $this->db->insert('missing_sentence_result', $param);
     }
+    public function get_mat($param){
+        return $this->db->get_where('matching', ['ID_MAT' => $param['ID_MAT']])->row();
+    }
+    public function get_matAllRes($param){
+        return $this->db->query("
+            SELECT 
+                m.KUNCIJAWABAN_MAT 
+            FROM 
+                worksheet_detail wd ,
+                matching m 
+            WHERE wd.ID_WS = '".$param['ID_WS']."' AND m.ID_WSD = wd.ID_WSD     
+        ")->result();
+    }
+    public function get_matRes($param){
+        return $this->db->query("
+            SELECT *
+            FROM matching_result mr
+            WHERE 
+                mr.ID_MAT = ".$param['ID_MAT']."
+                AND mr.ID_WSMD IN (
+                    SELECT wmd.ID_WSMD 
+                    FROM worksheet_mahasiswa_detail wmd 
+                    WHERE wmd.ID_WSM = ".$param['ID_WSM']."
+                    ORDER by wmd.created_at DESC
+                )
+            ORDER BY mr.created_at DESC 
+            LIMIT 1        
+        ")->row();
+    }
+    public function insert_matRes($param){
+        $this->db->insert('matching_result', $param);
+    }
     public function get_tf($param){
         return $this->db->get_where('truefalse', ['ID_TF' => $param['ID_TF']])->row();
     }
