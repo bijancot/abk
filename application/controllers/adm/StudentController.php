@@ -20,7 +20,7 @@ class StudentController extends CI_Controller {
     public function changeStatus(){
         $param = $_POST;
         $this->Student->update($param);
-        $this->session->set_tempdata('succ', 'Successfully changed the status on the student ', 1);
+        $this->session->set_flashdata('succ', 'Successfully changed the status on the student ', 1);
         redirect('admin/student/verification');
     }
 
