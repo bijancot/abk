@@ -224,7 +224,7 @@
              <div class="card radius-10 w-100">
                  <div class="card-body">
                      <div class="d-flex align-items-center">
-                         <h6 class="mb-0">Student Ranking <?= date('Y') ?></h6>
+                         <h6 class="mb-0">Student Ranking</h6>
                      </div>
                      <div id="chartStudentRanking"></div>
                  </div>
