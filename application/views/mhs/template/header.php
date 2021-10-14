@@ -20,9 +20,12 @@
     <!-- Fav Icons -->
     <link rel="icon" href="<?= site_url()?>/assets/src/img/logo2.svg" sizes="any" type="image/svg+xml">
     
-    <link rel="stylesheet" href="<?= site_url()?>/assets/mhs/game-assets/TemplateData/style.css">
     <script src="https://code.iconify.design/2/2.0.3/iconify.min.js"></script>
     <script src="<?= site_url()?>/assets/mhs/js/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="<?= site_url()?>/assets/mhs/game-assets/assets/css/reset.css">
+    <link rel="stylesheet" href="<?= site_url()?>/assets/mhs/game-assets/assets/css/style.css">
+
 </head>
 
 <body class="primary-bg">
