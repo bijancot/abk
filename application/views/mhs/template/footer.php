@@ -224,10 +224,22 @@
     <script src="<?= site_url()?>/assets/mhs/js/education-modern.min.js"></script>
     <script src="<?= site_url()?>/assets/mhs/js/custom.js"></script>
     <script src="<?= site_url()?>/assets/mhs/js/sweetalert.js"></script>
-    <script src="<?= site_url()?>/assets/mhs/game-assets/TemplateData/UnityProgress.js"></script>
+    <!-- <script src="<?= site_url()?>/assets/mhs/game-assets/TemplateData/UnityProgress.js"></script>
+    <script src="<?= site_url()?>/assets/mhs/game-assets/Build/UnityLoader.js"></script> -->
+    <!-- unity resources -->
     <script src="<?= site_url()?>/assets/mhs/game-assets/Build/UnityLoader.js"></script>
+
     <script>
-      var unityInstance = UnityLoader.instantiate("unityContainer", "<?= site_url()?>/assets/mhs/game-assets/Build/puzzle.json", {onProgress: UnityProgress});
+      // instantiate webgl only if we're not on a touch device
+
+      var isTouch = ('ontouchstart' in document.documentElement);
+
+      if ( !isTouch ) {
+        var unityInstance = UnityLoader.instantiate("unityContainer", "<?= site_url()?>/assets/mhs/game-assets/Build/puzzle3.json");
+      }
+
+    //   var unityInstance = UnityLoader.instantiate("unityContainer", "<?= site_url()?>/assets/mhs/game-assets/Build/puzzle.json", {onProgress: UnityProgress});
+
     </script>
     <script>
         const alertSuccess = () => {

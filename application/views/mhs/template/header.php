@@ -36,9 +36,12 @@
     <meta name="msapplication-TileImage" content="<?= site_url()?>/assets/mhs/favicon/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
     
-    <link rel="stylesheet" href="<?= site_url()?>/assets/mhs/game-assets/TemplateData/style.css">
     <script src="https://code.iconify.design/2/2.0.3/iconify.min.js"></script>
     <script src="<?= site_url()?>/assets/mhs/js/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="<?= site_url()?>/assets/mhs/game-assets/assets/css/reset.css">
+    <link rel="stylesheet" href="<?= site_url()?>/assets/mhs/game-assets/assets/css/style.css">
+
 </head>
 
 <body class="primary-bg">
