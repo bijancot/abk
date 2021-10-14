@@ -42,11 +42,11 @@
         }
         $st_total += $temp;
     }
-    $st_nullp = $st_null / $st_total * 100;
-    $st_ipp = $st_ip / $st_total * 100;
-    $st_wrp = $st_wr / $st_total * 100;
-    $st_pp = $st_p / $st_total * 100;
-    $st_fp = $st_f / $st_total * 100;
+    $st_nullp = ($st_null != 0) ? $st_null / $st_total * 100 : 0;
+    $st_ipp = ($st_ip != 0) ? $st_ip / $st_total * 100 : 0;
+    $st_wrp = ($st_wr != 0) ? $st_wr / $st_total * 100 : 0;
+    $st_pp = ($st_p != 0) ? $st_p / $st_total * 100 : 0;
+    $st_fp = ($st_f != 0) ? $st_f / $st_total * 100 : 0;
 
     // Pass Rates
     $nama_ws = null;
