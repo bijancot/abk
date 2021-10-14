@@ -197,23 +197,29 @@
 
     </div>
 
-    <div class="modal fade" id="mdlGame" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade pl-0" id="mdlGame" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">Puzzle</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="webgl-content">
-                        <div id="unityContainer"></div>
+                    <div class="container-game">
+
+                        <div class="webgl-wrapper">
+                            <div class="aspect" style="margin-top: calc(100% / 400 * 600);"></div>
+                            <div class="webgl-content">
+                                <div id="unityContainer"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <!-- <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
