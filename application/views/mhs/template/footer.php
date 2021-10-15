@@ -245,7 +245,7 @@
         const alertSuccess = () => {
             Swal.fire({
                 title: 'Good Job!',
-                text: "You have passed the worksheet !",
+                text: "You passed the test!",
                 icon: 'success',
                 confirmButtonColor: '#5CB85C',
                 confirmButtonText: 'OK'
@@ -258,7 +258,7 @@
         const alertFailed = () => {
             Swal.fire({
                 title: 'Sorry!',
-                text: "You failed to do the worksheet, and try again ",
+                text: "You failed the test! Please try again.",
                 icon: 'error',
                 confirmButtonColor: '#FF6C5A',
                 confirmButtonText: 'OK'
@@ -266,8 +266,8 @@
         }
         const alertWaiting = () => {
             Swal.fire({
-                title: 'Info!',
-                text: "Please wait, your worksheet is being checked by the lecturer ",
+                title: 'Please Wait!',
+                text: "Your worksheet is being checked by the lecturer",
                 icon: 'info',
                 confirmButtonColor: '#4EBBFF',
                 confirmButtonText: 'OK'
