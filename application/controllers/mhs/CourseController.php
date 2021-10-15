@@ -127,18 +127,27 @@ class CourseController extends CI_Controller {
     }
     public function questMiss($item, $status, $no, $idWSM){
         $ansMS = "";
+        $html = "";
         if($status != "0"){
             $statusDisabled = "disabled";
+            
             $ansMS = $this->Worksheet->get_msRes(['ID_WSM' => $idWSM, 'ID_MS' => $item->ID_MS])->JAWABAN_MSR;
+            $ansMS = explode(";", $ansMS);
+
+            $questMS = explode('_', $item->SOAL_MS);
+
+            for($i=0; $i<sizeof($questMS)-1; $i++){
+                $html .= $questMS[$i].' <span style="color: #4EBBFF;"><b><u>'.$ansMS[$i].'</u></b></span>';
+            }
+
         }else{
             $statusDisabled = "";
+            $html .= str_replace("_", ' <input '.$statusDisabled.' type="text" class="input-isian" name="answer_'.$no.'[]" required /> ', $item->SOAL_MS);
         }
-        $html = str_replace("_", ' <input '.$statusDisabled.' type="text" class="input-isian" name="answer_'.$no.'[]" required /> ', $item->SOAL_MS);
         $html .= '
             <input '.$statusDisabled.' type="hidden" name="TYPEQUESTION_WS" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->TYPEQUESTION_WS.'">
             <input '.$statusDisabled.' type="hidden" name="ID_QUEST[]" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->ID_MS.'">
             <input '.$statusDisabled.' type="hidden" name="PASSGRADE_WS" class="form-control verso-shadow-0 verso-shadow-focus-2 verso-transition verso-mb-3" value="'.$item->PASSGRADE_WS.'">
-            <input '.$statusDisabled.' type="hidden" value="'.$ansMS.'">
         ';
         return $html;
 
