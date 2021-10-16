@@ -22,7 +22,7 @@ class Dashboard extends CI_Model {
     }
     public function studentActivity() {
         $this->db->select("count(ID_WSMD) as total, MONTHNAME(created_at) as month");
-        $this->db->where('YEAR(created_at) = YEAR(CURRENT_DATE()) AND FEEDBACK_WSMD is not null');
+        $this->db->where('YEAR(created_at) = YEAR(CURRENT_DATE())');
         $this->db->group_by('MONTHNAME(created_at)');
         $this->db->order_by('created_at ASC');
         return $this->db->from('worksheet_mahasiswa_detail')->get()->result();
