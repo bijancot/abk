@@ -5,10 +5,10 @@ class AuthController extends CI_Controller {
         parent::__construct();
         $this->load->model('Mahasiswa');
     }
-    // public function VLogin(){
-    //     echo 'ilham';
-    // }
     public function index() {
+        if ($this->session->userdata('USER_LOGGED')) {
+            redirect('course');
+        }
         $this->load->view('mhs/auth/login');
     }
     public function register() {

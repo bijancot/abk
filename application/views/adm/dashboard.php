@@ -42,17 +42,12 @@
         }
         $st_total += $temp;
     }
-    $st_nullp = ($st_null != 0) ? $st_null / $st_total * 100 : 0;
-    $st_ipp = ($st_ip != 0) ? $st_ip / $st_total * 100 : 0;
-    $st_wrp = ($st_wr != 0) ? $st_wr / $st_total * 100 : 0;
-    $st_pp = ($st_p != 0) ? $st_p / $st_total * 100 : 0;
-    $st_fp = ($st_f != 0) ? $st_f / $st_total * 100 : 0;
 
     // Pass Rates
-    $nama_ws = null;
-    $st_passed = null;
+    $nama_ws = "";
+    $st_passed = 0;
     $total_p = 0;
-    $st_failed = null;
+    $st_failed = 0;
     $total_f = 0;
     foreach ($passRates as $item) {
         $ws = $item->NAMA_WS;
@@ -153,35 +148,7 @@
                      <div class="d-flex align-items-center">
                          <h6 class="mb-0">Student Status</h6>
                      </div>
-                     <div class="row row-cols-1 row-cols-md-2 g-3 mt-2 align-items-center">
-                         <div class="col-sm-7 col-md-7 col-lg-7 col-xl-7 col-xxl-7">
-                             <div id="chartStudentStatus" class="d-flex align-items-center justify-content-center"></div>
-                             <!-- <div class="by-device-container">
-                                 <div id="chartStudentStatus"></div>
-                             </div> -->
-                         </div>
-                         <div class="col-sm-5 col-md-5 col-lg-5 col-xl-5 col-xxl-5">
-                             <div class="">
-                                 <ul class="list-group list-group-flush">
-                                     <li class="list-group-item d-flex align-items-center justify-content-between border-0">
-                                         <i class="bi bi-file-text me-2" style="font-size: 2rem; color: #4EBBFF"></i> <span>Haven't Take</span> <span><?= number_format((float)$st_nullp, 0, '.', '') ?>%</span>
-                                     </li>
-                                     <li class="list-group-item d-flex align-items-center justify-content-between border-0">
-                                         <i class="bi bi-file-earmark-text me-2" style="font-size: 2rem; color: #ac92eb"></i> <span>In Progress</span> <span><?= number_format((float)$st_ipp, 0, '.', '') ?>%</span>
-                                     </li>
-                                     <li class="list-group-item d-flex align-items-center justify-content-between border-0">
-                                         <i class="bi bi-exclamation-triangle me-2" style="font-size: 2rem; color: #ffce54"></i> <span>Waiting for Response</span> <span><?= number_format((float)$st_wrp, 0, '.', ''); ?>%</span>
-                                     </li>
-                                     <li class="list-group-item d-flex align-items-center justify-content-between border-0">
-                                         <i class="bi bi-check-circle me-2" style="font-size: 2rem; color: #a0d568"></i> <span>Passed</span> <span><?= number_format((float)$st_pp, 0, '.', ''); ?>%</span>
-                                     </li>
-                                     <li class="list-group-item d-flex align-items-center justify-content-between border-0">
-                                         <i class="bi bi-x-circle me-2" style="font-size: 2rem; color: #ed5564"></i> <span>Failed</span> <span><?= number_format((float)$st_fp, 0, '.', ''); ?>%</span>
-                                     </li>
-                                 </ul>
-                             </div>
-                         </div>
-                     </div>
+                     <div id="chartStudentStatus" class="d-flex align-items-center justify-content-center"></div>
                  </div>
              </div>
          </div>
@@ -282,7 +249,7 @@
          var options = {
              series: [<?php echo $st_null . ', ' . $st_ip . ', ' . $st_wr . ', ' . $st_p . ', ' . $st_f ?>],
              chart: {
-                 width: 380,
+                 width: 420,
                  type: 'pie',
              },
              legend: {

@@ -6,8 +6,8 @@ class CourseController extends CI_Controller {
         $this->load->model('Course');
         $this->load->model('Worksheet');
         if (empty($this->session->userdata('USER_LOGGED'))) {
-			redirect();
-		};
+            redirect();
+        }
     }
 
     public function index(){
