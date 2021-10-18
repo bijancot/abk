@@ -29,8 +29,11 @@ class Dashboard extends CI_Model {
     }
     public function studentStatus() {
         $this->db->select("COUNT(ID_WSM) as total, STATUS_WSM as status");
+        $this->db->from('worksheet w');
+        $this->db->join('worksheet_mahasiswa wm', 'w.ID_WS = wm.ID_WS');
+        $this->db->where('w.ISPUBLISHED_WS = 1 AND w.deleted_at is null');
         $this->db->group_by('STATUS_WSM');
-        return $this->db->from('worksheet_mahasiswa')->get()->result();
+        return $this->db->get()->result();
     }
     public function passRates() {
         $this->db->select("NAMA_WS, COUNT(STATUS_WSM) as TOTAL, STATUS_WSM");
