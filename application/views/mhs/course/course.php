@@ -13,7 +13,7 @@
 
         <div class="card p-0 mb-5">
             <div class="embed-responsive embed-responsive-16by9 rounded-15">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/9hhMUT2U2L4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe width="560" height="315" src="<?= site_url('assets/video/video_argumentative.mp4')?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
         </div>
 
