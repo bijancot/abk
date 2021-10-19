@@ -21,6 +21,13 @@
     <?php
         $countMC = 1;
         if($worksheet->TYPEQUESTION_WS == "1"){
+            if($worksheet->PATH_PDF != null){
+                echo '
+                    <div class="row mb-3">
+                        <iframe src="'.$worksheet->PATH_PDF.'" style="height: 800px;" frameborder="0"></iframe>
+                    </div>
+                ';
+            }
             echo '
                 <div class="form-group mb-3">
                     <label class="form-label" for="pdf-source">Upload PDF (Optional)</label>

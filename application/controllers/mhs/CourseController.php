@@ -261,6 +261,7 @@ class CourseController extends CI_Controller {
     }
     public function takeTest(){
         $param = $_POST;
+        $param['SCOREFINAL_WSM'] = null;
         $noWS = $param['noWS'];
         unset($param['noWS']);
 
