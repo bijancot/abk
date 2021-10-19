@@ -1,7 +1,7 @@
 <!-- Content -->
 <div class="contentt">
 
-    <div class="container welcome mx-auto">
+    <div class="container xtra-padding-lg welcome mx-auto">
         <!-- class 'welcome' iki khusus gawe page iki, soale gawe padding e gambar illustrasi ndek isor -->
 
         <div class="card mb-5 py-4 px-5 relative">
