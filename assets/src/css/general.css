@@ -78,23 +78,22 @@
       font-size: .9em;
       font-weight: 600; }
       .card .card-header .label span.inprogress {
-        background: #FFA451;
-        color: white; }
+        background: #FFE66D; }
       .card .card-header .label span.waitingforresponse {
-        background: #F6BC00;
+        background: #56CBF9;
         color: white; }
       .card .card-header .label span.passed {
-        background: #5CB85C;
+        background: #27ae60;
         color: white; }
       .card .card-header .label span.failed {
-        background: #FF6C5A;
+        background: #e74c3c;
         color: white; }
       .card .card-header .label span.taketest {
-        background: #0D3B66;
+        background: #F0803C;
         color: white; }
         .card .card-header .label span.taketest.disabled {
-          background: #DDDDDD;
-          color: #fff; }
+          background: #D7D7D7;
+          color: #0D3B66; }
     .card .card-header.collapsed > .iconify {
       transform: rotate(180deg); }
   .card .card-body {
@@ -238,3 +237,7 @@ a:hover {
 
 ::placeholder {
   opacity: 70%; }
+
+@media (min-width: 992px) {
+  .xtra-padding-lg {
+    padding: 0 100px; } }
