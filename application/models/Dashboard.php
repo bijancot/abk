@@ -47,6 +47,8 @@ class Dashboard extends CI_Model {
         $this->db->select("NAMA_MHS, SUM(SCOREFINAL_WSM) as TOTAL");
         $this->db->from('mahasiswa m');
         $this->db->join('worksheet_mahasiswa wm', 'm.EMAIL_MHS = wm.EMAIL_MHS', 'left');
+        $this->db->join('worksheet w', 'wm.ID_WS = w.ID_WS', 'left');
+        $this->db->where('w.ISPUBLISHED_WS = 1 AND w.deleted_at is null');
         $this->db->group_by('NAMA_MHS');
         $this->db->order_by('TOTAL DESC');
         return $this->db->get()->result();
