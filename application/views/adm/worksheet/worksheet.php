@@ -194,19 +194,7 @@
                             <input type="text" class="form-control" id="mdlEdit_name" placeholder="Name" name="NAMA_WS" required>
                         </div>
                     </div>
-                    <div class="modal-body">
-                        <div class="col">
-                            <label for="">Type Question</label>
-                            <select id="mdlEdit_type" name="TYPEQUESTION_WS" id="select_type" class="form-select" style="width: 50%;" disabled>
-                                <option value="1">Essay</option>
-                                <option value="2">Multiple Choice</option>
-                                <option value="3">Missing Sentence</option>
-                                <option value="4">Matching</option>
-                                <option value="5">True or False</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="modal-body">
+                    <!-- <div class="modal-body">
                         <div class="col">
                             <label for="">Pass Grade</label>
                             <div class="input-group mb-3 type_multiple_input" style="width: 50%;" id="type_multiple_content_1">
@@ -216,7 +204,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 
             <div class="modal-footer">

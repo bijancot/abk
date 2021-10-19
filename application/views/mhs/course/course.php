@@ -24,7 +24,7 @@
                 </div>
             </nav>
             <div class="tab-content p-3" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Neque earum cupiditate maxime aliquid, exercitationem esse. Accusantium reprehenderit vero architecto laboriosam nisi error accusamus, neque nostrum quo modi, perferendis sint enim!</div>
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">An argument is a rationale in which the reason presents evidence in support of a claim made in the conclusion. Its purpose is to provide a basis for believing the conclusion to be true. An explanation is a rationale in which the reason presents a cause of some fact represented by the conclusion.</div>
                 <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                     <div class="">
                         <div class="d-flex align-items-center mb-1">
@@ -134,7 +134,7 @@
                     // Content Worksheet
                     $contentWorksheet = '';
                     if ($statusContent == true) {
-                        $scoreFinal = $item->SCOREFINAL_WSM == null ? '' : $item->SCOREFINAL_WSM . '/100';
+                        $scoreFinal = $item->SCOREFINAL_WSM == null? '-' : $item->SCOREFINAL_WSM . '/100';
                         $contentWorksheet = '
                             <div id="' . $item->ID_WS . '" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
                                 <div class="card-body d-flex flex-column flex-md-row justify-content-between align-items-center opacity-70">
