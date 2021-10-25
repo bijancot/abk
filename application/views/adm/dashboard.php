@@ -45,9 +45,9 @@
 
     // Pass Rates
     $nama_ws = "";
-    $st_passed = 0;
+    $st_passed = "";
     $total_p = 0;
-    $st_failed = 0;
+    $st_failed = "";
     $total_f = 0;
     foreach ($passRates as $item) {
         $ws = $item->NAMA_WS;
