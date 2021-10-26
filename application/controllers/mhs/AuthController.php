@@ -88,6 +88,94 @@ class AuthController extends CI_Controller {
         $this->session->sess_destroy();
         redirect();
     }
+    public function forgotPassword() {
+        // print_r(hash_algos());
+        $this->load->view('mhs/auth/forgot');
+    }
+    public function email($data) {
+        $config = [
+            'mailtype'  => 'html',
+            'charset'   => 'utf-8',
+            'protocol'  => 'smtp',
+            'smtp_host' => 'smtp.gmail.com',
+            'smtp_user' => 'wendyuzenn@gmail.com',  
+            'smtp_pass'   => 'passwordthatudontexpect', 
+            'smtp_crypto' => 'ssl',
+            'smtp_port'   => 465,
+            'crlf'    => "\r\n",
+            'newline' => "\r\n"
+        ];
+
+        $this->load->library('email', $config);
+        $this->email->from('no-reply@puspen.kristomoyo.com', 'puspen.kristomoyo.com');
+        $this->email->to($data['email']); 
+        $this->email->subject('Reset your Spageti password');
+        // $this->email->message("Reset password link: ".$data['link']);
+        $this->email->message($this->load->view('email', $data, true));
+
+        if ($this->email->send()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function proses_forgot() {
+        $email = $this->input->post('email');
+        $result = $this->Mahasiswa->checkEmailisExist(['EMAIL_MHS' => $email]);
+        if ($result) {
+            $token = hash('sha256', $email.date('Y-m-d h:i:s'));
+            $is_valid = date('Y-m-d', strtotime('tomorrow'));
+            $arr = array(
+                'RESET_TOKEN' => $token,
+                'TOKEN_EXPIRE_DATE' => $is_valid
+            );
+            $this->Mahasiswa->updateToken($email, $arr);
+            $data = array(
+                'email' => $email,
+                'link' => site_url('forgot-password/'.$token)
+            );
+            $email = $this->email($data);
+            if ($email) {
+                $this->session->set_tempdata('auth_msg', 'Check your inbox for a reset email', 5);
+            } else {
+                $this->session->set_tempdata('auth_msg', 'Failed to send reset email', 5);
+            }
+        } else {
+            $this->session->set_tempdata('auth_msg', 'Email is not found', 5);
+        }
+        redirect('forgot-password');
+    }
+    public function resetPassword($param) {
+        $result = $this->Mahasiswa->checkTokenisExist(['RESET_TOKEN' => $param]);
+        if ($result) {
+            $valid = $this->Mahasiswa->checkTokenisValid(['RESET_TOKEN' => $param, 'TOKEN_EXPIRE_DATE' => date('Y-m-d')]);
+            if ($valid) {
+                $data['token'] = $param;
+                // $this->session->set_tempdata('auth_msg', 'Token is valid', 5);
+                $this->load->view('mhs/auth/reset', $data);
+            } else {
+                $this->session->set_tempdata('auth_msg', 'Token has expired', 5);
+                redirect('forgot-password');
+            }
+        } else {
+            $this->session->set_tempdata('auth_msg', 'Token doesn\'t exist', 5);
+            redirect('forgot-password');
+        }
+    }
+    public function proses_reset() {
+        $token = $this->input->post('token');
+        $password = $this->input->post('password');
+        $confirm_password = $this->input->post('confirm_password');
+        if ($password == $confirm_password) {
+            $this->Mahasiswa->resetPassword(['RESET_TOKEN' => $token], ['PASSWORD_MHS' => md5($confirm_password)]);
+            $this->Mahasiswa->resetToken(['RESET_TOKEN' => $token]);
+            $this->session->set_tempdata('auth_msg', 'Password reset successfully', 5);
+            redirect('login');
+        } else {
+            $this->session->set_tempdata('auth_msg', 'Password reset failed', 5);
+            redirect('forgot-password');
+        }
+    }
     public function checkWSM($email, $npm){
         $worksheetMhs = $this->db->query("
             SELECT GROUP_CONCAT(wm.ID_WS) AS ID_WS
