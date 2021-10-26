@@ -68,6 +68,17 @@ class Assignment extends CI_Model{
         ORDER BY wmd.created_at DESC";
         return $this->db->query($sql)->result();
     }
+    public function getLatestAtt($npm_mhs, $id_ws) {
+        $sql = "SELECT wmd.created_at as latest FROM worksheet w
+        LEFT JOIN worksheet_mahasiswa wm on w.ID_WS = wm.ID_WS
+        LEFT JOIN worksheet_mahasiswa_detail wmd on wm.ID_WSM = wmd.ID_WSM
+        WHERE w.ISPUBLISHED_WS = 1
+          and w.deleted_at is null
+          and wm.NPM_MHS = $npm_mhs
+          and w.ID_WS = $id_ws
+        ORDER BY wmd.created_at DESC";
+        return $this->db->query($sql)->first_row()->latest;
+    }
     public function getES($npm_mhs, $id_ws) {
         $sql = "SELECT *
         FROM essay e
@@ -128,6 +139,21 @@ class Assignment extends CI_Model{
         WHERE wm.NPM_MHS = $npm_mhs and wm.ID_WS = $id_ws and wmd.created_at = '$created_at'";
         return $this->db->query($sql)->result();
     }
+    public function getTotalAttempt($id_ws, $npm_mhs) {
+        $sql = "SELECT COUNT(wmd.ID_WSMD) as TOTAL
+        FROM worksheet_mahasiswa wm, worksheet_mahasiswa_detail wmd 
+        WHERE wm.NPM_MHS = $npm_mhs AND 
+        wm.ID_WS = $id_ws AND wm.ID_WSM = wmd.ID_WSM";
+        return $this->db->query($sql)->row()->TOTAL;     
+    }
+    public function getTotalFailed($id_ws, $npm_mhs) {   
+        $sql = "SELECT COUNT(wmd.ID_WSMD) as TOTAL
+        FROM worksheet_mahasiswa wm, worksheet_mahasiswa_detail wmd 
+        WHERE wm.NPM_MHS = $npm_mhs AND 
+        wm.ID_WS = $id_ws AND wm.ID_WSM = wmd.ID_WSM AND wmd.STATUS_WSMD = 2";
+        return $this->db->query($sql)->row()->TOTAL;     
+    }
+
     public function updateWSMD($data, $param) {
         return $this->db->where('ID_WSMD', $param)->update('worksheet_mahasiswa_detail', $data);
     }
