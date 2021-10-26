@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spageti - Login</title>
+    <title>Spageti - Reset Password</title>
 
     <!-- Favicon -->
     <link rel="icon" href="<?= site_url()?>/assets/src/img/logo2.svg" sizes="any" type="image/svg+xml">
@@ -30,32 +30,24 @@
             <div class="col-12 col-md-5 bg-white d-flex align-items-center px-5 pt-5 pt-md-0">
                 <div class="d-flex flex-column w-100">
 
-                    <p class="h2 font-w-700">Log In</p>
-                    <p class="text-small opacity-70">Log into your account</p>
-                    <form action="<?= site_url('proses_login')?>" method="POST" class="register-form mt-3" id="login-form">
+                    <p class="h2 font-w-700">Reset Password</p>
+                    <p class="text-small opacity-70">Reset your account's password</p>
+                    <form action="<?= site_url('proses_reset')?>" method="POST" class="register-form mt-3" id="login-form">
                         <div class="form-group">
-                            <label class="text-primary font-w-600">Email</i></label>
-                            <input type="text" name="email" id="email" placeholder="Enter your email address" class="auth-input"/>
+                            <label class="text-primary font-w-600">New Password</i></label>
+                            <input type="password" name="password" id="r_password" placeholder="Enter your new password" class="auth-input" required/>
                         </div>
                         <div class="form-group">
-                            <label class="text-primary font-w-600">Password</label>
-                            <input type="password" name="password" id="password" placeholder="Enter your password" class="auth-input"/>
+                            <label class="text-primary font-w-600">Confirm Password</i></label>
+                            <input type="password" name="confirm_password" id="r_confirm_password" placeholder="Enter your confirm password" class="auth-input" required/>
                         </div>
-                        <!-- <div class="form-group">
-                            <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
-                            <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
-                        </div> -->
                         <?php if ($this->session->tempdata("auth_msg")) { ?>
                             <span><strong><?php echo $this->session->tempdata("auth_msg"); ?></strong></span>
-                        <?php  } else if ($this->session->tempdata("failed_auth_msg")) {?>
-                            <span><strong><?php echo $this->session->tempdata("failed_auth_msg"); ?></strong></span>
                         <?php  }?>
-                        <div class="d-flex flex-column justify-content-right align-items-end">
-                            <a href="forgot-password" class="text-primary"><u>Forgot Password?</u></a>
-                        </div>
                         <div class="d-flex flex-column justify-content-center align-items-center">
-                            <input type="submit" name="login" id="signin" class="login-btn font-w-700 w-50 mb-3 mt-5" value="Log in"/>
-                            <p class="text-small opacity-70">Don’t have account? <a href="register" class="text-primary"><u>Sign Up</u></a></p> 
+                            <input type="hidden" name="token" value="<?= $token ?>">
+                            <input type="submit" name="login" id="signin" class="login-btn font-w-700 w-50 mb-3 mt-5" value="Reset"/>
+                            <p class="text-small opacity-70">Already have an account? <a href="login" class="text-primary"><u>Login</u></a></p> 
                         </div>
                     </form>
                 </div>
@@ -66,6 +58,7 @@
 
     <!-- JS -->
     <script src="<?= base_url('assets/mhs/js/jquery.min.js'); ?>"></script>
+    <script src="<?= site_url()?>/assets/mhs/js/custom.js"></script>
     <!-- <script src="<?= base_url('assets/js/main.js'); ?>"></script> -->
 </body>
 </html>

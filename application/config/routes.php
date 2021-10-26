@@ -54,11 +54,15 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 // ROUTE MAHASISWA
-$route['login']                 = 'mhs/AuthController';
-$route['register']              = 'mhs/AuthController/register';
-$route['proses_register']       = 'mhs/AuthController/proses_register';
-$route['proses_login']          = 'mhs/AuthController/proses_login';
-$route['proses_logout']         = 'mhs/AuthController/proses_logout';
+$route['login']                         = 'mhs/AuthController';
+$route['register']                      = 'mhs/AuthController/register';
+$route['proses_register']               = 'mhs/AuthController/proses_register';
+$route['proses_login']                  = 'mhs/AuthController/proses_login';
+$route['proses_logout']                 = 'mhs/AuthController/proses_logout';
+$route['proses_forgot']                 = 'mhs/AuthController/proses_forgot';
+$route['proses_reset']                  = 'mhs/AuthController/proses_reset';
+$route['forgot-password']               = 'mhs/AuthController/forgotPassword';
+$route['forgot-password/(:any)']        = 'mhs/AuthController/resetPassword/$1';
 
 // ROUTE COURSE
 $route['course']                        = 'mhs/CourseController';
