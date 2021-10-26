@@ -21,6 +21,16 @@
                     <div class="row">
                         <h5 class="card-title">Attempts</h5>
                     </div>
+                    <table style="width:100%;margin-top:10px;">
+                        <tr style="text-align:center;height:20px;">
+                            <th style="border-right: solid 1px #bbb; width:50%;">Total</th>      
+                            <th style="width:50%;">Failed</th>                      
+                        </tr>
+                        <tr style="text-align:center;">
+                            <td style="border-right: solid 1px #bbb;"><?= $totalattempt ?></td>
+                            <td><?= $totalfailed ?></td>
+                        </tr>
+                    </table>
                     <hr>
                     <div id="list-attempts" class="d-flex flex-wrap justify-content-center">
                         <?php
@@ -50,8 +60,14 @@
         </div>
         <div class="col-md-9 col-sm-12">
             <div class="card">
-                <div id="answers_content" class="card-body">
-                    <span>Click any attempts</span>
+                <div id="answers_content" class="card-body">                    
+                    <?php 
+                        $created_at = '404';
+                        if($latest != NULL){
+                            $created_at = str_replace(" ", "%", $latest);                            
+                        };                        
+                    ?>                    
+                    <span>Loading...</span>
                 </div>
             </div>
         </div>
@@ -59,6 +75,14 @@
 </main>
 <script>
     $(document).ready(function() {
+        $.ajax({
+            url: "<?= site_url('adm/AssignmentController/getAnswers/'.$wsid.'/'.$npm.'/'.$tipe.'/'.$created_at) ?>",
+            type: "GET",
+            success: function(res) {
+                $('#answers_content').html(res);
+            }
+        });
+
         $('.cardNo').click(function(e){
             var id_ws = $(this).data('idws');
             var npm_mhs = $(this).data('npm');
