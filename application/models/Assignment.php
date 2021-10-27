@@ -21,9 +21,20 @@ class Assignment extends CI_Model{
         $this->db->where('NPM_MHS', $param['NPM_MHS'])->update('mahasiswa', $param);
     }
     public function getCountWs(){
-        $sql = "SELECT COUNT(ID_WS) as C_WS FROM worksheet WHERE ISPUBLISHED_WS = 1 AND deleted_at IS NULL";
+        $sql = "SELECT w.* FROM worksheet w 
+        WHERE ISPUBLISHED_WS = 1 
+        AND deleted_at IS NULL
+        ORDER BY w.ID_WS ASC";
         $result = $this->db->query($sql);
-        return $result->row()->C_WS;
+        return $result->result();
+    }
+    public function getWsAttemp(){
+        $sql = "SELECT * FROM worksheet_mahasiswa wm , worksheet_mahasiswa_detail wmd 
+        WHERE wm.ID_WSM = wmd.ID_WSM 
+        AND STATUS_WSM != 0
+        ORDER BY wm.ID_WS ASC";
+        $result = $this->db->query($sql);
+        return $result->result();
     }
     public function getScore($param){
         $sql = "SELECT wm.SCOREFINAL_WSM, wm.STATUS_WSM, wm.NPM_MHS FROM worksheet_mahasiswa wm , mahasiswa m 
