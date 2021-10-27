@@ -13,7 +13,8 @@ class AssignmentController extends CI_Controller {
         $data['title']      = 'Spageti - Assignment';
         $data['navActive']  = 'assignment';
         $data['students']   = $this->Assignment->getAll();
-        $data['c_ws']       = $this->Assignment->getCountWs();
+        $data['c_ws']       = $this->Assignment->getCountWs();        
+        $data['ws_attempt'] = $this->Assignment->getWsAttemp();
         
         $this->template->admin('adm/assignment/assignment', $data);
     }

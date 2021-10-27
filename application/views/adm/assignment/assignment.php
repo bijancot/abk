@@ -29,12 +29,35 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php
-                                    $no = 1;
+                                <?php            
+                                    $no = 1;                                    
                                     foreach ($students as $item) {
                                         if($item->EMAIL_MHS == null){
                                             break;
-                                        }
+                                        };
+                                        $count = 1;
+                                        $attempt = 0;
+                                        $worksheet = 'Worksheet';
+                                        $limitws = sizeOf($c_ws);
+                                        
+                                        foreach($c_ws as $wslist){
+                                            foreach($ws_attempt as $wsattempt){
+                                                if($item->EMAIL_MHS == $wsattempt->EMAIL_MHS){
+                                                    if($wslist->ID_WS == $wsattempt->ID_WS){
+                                                        if($wsattempt->STATUS_WSMD == 1){  
+                                                            if($count == $limitws){
+                                                                $attempt++;
+                                                            }else{
+                                                                $count++;
+                                                                $attempt = 0;
+                                                            }
+                                                        }else{
+                                                            $attempt++;
+                                                        };                                                        
+                                                    };
+                                                };                                                
+                                            };
+                                        };
 
                                         echo '
                                             <tr>
@@ -42,8 +65,8 @@
                                                 <td>'.$item->NAMA_MHS.'</td>
                                                 <td>'.$item->NPM_MHS.'</td>
                                                 <td>'.$item->EMAIL_MHS.'</td>
-                                                <td>Worksheet 1</td>
-                                                <td>0</td>
+                                                <td>'.$worksheet.' '.$count.'</td>
+                                                <td>'.$attempt.'</td>
                                                 <td>
                                                     <div class="table-actions d-flex align-items-center gap-3 fs-6">
                                                         <a href="'. site_url("admin/assignment/student/" . $item->NPM_MHS) .'" class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Worksheet"><i class="bi bi-file-earmark-text-fill"></i></a>
