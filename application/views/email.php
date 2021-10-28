@@ -58,7 +58,7 @@
                                         <tbody>
                                             <tr>
                                                 <td style="padding-top: 24px;">
-                                                    <img src="<?= site_url('assets/src/img/logo2.svg') ?>" style="width: 56px;" alt="logo">
+                                                    <img src="<?= site_url('assets/src/img/logo.png') ?>" style="width: 56px; display: block" alt="logo">
                                                 </td>
                                             </tr>
                                             <tr>
