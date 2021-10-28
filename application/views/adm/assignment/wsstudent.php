@@ -64,7 +64,7 @@
                                                 <td>'.$status.'</td>
                                                 <td>
                                                     <div class="table-actions d-flex align-items-center gap-3 fs-6">
-                                                        <a href="'. site_url("admin/wsdetail/".$item->NPM_MHS."/".$worksheet[0]->ID_WS."/".$worksheet[0]->TYPEQUESTION_WS) .'" class="text-info" data-bs-toggle="tooltip" data-bs-placement="top" title="Answer"><i class="bi bi-archive-fill"></i></a>
+                                                        <a href="'. site_url("admin/wsdetail/".$item->NPM_MHS."/".$worksheet[0]->ID_WS."/".$worksheet[0]->TYPEQUESTION_WS) .'" class="btn btn-sm btn-info text-white" style="font-size: 13px;">History</a>
                                                     </div>
                                                 </td>
                                             </tr>

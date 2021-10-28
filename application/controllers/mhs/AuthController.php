@@ -37,13 +37,19 @@ class AuthController extends CI_Controller {
 
             //Table Insert
             $this->Mahasiswa->register($data);
-
-            //Create Message
-            $this->session->set_tempdata('auth_msg', 'Register Successfully', 5);
-
             $this->checkWSM($this->input->post('email'), $this->input->post('npm'));
+            $sessionData = array(
+                'EMAIL_MHS'     => $this->input->post('email'),
+                'NPM_MHS'       => $this->input->post('npm'),
+                'NAMA_MHS'      => $this->input->post('name'),
+                'USER_LOGGED'   => TRUE,
+                'USER_ISVERIF'  => "0",
+                'USER_ISACTIVE' => null
+            );
+            $this->session->set_userdata($sessionData);
+            
             //Redirect to pages
-            redirect('login');
+            $this->send_code();
         } else {
             //Create Message
             $this->session->set_tempdata('failed_auth_msg', validation_errors(), 5);
@@ -64,7 +70,8 @@ class AuthController extends CI_Controller {
                     'NPM_MHS'       => $user->NPM_MHS,
                     'NAMA_MHS'      => $user->NAMA_MHS,
                     'USER_LOGGED'   => TRUE,
-                    'USER_ISVERIF'  => $user->ISVERIF_MHS
+                    'USER_ISVERIF'  => $user->ISVERIF_MHS,
+                    'USER_ISACTIVE' => $user->ISACTIVE_MHS
                 );
                 $this->session->set_userdata($sessionData);
                 if($user->ISVERIF_MHS == 0) {
@@ -92,6 +99,10 @@ class AuthController extends CI_Controller {
         // print_r(hash_algos());
         $this->load->view('mhs/auth/forgot');
     }
+    public function emailVerif() {
+        // print_r(hash_algos());
+        $this->load->view('mhs/auth/email-verif');
+    }
     public function email($data) {
         $config = [
             'mailtype'  => 'html',
@@ -109,9 +120,8 @@ class AuthController extends CI_Controller {
         $this->load->library('email', $config);
         $this->email->from('no-reply@puspen.kristomoyo.com', 'puspen.kristomoyo.com');
         $this->email->to($data['email']); 
-        $this->email->subject('Reset your Spageti password');
-        // $this->email->message("Reset password link: ".$data['link']);
-        $this->email->message($this->load->view('email', $data, true));
+        $this->email->subject($data['subject']);
+        $this->email->message($data['message']);
 
         if ($this->email->send()) {
             return true;
@@ -132,7 +142,8 @@ class AuthController extends CI_Controller {
             $this->Mahasiswa->updateToken($email, $arr);
             $data = array(
                 'email' => $email,
-                'link' => site_url('forgot-password/'.$token)
+                'subject' => 'Reset your Spageti password',
+                'message' => $this->load->view('email', ['link' => $token], true)
             );
             $email = $this->email($data);
             if ($email) {
@@ -174,6 +185,36 @@ class AuthController extends CI_Controller {
         } else {
             $this->session->set_tempdata('auth_msg', 'Password reset failed', 5);
             redirect('forgot-password');
+        }
+    }
+    public function send_code(){
+        $code = random_int(100, 999)."-".random_int(100, 999);
+        $this->Mahasiswa->updateCodeRegis($this->session->userdata('EMAIL_MHS'), ['REGISTER_TOKEN' => $code]);
+        $data = array(
+            'email' => $this->session->userdata('EMAIL_MHS'),
+            'subject' => 'Your verification code',
+            'message' => $this->load->view('email_verification', ['code' => $code], true)
+        );
+        $this->email($data);
+        $this->session->set_tempdata('auth_msg', 'The code has been sent, please check your email', 5);
+        redirect('email-verification');
+    }
+    public function proses_verif(){
+        $param = $_POST;
+        $email = $this->session->userdata('EMAIL_MHS');
+        $mhs = $this->Mahasiswa->get(['EMAIL_MHS' => $email]);
+        
+        if($mhs->REGISTER_TOKEN == $param['kode_aktivasi']){
+            $this->Mahasiswa->update(['EMAIL_MHS' => $email, 'ISVERIF_MHS' => "1", 'ISACTIVE_MHS' => "1"]);
+            $sessionData = array(
+                'USER_ISVERIF'  => 1,
+                'USER_ISACTIVE' => 1
+            );
+            $this->session->set_userdata($sessionData);
+            redirect('course');
+        }else{
+            $this->session->set_tempdata('failed_auth_msg', 'Verification code does not match', 5);
+            redirect('email-verification');
         }
     }
     public function checkWSM($email, $npm){

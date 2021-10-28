@@ -16,7 +16,7 @@ class AuthController extends CI_Controller{
         $username = $this->input->post('USERNAME');
         $pass = $this->input->post('PASSWORD');
 
-        if ($username === "admin" && $pass === "admin") {
+        if ($username === "admin" && $pass === "123spageti456") {
 
             $this->session->set_userdata('user_logged', $username);
 

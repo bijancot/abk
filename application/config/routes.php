@@ -63,6 +63,10 @@ $route['proses_forgot']                 = 'mhs/AuthController/proses_forgot';
 $route['proses_reset']                  = 'mhs/AuthController/proses_reset';
 $route['forgot-password']               = 'mhs/AuthController/forgotPassword';
 $route['forgot-password/(:any)']        = 'mhs/AuthController/resetPassword/$1';
+$route['email-verification']            = 'mhs/AuthController/emailVerif';
+$route['send-code']                     = 'mhs/AuthController/send_code';
+$route['proses_verif']                  = 'mhs/AuthController/proses_verif';
+
 
 // ROUTE COURSE
 $route['course']                        = 'mhs/CourseController';

@@ -194,17 +194,17 @@
                             <input type="text" class="form-control" id="mdlEdit_name" placeholder="Name" name="NAMA_WS" required>
                         </div>
                     </div>
-                    <!-- <div class="modal-body">
+                    <div class="modal-body">
                         <div class="col">
                             <label for="">Pass Grade</label>
                             <div class="input-group mb-3 type_multiple_input" style="width: 50%;" id="type_multiple_content_1">
-                                <input class="form-control" type="number" id="mdlEdit_grade" value="80" placeholder="Pass Grade" name="PASSGRADE_WS">
+                                <input class="form-control" type="number" id="mdlEdit_grade" value="80" onkeypress="return isNumberKey(event)" placeholder="Pass Grade" name="PASSGRADE_WS">
                                 <div class="input-group-text">
                                     %
                                 </div>
                             </div>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
                 
             <div class="modal-footer">

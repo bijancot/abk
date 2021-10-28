@@ -5,6 +5,7 @@ class CourseController extends CI_Controller {
         parent::__construct();
         $this->load->model('Course');
         $this->load->model('Worksheet');
+        $this->load->model('Mahasiswa');
         if (empty($this->session->userdata('USER_LOGGED'))) {
             redirect();
         }
@@ -12,11 +13,28 @@ class CourseController extends CI_Controller {
 
     public function index(){
         $email = $this->session->userdata('EMAIL_MHS');
+
+        $mhs = $this->Mahasiswa->get(['EMAIL_MHS' => $email]);
+        $sessionData = array(
+            'USER_ISVERIF'  => $mhs->ISVERIF_MHS,
+            'USER_ISACTIVE' => $mhs->ISACTIVE_MHS
+        );
+        $this->session->set_userdata($sessionData);
+
         $data['title']              = 'Spageti - Course';
         $data['courses']            = $this->Course->getAll($email);
         $this->template->mahasiswa('mhs/course/course', $data);
     }
     public function courseDetail($idWS, $idWSM, $noWS){
+        $mhs = $this->Mahasiswa->get(['EMAIL_MHS' => $this->session->userdata('EMAIL_MHS')]);
+        $sessionData = array(
+            'USER_ISVERIF'  => $mhs->ISVERIF_MHS,
+            'USER_ISACTIVE' => $mhs->ISACTIVE_MHS
+        );
+        if($this->session->userdata('USER_ISACTIVE') == "0" || $this->session->userdata('USER_ISVERIF') == "0"){
+            redirect('course');
+        }
+
         $wsm = $this->Worksheet->get_mahasiswaDetail(['ID_WSM' => $idWSM]);
         if(!empty($wsm->ID_WSM)){
             if($wsm->EMAIL_MHS == $this->session->userdata('EMAIL_MHS')){
