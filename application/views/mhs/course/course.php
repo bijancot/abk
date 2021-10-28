@@ -52,19 +52,35 @@
             Worksheets
         </p>
         <?php
-        if ($this->session->userdata('USER_ISVERIF') == '0') {
-            echo '
-                    <div class="card mb-5 mt-5 pt-3 pb-3 pl-3" style="color: #FF6C5A;font-weight: bold;">
-                        Opps, your account has not been verified by admin!
+            if ($this->session->tempdata("auth_msg")) {
+                echo '
+                    <div class="card mb-5 mt-5 pt-3 pb-3 pl-3">
+                        <span>Congrats your account has been verified!</span>
                     </div>
                 ';
-        }
+            }
+
+            if ($this->session->userdata('USER_ISVERIF') == '0') {
+                echo '
+                        <div class="card mb-5 mt-5 pt-3 pb-3 pl-3" style="color: #FF6C5A;">
+                            <span>Opps, your account has not been verified!<a href="'.site_url('email-verification').'" style="font-weight: bold;color: #FF6C5A;text-decoration:underline"> activate now</a></span>
+                        </div>
+                    ';
+            }
+            if($this->session->userdata('USER_ISACTIVE') == '0'){
+                echo '
+                    <div class="card mb-5 mt-5 pt-3 pb-3 pl-3" style="color: #FF6C5A;">
+                        <span>Opps, your account has disabled by admin.</span>
+                    </div>
+                ';
+            }
+        
         ?>
 
         <div id="accordion">
             <?php
             if ($this->session->userdata('USER_LOGGED')) {
-                if ($this->session->userdata('USER_ISVERIF') == '0') {
+                if ($this->session->userdata('USER_ISVERIF') == '0' || $this->session->userdata('USER_ISACTIVE') == '0') {
                     $isTestFirst    = false;
                     $statusContent = false;
                 } else {

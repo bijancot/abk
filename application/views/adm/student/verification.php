@@ -38,22 +38,29 @@
                                         
                                         $status = "";
                                         $btnVerif = "";
-                                        if($item->ISVERIF_MHS == '1'){
+                                        if($item->ISACTIVE_MHS == null){
+                                            $status = '
+                                                <span class="badge bg-light-warning text-warning w-100">
+                                                    <i class="bi bi-info-circle-fill"></i>
+                                                    Not Verified
+                                                </span>
+                                            ';
+                                        }else if($item->ISACTIVE_MHS == '1'){
                                             $status = '
                                                 <span class="badge bg-light-success text-success w-100">
                                                     <i class="bi bi-check-circle-fill"></i>
-                                                    Verified
+                                                    Actived
                                                 </span>
                                             ';
-                                            $btnVerif = '<a href="#" data-id="'.$item->NPM_MHS.'" data-isverif="0" class="text-secondary mdlStatus" data-bs-toggle="tooltip" data-bs-placement="top" title="Unverify"><i class="bi bi-x-circle-fill"></i></a>';
+                                            $btnVerif = '<a href="#" data-id="'.$item->NPM_MHS.'" data-isactive="0" class="text-secondary mdlStatus" data-bs-toggle="tooltip" data-bs-placement="top" title="Disabled"><i class="bi bi-x-circle-fill"></i></a>';
                                         }else{
                                             $status = '
                                             <span class="badge bg-light-danger text-danger w-100">
                                             <i class="bi bi-x-circle-fill"></i>
-                                            Unverified
+                                                Disabled
                                             </span>
                                             ';
-                                            $btnVerif = '<a href="#" data-id="'.$item->NPM_MHS.'" data-isverif="1" class="text-secondary mdlStatus" data-bs-toggle="tooltip" data-bs-placement="top" title="Verify"><i class="bi bi-check-circle-fill"></i></a>';
+                                            $btnVerif = '<a href="#" data-id="'.$item->NPM_MHS.'" data-isactive="1" class="text-secondary mdlStatus" data-bs-toggle="tooltip" data-bs-placement="top" title="Activate"><i class="bi bi-check-circle-fill"></i></a>';
                                         }
 
                                         echo '
@@ -66,7 +73,7 @@
                                                 <td>'.$status.'</td>
                                                 <td>
                                                     <div class="table-actions d-flex align-items-center gap-3 fs-6">
-                                                        <a href="#" class="text-info mdlDetail" data-id="'.$item->NPM_MHS.'" data-status="'.$item->ISVERIF_MHS.'" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail"><i class="bi bi-file-text-fill"></i></a>
+                                                        <a href="#" class="text-info mdlDetail" data-id="'.$item->NPM_MHS.'" data-status="'.$item->ISACTIVE_MHS.'" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail"><i class="bi bi-file-text-fill"></i></a>
                                                         '.$btnVerif.'
                                                     </div>
                                                 </td>
@@ -169,7 +176,7 @@
                 
             <div class="modal-footer">
                 <input type="hidden" id="mdlStatus_id" class="form-control" name="NPM_MHS">
-                <input type="hidden" id="mdlStatus_isverif" class="form-control" name="ISVERIF_MHS">
+                <input type="hidden" id="mdlStatus_isactive" class="form-control" name="ISACTIVE_MHS">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 <button type="submit" class="btn btn-success">Save</button>
             </div>
@@ -184,10 +191,10 @@
     $('#tblUser tbody').on('click', '.mdlStatus', function(){
         $('#mdlStatus').modal('show');
         const id = $(this).data('id')
-        const isverif = $(this).data('isverif')
-        isverif == "0" ? $('#mdlStatus_status').html('unverified') : $('#mdlStatus_status').html('verified')
+        const isactive = $(this).data('isactive')
+        isactive == "0" ? $('#mdlStatus_status').html('disable') : $('#mdlStatus_status').html('active')
         $('#mdlStatus_id').val(id)
-        $('#mdlStatus_isverif').val(isverif)
+        $('#mdlStatus_isactive').val(isactive)
     })
     $('#tblUser tbody').on('click', '.mdlDetail', function() {        
         $('#mdlDetail').modal('show');
@@ -195,7 +202,13 @@
         // const jk = $(this).data('jk')
         const status = $(this).data('status')
         // jk == "1" ? $('#mdlDetail_jk').html('Laki-laki') : $('#mdlDetail_jk').html('Perempuan')
-        status == "1" ? $('#mdlDetail_status').html('Verified') : $('#mdlDetail_status').html('Unverified')
+        if(status == "1"){
+            $('#mdlDetail_status').html('Active')
+        }else if(status == "0"){
+            $('#mdlDetail_status').html('Disable')
+        }else{
+            $('#mdlDetail_status').html('Not Verified')
+        }
         $.ajax({
             url: "<?= site_url('admin/student/ajxGet') ?>",
             type: "post",

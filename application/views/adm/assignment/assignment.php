@@ -46,7 +46,7 @@
                                                 <td>0</td>
                                                 <td>
                                                     <div class="table-actions d-flex align-items-center gap-3 fs-6">
-                                                        <a href="'. site_url("admin/assignment/student/" . $item->NPM_MHS) .'" class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Worksheet"><i class="bi bi-file-earmark-text-fill"></i></a>
+                                                        <a href="'. site_url("admin/assignment/student/" . $item->NPM_MHS) .'" class="btn btn-sm btn-info text-white" style="font-size: 13px;">Report</a>
                                                     </div>
                                                 </td>
                                             </tr>

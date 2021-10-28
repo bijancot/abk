@@ -7,6 +7,13 @@ class Mahasiswa extends CI_Model{
         return $this->db->insert($this->_table, $data);
     }
 
+    public function get($param){
+        return $this->db->get_where('mahasiswa', $param)->row();
+    }
+    public function update($param){
+        $this->db->where('EMAIL_MHS', $param['EMAIL_MHS'])->update('mahasiswa', $param);
+    }
+
     function login($email, $password) {		
 		$where = array(
             'EMAIL_MHS' => $email,
@@ -23,6 +30,10 @@ class Mahasiswa extends CI_Model{
         return ($query > 0) ? TRUE : FALSE;
     }
     public function updateToken($param, $data) {
+        $this->db->where('EMAIL_MHS', $param);
+        $this->db->update('mahasiswa', $data);
+    }
+    public function updateCodeRegis($param, $data){
         $this->db->where('EMAIL_MHS', $param);
         $this->db->update('mahasiswa', $data);
     }

@@ -58,7 +58,7 @@
                                                 <td>'.$item->TOTALQUESTION_WS.'</td>
                                                 <td>
                                                     <div class="table-actions d-flex align-items-center gap-3 fs-6">
-                                                        <a href="'. site_url("admin/assignment/worksheetstudent/" . $item->ID_WS) .'" class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Student Score"><i class="bi bi-person-lines-fill"></i></a>
+                                                        <a href="'. site_url("admin/assignment/worksheetstudent/" . $item->ID_WS) .'" class="btn btn-sm btn-info text-white" style="font-size: 13px;">Report</a>
                                                     </div>
                                                 </td>
                                             </tr>
