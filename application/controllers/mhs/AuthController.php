@@ -118,7 +118,7 @@ class AuthController extends CI_Controller {
         ];
 
         $this->load->library('email', $config);
-        $this->email->from('no-reply@puspen.kristomoyo.com', 'puspen.kristomoyo.com');
+        $this->email->from('no-reply@puspen.kristomoyo.com', 'Spageti.');
         $this->email->to($data['email']); 
         $this->email->subject($data['subject']);
         $this->email->message($data['message']);
