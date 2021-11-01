@@ -55,7 +55,7 @@
             if ($this->session->tempdata("auth_msg")) {
                 echo '
                     <div class="card mb-5 mt-5 pt-3 pb-3 pl-3">
-                        <span>Congrats your account has been verified!</span>
+                        <span>'.$this->session->tempdata('auth_msg').'</span>
                     </div>
                 ';
             }
@@ -156,6 +156,7 @@
                                 <div class="card-body d-flex flex-column flex-md-row justify-content-between align-items-center opacity-70">
                                     <p><b>Type:</b> <br> ' . $type . ' </p>
                                     <p><b>Questions:</b> <br> ' . $item->TOTALQUESTION_WS . ' Questions </p>
+                                    <p><b>Passing Grade:</b> <br> ' . $item->PASSGRADE_WS . '</p>
                                     <p><b>Score:</b> <br> ' . $scoreFinal . ' </p>
                                     ' . $btnStatusWS . '
                                 </div>

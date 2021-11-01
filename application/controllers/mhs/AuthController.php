@@ -76,8 +76,6 @@ class AuthController extends CI_Controller {
                 $this->session->set_userdata($sessionData);
                 if($user->ISVERIF_MHS == 0) {
                     $this->session->set_tempdata('failed_auth_msg', 'Account has not been verified!', 5);
-                } else {
-                    $this->session->set_tempdata('auth_msg', 'Login Successfully', 5);
                 }
                 $this->checkWSM($user->EMAIL_MHS, $user->NPM_MHS);
                 redirect('course');
@@ -211,6 +209,7 @@ class AuthController extends CI_Controller {
                 'USER_ISACTIVE' => 1
             );
             $this->session->set_userdata($sessionData);
+            $this->session->set_tempdata('auth_msg', 'Congrats your account has been verified!', 5);
             redirect('course');
         }else{
             $this->session->set_tempdata('failed_auth_msg', 'Verification code does not match', 5);
