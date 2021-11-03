@@ -141,7 +141,7 @@ class AuthController extends CI_Controller {
             $data = array(
                 'email' => $email,
                 'subject' => 'Reset your Spageti password',
-                'message' => $this->load->view('email', ['link' => $token], true)
+                'message' => $this->load->view('email', ['link' => site_url('forgot-password/'.$token)], true)
             );
             $email = $this->email($data);
             if ($email) {
