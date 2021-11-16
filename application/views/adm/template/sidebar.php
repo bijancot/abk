@@ -21,7 +21,7 @@
             </li>
             <li <?= $navActive == 'student' ? 'class="mm-active"' : ''?> >
               <a href="<?= site_url('admin/student/verification')?>">
-                <div class="parent-icon"><i class="bi bi-people-fill"></i>
+                <div class="parent-icon"><i class="bi bi-people"></i>
                 </div>
                 <div class="menu-title">Student</div>
               </a>
@@ -44,6 +44,13 @@
                 <div class="parent-icon"><i class="bi bi-view-list"></i>
                 </div>
                 <div class="menu-title">Worksheet</div>
+              </a>
+            </li>
+            <li <?= $navActive == 'video' ? 'class="mm-active"' : ''?>>
+              <a href="<?= site_url('admin/video')?>">
+                <div class="parent-icon"><i class="bi bi-collection-play"></i>
+                </div>
+                <div class="menu-title">Video</div>
               </a>
             </li>
             <!-- <li <?= $navActive == 'video' ? 'class="mm-active"' : ''?>>

@@ -21,6 +21,7 @@
             <nav>
                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
                     <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Overview</a>
+                    <a class="nav-item nav-link" id="nav-video-tab" data-toggle="tab" href="#nav-video" role="tab" aria-controls="nav-video" aria-selected="true">Videos</a>
                 </div>
             </nav>
             <div class="tab-content p-3" id="nav-tabContent">
@@ -43,6 +44,43 @@
                             <span class="iconify pdf mr-2" data-icon="carbon:document-pdf"></span>
                             <p class="mb-0">Augmentative.pdf</p>
                         </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-video" role="tabpanel" aria-labelledby="nav-video-tab">
+                    <div class="table-responsive">
+                        <table id="tblVideo" class="table table-striped table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Title</th>
+                                    <th>Link</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                    $no = 1;
+                                    foreach ($videos as $item) {
+                                        if($item->ID_VD == null){
+                                            break;
+                                        }
+                                        
+                                        $link = $item->LINK_VD;
+                                        if (strlen($link) > 50) {
+                                            $link = substr($item->LINK_VD, 0, 50).'...';
+                                        } 
+
+                                        echo '
+                                            <tr>
+                                                <td>'.$no.'</td>
+                                                <td>'.$item->NAMA_VD.'</td>
+                                                <td><a href="'.$item->LINK_VD.'" target="_blank" maxlength="10">'.$link.'</a></td>
+                                            </tr>
+                                        ';
+                                        $no++;
+                                    }
+                                ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -243,6 +281,7 @@
 </div>
 <script>
     $(document).ready(function() {
+        $('#tblVideo').DataTable()
         <?php
         if ($this->session->flashdata('alert') == '1') {
             echo 'alertWaiting();';

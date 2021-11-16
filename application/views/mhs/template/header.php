@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="<?= site_url()?>/assets/mhs/css/education-modern.css">
     <link rel="stylesheet" href="<?= base_url('assets/mhs/css/custom.css'); ?>"> -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <link href="<?= site_url()?>/assets/adm/plugins/datatable/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
 
     <link href="<?= site_url()?>/assets/src/css/general.css" rel="stylesheet">
 
