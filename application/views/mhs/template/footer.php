@@ -224,6 +224,9 @@
     <script src="<?= site_url()?>/assets/mhs/js/education-modern.min.js"></script>
     <script src="<?= site_url()?>/assets/mhs/js/custom.js"></script>
     <script src="<?= site_url()?>/assets/mhs/js/sweetalert.js"></script>
+    <script src="<?= site_url()?>assets/adm/plugins/datatable/js/jquery.dataTables.min.js"></script>
+    <script src="<?= site_url()?>assets/adm/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
+    <script src="<?= site_url()?>assets/adm/js/table-datatable.js"></script>
     <!-- <script src="<?= site_url()?>/assets/mhs/game-assets/TemplateData/UnityProgress.js"></script>
     <script src="<?= site_url()?>/assets/mhs/game-assets/Build/UnityLoader.js"></script> -->
     <!-- unity resources -->

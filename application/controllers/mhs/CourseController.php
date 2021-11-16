@@ -6,6 +6,7 @@ class CourseController extends CI_Controller {
         $this->load->model('Course');
         $this->load->model('Worksheet');
         $this->load->model('Mahasiswa');
+        $this->load->model('Video');
         if (empty($this->session->userdata('USER_LOGGED'))) {
             redirect();
         }
@@ -23,6 +24,7 @@ class CourseController extends CI_Controller {
 
         $data['title']              = 'Spageti - Course';
         $data['courses']            = $this->Course->getAll($email);
+        $data['videos']             = $this->Video->getAllPublished();
         $this->template->mahasiswa('mhs/course/course', $data);
     }
     public function courseDetail($idWS, $idWSM, $noWS){

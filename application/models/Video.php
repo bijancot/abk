@@ -4,6 +4,10 @@ class Video extends CI_Model{
     public function getAll(){
         return $this->db->where('deleted_at is NULL', NULL, TRUE)->get("video")->result();
     }
+    public function getAllPublished(){
+        $this->db->where('STATUS_VD', 1);
+        return $this->db->where('deleted_at is NULL', NULL, TRUE)->get("video")->result();
+    }
     public function get($param){
         return $this->db->where($param['filter'])->get('video')->result();
     }

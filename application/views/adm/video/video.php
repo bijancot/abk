@@ -32,7 +32,7 @@
                             <tbody>
                                 <?php
                                     $no = 1;
-                                    foreach ($video as $item) {
+                                    foreach ($videos as $item) {
                                         if($item->ID_VD == null){
                                             break;
                                         }

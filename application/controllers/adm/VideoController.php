@@ -11,7 +11,7 @@ class VideoController extends CI_Controller {
     public function index(){
         $data['title']      = 'Spageti - Video';
         $data['navActive']  = 'video';
-        $data['video']      = $this->Video->getAll();
+        $data['videos']      = $this->Video->getAll();
         
         $this->template->admin('adm/video/video', $data);
     }
