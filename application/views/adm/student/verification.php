@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-6 col-sm-12">
             <h6 class="mb-0 text-uppercase">
-                <i class="bi bi-view-list"></i>
+                <i class="bi bi-people"></i>
                 Students List
             </h6>
         </div>

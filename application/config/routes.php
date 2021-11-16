@@ -105,3 +105,10 @@ $route['admin/assignment/worksheet']                         = 'adm/AssignmentCo
 $route['admin/assignment/worksheetstudent/(:any)']           = 'adm/AssignmentController/wsstudent/$1';
 $route['admin/assignment/submit_feedback']                            = 'adm/AssignmentController/submitFeedback';
 $route['admin/wsdetail/(:any)/(:any)/(:any)']                = 'adm/AssignmentController/wsdetail/$1/$2/$3';
+
+// Video
+$route['admin/video']                            = 'adm/VideoController';
+$route['admin/video/store']                      = 'adm/VideoController/store';
+$route['admin/video/edit']                       = 'adm/VideoController/edit';
+$route['admin/video/changeStatus']               = 'adm/VideoController/changeStatus';
+$route['admin/video/delete']                     = 'adm/VideoController/delete';

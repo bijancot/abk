@@ -70,7 +70,7 @@
     $points = null;
     foreach ($studentRanking as $item) {
         $nm = $item->NAMA_MHS;
-        $nama_mhs .= "'$nm'" . ", ";
+        $nama_mhs .= '"'.$nm.'"' . ", ";
         $p = $item->TOTAL;
         $points .= "$p" . ", ";
     }
@@ -337,7 +337,6 @@
              }],
              chart: {
                  type: 'bar',
-                 height: 500,
                  toolbar: {
                      show: false
                  }
