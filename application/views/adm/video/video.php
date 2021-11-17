@@ -42,7 +42,7 @@
                                             $status = '
                                                 <span class="badge bg-light-danger text-danger w-100">
                                                 <i class="bi bi-x-circle-fill"></i>
-                                                    Not Published
+                                                    Unpublished
                                                 </span>
                                             ';
                                             $btnPublish = '<a href="#" data-id="'.$item->ID_VD.'" data-ispublish="1" class="text-secondary mdlStatus" data-bs-toggle="tooltip" data-bs-placement="top" title="Publish"><i class="bi bi-cloud-arrow-up-fill"></i></a>';
@@ -113,8 +113,8 @@
                         <div class="col">
                             <label for="">Status</label>
                             <select name="STATUS_VD" id="select_type" class="form-select" style="width: 50%;">
-                                <option value="0">Disabled</option>
-                                <option value="1">Actived</option>
+                                <option value="0">Unpublish</option>
+                                <option value="1">Publish</option>
                             </select>
                         </div>
                     </div>
