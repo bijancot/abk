@@ -77,7 +77,7 @@
                                             break;
                                         }
                                         
-                                        if (strpos($item->LINK_VD, 'https://www.youtube.com') || strpos($item->LINK_VD, 'https://youtu.be')) {
+                                        if (strpos($item->LINK_VD, 'https://www.youtube.com') == false || strpos($item->LINK_VD, 'https://youtu.be') == false) {
                                             $item->LINK_VD = getYoutubeEmbedUrl($item->LINK_VD);
                                         }
 
