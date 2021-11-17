@@ -53,27 +53,41 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Title</th>
-                                    <th>Link</th>
+                                    <th>Video</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
+                                    function getYoutubeEmbedUrl($url) {
+                                        $shortUrlRegex = '/youtu.be\/([a-zA-Z0-9_-]+)\??/i';
+                                        $longUrlRegex = '/youtube.com\/((?:embed)|(?:watch))((?:\?v\=)|(?:\/))([a-zA-Z0-9_-]+)/i';
+                                        
+                                        if (preg_match($longUrlRegex, $url, $matches)) {
+                                            $youtube_id = $matches[count($matches) - 1];
+                                        }
+                                        
+                                        if (preg_match($shortUrlRegex, $url, $matches)) {
+                                            $youtube_id = $matches[count($matches) - 1];
+                                        }
+                                        return 'https://www.youtube.com/embed/' . $youtube_id ;
+                                    }
                                     $no = 1;
                                     foreach ($videos as $item) {
                                         if($item->ID_VD == null){
                                             break;
                                         }
                                         
-                                        $link = $item->LINK_VD;
-                                        if (strlen($link) > 50) {
-                                            $link = substr($item->LINK_VD, 0, 50).'...';
-                                        } 
+                                        if (str_contains($item->LINK_VD, 'https://www.youtube.com') || str_contains($item->LINK_VD, 'https://youtu.be')) {
+                                            $item->LINK_VD = getYoutubeEmbedUrl($item->LINK_VD);
+                                        }
 
                                         echo '
                                             <tr>
                                                 <td>'.$no.'</td>
                                                 <td>'.$item->NAMA_VD.'</td>
-                                                <td><a href="'.$item->LINK_VD.'" target="_blank" maxlength="10">'.$link.'</a></td>
+                                                <td>
+                                                    <iframe width="640" height="360" src="'.$item->LINK_VD.'" title="'.$item->NAMA_VD.'" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                                </td>
                                             </tr>
                                         ';
                                         $no++;

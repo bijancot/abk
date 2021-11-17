@@ -113,8 +113,8 @@
                         <div class="col">
                             <label for="">Status</label>
                             <select name="STATUS_VD" id="select_type" class="form-select" style="width: 50%;">
-                                <option value="0">Unpublish</option>
-                                <option value="1">Publish</option>
+                                <option value="0">Unpublished</option>
+                                <option value="1">Published</option>
                             </select>
                         </div>
                     </div>
