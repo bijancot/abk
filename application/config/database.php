@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'pensus.kristomoyo.com',
-	'username' => 'pensus',
-	'password' => '1sampaipensus',
-	'database' => 'pensus',
+	'hostname' => 'db.badabes.my.id',
+	'username' => 'puspen',
+	'password' => '1sampaipuspen',
+	'database' => 'puspen',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
