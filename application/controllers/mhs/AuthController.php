@@ -43,13 +43,15 @@ class AuthController extends CI_Controller {
                 'NPM_MHS'       => $this->input->post('npm'),
                 'NAMA_MHS'      => $this->input->post('name'),
                 'USER_LOGGED'   => TRUE,
-                'USER_ISVERIF'  => "0",
-                'USER_ISACTIVE' => null
+                'USER_ISVERIF'  => 1,
+                'USER_ISACTIVE' => 1
             );
             $this->session->set_userdata($sessionData);
             
             //Redirect to pages
-            $this->send_code();
+            $this->session->set_tempdata('auth_msg', 'Congrats your account has been verified!', 5);
+            redirect('course');
+            // $this->send_code();
         } else {
             //Create Message
             $this->session->set_tempdata('failed_auth_msg', validation_errors(), 5);
