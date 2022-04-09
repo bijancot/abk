@@ -32,7 +32,9 @@ class AuthController extends CI_Controller {
                 'NPM_MHS'       => $this->input->post('npm'),
                 'EMAIL_MHS'     => $this->input->post('email'),
                 'TELP_MHS'      => $this->input->post('phone'),
-                'PASSWORD_MHS'  => md5($this->input->post('password'))
+                'PASSWORD_MHS'  => md5($this->input->post('password')),
+                'ISVERIF_MHS'  => 1,
+                'ISACTIVE_MHS' => 1
             );
 
             //Table Insert
